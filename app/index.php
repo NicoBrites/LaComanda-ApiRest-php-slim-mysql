@@ -17,6 +17,7 @@ require_once './db/AccesoDatos.php';
 
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
+require_once './controllers/MesaController.php';
 
 // Load ENV
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -41,6 +42,11 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
     $group->get('/{producto}', \ProductoController::class . ':TraerUno');
     $group->post('[/]', \ProductoController::class . ':CargarUno');
+  });
+  $app->group('/mesas', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \MesaController::class . ':TraerTodos');
+    $group->get('/{mesa}', \MesaController::class . ':TraerUno');
+    $group->post('[/]', \MesaController::class . ':CargarUno');
   });
 
 $app->get('[/]', function (Request $request, Response $response) {    

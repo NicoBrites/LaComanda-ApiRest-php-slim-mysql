@@ -48,7 +48,7 @@ class ProductoController extends Producto implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
     
-    public function ModificarUno($request, $response, $args)
+    public function ModificarUno($request, $response, $args) # FALTA
     {
         $parametros = $request->getParsedBody();
 
