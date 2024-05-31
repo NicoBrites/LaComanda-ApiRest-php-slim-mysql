@@ -1,22 +1,44 @@
 <?php
-class Mesa
+class Pedido
 {
     public $codigo;
+    public $codigoMesa;
+    public $idEmpleado;
+    public $nombreCliente;
     public $estado;
-    public $idPedido;
-    public $idEmpleadoMozo;
-    public $fechaHoraIngresoMesa;
+    public $horaIngreso;
+    public $factura;
 
-    public function crearMesa()
+    public function crearPedido()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, idPedido, idEmpleadoMozo, fechaHoraIngresoMesa) VALUES (:codigo, :estado, :idPedido, :idEmpleadoMozo, :fechaHoraIngresoMesa)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, idEmpleado, nombreCliente, estado, fechaYHoraIngreso, factura) VALUES (:codigo, :codigoMesa, :idEmpleado, :nombreCliente, :codigo, :estado, :fechaYHoraIngreso, :factura )");
         $codigo = $this->generarCodigoAlfanumerico();
         $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':codigoMesa', $this->codigoMesa, PDO::PARAM_STR);
+        $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_INT);
+        $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_INT);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
-        $consulta->bindValue(':idPedido', $this->idPedido, PDO::PARAM_STR);
-        $consulta->bindValue(':idEmpleadoMozo', $this->idEmpleadoMozo, PDO::PARAM_INT);
-        $consulta->bindValue(':fechaHoraIngresoMesa', $this->fechaHoraIngresoMesa, PDO::PARAM_STR);
+        $fecha = new DateTime(date("d-m-Y"));
+        $consulta->bindValue(':horaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
+        $consulta->bindValue(':factura', $this->factura, PDO::PARAM_INT);
+
+        // AGREGA LOGICA DE FOTO
+
+        $consulta->execute();
+
+        return $objAccesoDatos->obtenerUltimoId();
+    }
+
+    public function CargarProductosAlPedido($idProducto)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos_productos (idPedido, idProducto, estado) VALUES (:idPedido, :idProducto, :estado)");
+        $consulta->bindValue(':idPedido', $this->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
+
+        // AGREGA LOGICA DE FOTO
 
         $consulta->execute();
 
@@ -26,17 +48,17 @@ class Mesa
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM mesas");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos");
         $consulta->execute();
 
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Mesa');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
 
-    public static function obtenerMesa($nombre) 
+    public static function obtenerPedido($codigo) 
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM mesas WHERE nombre = :nombre");
-        $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE codigo = :codigo");
+        $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->execute();
 
         return $consulta->fetchObject('Mesa');

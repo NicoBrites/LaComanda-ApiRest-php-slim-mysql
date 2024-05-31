@@ -1,25 +1,23 @@
 <?php
-require_once './models/Mesa.php';
+require_once './models/Pedido.php';
 require_once './interfaces/IApiUsable.php';
+require_once './interfaces/IPedido.php';
 
-class MesaController extends Mesa implements IApiUsable
+class PedidoController extends Pedido implements IApiUsable, IPedido
 {
     public function CargarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
+        $codigoMesa = $parametros['codigoMesa'];
+        $idEmpleado = $parametros['idEmpleado'];
+        $nombreCliente = $parametros['nombreCliente'];
 
-        $estado = $parametros['estado'];
-        $idPedido = $parametros['idPedido'];
-        $idEmpleadoMozo = $parametros['idEmpleadoMozo'];
-        $fechaHoraIngresoMesa = $parametros['fechaHoraIngresoMesa'];
-
-        // Creamos la mesa
-        $mesa = new Mesa();
-        $mesa->estado = $estado;
-        $mesa->idPedido = $idPedido;
-        $mesa->idEmpleadoMozo = $idEmpleadoMozo;
-        $mesa->fechaHoraIngresoMesa = $fechaHoraIngresoMesa;
-        $mesa->crearMesa();
+        // Creamos el Pedido
+        $pedido = new Pedido();
+        $pedido->codigoMesa = $codigoMesa;
+        $pedido->idEmpleado = $idEmpleado;
+        $pedido->nombreCliente = $nombreCliente;
+        $pedido->crearPedido();
 
         $payload = json_encode(array("mensaje" => "Mesa creada con exito"));
 
@@ -31,9 +29,9 @@ class MesaController extends Mesa implements IApiUsable
     public function TraerUno($request, $response, $args)
     {
         // Buscamos producto por nombre
-        $mesa = $args['mesa'];
-        $producto = Mesa::obtenerMesa($mesa);
-        $payload = json_encode($producto);
+        $pedido = $args['pedido'];
+        $pedido = Pedido::obtenerPedido($pedido);
+        $payload = json_encode($pedido);
 
         $response->getBody()->write($payload);
         return $response
@@ -42,8 +40,8 @@ class MesaController extends Mesa implements IApiUsable
 
     public function TraerTodos($request, $response, $args)
     {
-        $lista = Mesa::obtenerTodos();
-        $payload = json_encode(array("listaMesas" => $lista));
+        $lista = Pedido::obtenerTodos();
+        $payload = json_encode(array("listaPedidos" => $lista));
 
         $response->getBody()->write($payload);
         return $response
@@ -77,4 +75,25 @@ class MesaController extends Mesa implements IApiUsable
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
+    public function CargarProductos($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+
+        $pedido = $args['pedido'];
+        $idProducto = $parametros['idProducto'];
+
+
+        // Creamos el Pedido
+        $pedido = new Pedido();
+        $pedido->codigo = $pedido;
+        $pedido->CargarProductosAlPedido($idProducto);
+
+        $payload = json_encode(array("mensaje" => "Producto cargado al pedido con exito"));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
 }

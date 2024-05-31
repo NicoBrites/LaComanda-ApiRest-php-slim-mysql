@@ -43,10 +43,16 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('/{producto}', \ProductoController::class . ':TraerUno');
     $group->post('[/]', \ProductoController::class . ':CargarUno');
   });
-  $app->group('/mesas', function (RouteCollectorProxy $group) {
+$app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno');
+  });
+$app->group('/pedidos', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \PedidoController::class . ':TraerTodos');
+    $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
+    $group->post('[/]', \PedidoController::class . ':CargarUno');
+    $group->post('{pedido}', \PedidoController::class . ':CargarProductos');
   });
 
 $app->get('[/]', function (Request $request, Response $response) {    
