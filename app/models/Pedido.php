@@ -1,4 +1,6 @@
 <?php
+
+require_once 'PedidoProducto.php';
 class Pedido
 {
     public $codigo;
@@ -11,38 +13,79 @@ class Pedido
 
     public function crearPedido()
     {
-        $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, idEmpleado, nombreCliente, estado, fechaYHoraIngreso, factura) VALUES (:codigo, :codigoMesa, :idEmpleado, :nombreCliente, :codigo, :estado, :fechaYHoraIngreso, :factura )");
-        $codigo = $this->generarCodigoAlfanumerico();
-        $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
-        $consulta->bindValue(':codigoMesa', $this->codigoMesa, PDO::PARAM_STR);
-        $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_INT);
-        $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_INT);
-        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
-        $fecha = new DateTime(date("d-m-Y"));
-        $consulta->bindValue(':horaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
-        $consulta->bindValue(':factura', $this->factura, PDO::PARAM_INT);
+        $mesa = Mesa::obtenerMesa($this->codigoMesa);
+        $empleado = Usuario::obtenerUsuario($this->idEmpleado);
+        if ($mesa != false && $empleado != false){
+            $objAccesoDatos = AccesoDatos::obtenerInstancia();
+            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, idEmpleado, nombreCliente, estado, horaIngreso, factura) VALUES (:codigo, :codigoMesa, :idEmpleado, :nombreCliente, :estado, :horaIngreso, :factura )");
 
-        // AGREGA LOGICA DE FOTO
+            $codigo = $this->generarCodigoAlfanumerico();
 
-        $consulta->execute();
+            $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+            $consulta->bindValue(':codigoMesa', $this->codigoMesa, PDO::PARAM_STR);
+            $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_INT);
+            $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_INT);
+            $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
+            $fecha = new DateTime(date("d-m-Y"));
+            $consulta->bindValue(':horaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
+            $consulta->bindValue(':factura', $this->factura, PDO::PARAM_INT);
+    
+            // AGREGA LOGICA DE FOTO
+    
+            $consulta->execute();
+    
+            return $objAccesoDatos->obtenerUltimoId();
+        }else {
+            return null;
+        }
 
-        return $objAccesoDatos->obtenerUltimoId();
+       
     }
 
     public function CargarProductosAlPedido($idProducto)
     {
+        $prod = Producto::obtenerProducto($idProducto);
+        if ($prod != false){
+            $objAccesoDatos = AccesoDatos::obtenerInstancia();
+            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos_productos (idPedido, idProducto, estado) VALUES (:idPedido, :idProducto, :estado)");
+            
+            $consulta->bindValue(':idPedido', $this->codigo, PDO::PARAM_STR);
+            $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
+            $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
+    
+            // AGREGA LOGICA DE FOTO
+    
+            $consulta->execute();
+            
+            $this->SumarFactura($prod->precio);
+
+            return $objAccesoDatos->obtenerUltimoId();
+        }else {
+            return null;
+        }
+    
+    }
+
+    public static function listarPedidosEstado()
+    {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos_productos (idPedido, idProducto, estado) VALUES (:idPedido, :idProducto, :estado)");
-        $consulta->bindValue(':idPedido', $this->codigo, PDO::PARAM_STR);
-        $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
-        $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
-
-        // AGREGA LOGICA DE FOTO
-
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos_productos");
         $consulta->execute();
 
-        return $objAccesoDatos->obtenerUltimoId();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'PedidoProducto');
+    }
+
+    public function SumarFactura($saldo){
+
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET factura = :factura WHERE codigo = :codigo");
+
+        $facturaSumada = $this->factura += $saldo;
+
+        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':factura', $facturaSumada, PDO::PARAM_INT);
+        $consulta->execute();
+
     }
 
     public static function obtenerTodos()

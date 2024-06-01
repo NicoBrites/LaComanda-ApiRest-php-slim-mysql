@@ -17,9 +17,14 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         $pedido->codigoMesa = $codigoMesa;
         $pedido->idEmpleado = $idEmpleado;
         $pedido->nombreCliente = $nombreCliente;
-        $pedido->crearPedido();
+       
+        $validacion =  $pedido->crearPedido();
+        if ($validacion != null){
+            $payload = json_encode(array("mensaje" => "Pedido creada con exito"));
+        } else {
+        $payload = json_encode(array("mensaje" => "Error al cargar el pedido, revise los ids"));
+        }
 
-        $payload = json_encode(array("mensaje" => "Mesa creada con exito"));
 
         $response->getBody()->write($payload);
         return $response
@@ -80,16 +85,28 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
     {
         $parametros = $request->getParsedBody();
 
-        $pedido = $args['pedido'];
+        $pedidoId = $args['pedido'];
         $idProducto = $parametros['idProducto'];
-
 
         // Creamos el Pedido
         $pedido = new Pedido();
-        $pedido->codigo = $pedido;
-        $pedido->CargarProductosAlPedido($idProducto);
+        $pedido->codigo = $pedidoId;
+        $validacion = $pedido->CargarProductosAlPedido($idProducto);
+        if ($validacion != null){
+            $payload = json_encode(array("mensaje" => "Producto cargado al pedido con exito"));
+        } else {
+        $payload = json_encode(array("mensaje" => "Error al cargar producto, revise el id"));
+        }
 
-        $payload = json_encode(array("mensaje" => "Producto cargado al pedido con exito"));
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerTodosPedidosEstado($request, $response, $args)
+    {
+        $lista = Pedido::listarPedidosEstado();
+        $payload = json_encode(array("listaPedidosEstado" => $lista));
 
         $response->getBody()->write($payload);
         return $response

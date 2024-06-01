@@ -28,7 +28,7 @@ class ProductoController extends Producto implements IApiUsable
 
     public function TraerUno($request, $response, $args)
     {
-        // Buscamos producto por nombre
+        // Buscamos producto por id
         $prod = $args['producto'];
         $producto = Producto::obtenerProducto($prod);
         $payload = json_encode($producto);
