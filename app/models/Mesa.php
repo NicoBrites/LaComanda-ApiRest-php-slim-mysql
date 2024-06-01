@@ -3,24 +3,45 @@ class Mesa
 {
     public $codigo;
     public $estado;
-    public $idPedido;
+    public $codigoPedido;
     public $idEmpleadoMozo;
     public $fechaHoraIngresoMesa;
 
     public function crearMesa()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, idPedido, idEmpleadoMozo, fechaHoraIngresoMesa) VALUES (:codigo, :estado, :idPedido, :idEmpleadoMozo, :fechaHoraIngresoMesa)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, codigoPedido, idEmpleadoMozo, fechaHoraIngresoMesa) VALUES (:codigo, :estado, :codigoPedido, :idEmpleadoMozo, :fechaHoraIngresoMesa)");
         $codigo = $this->generarCodigoAlfanumerico();
         $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
-        $consulta->bindValue(':idPedido', $this->idPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':codigoPedido', $this->codigoPedido, PDO::PARAM_STR);
         $consulta->bindValue(':idEmpleadoMozo', $this->idEmpleadoMozo, PDO::PARAM_INT);
         $consulta->bindValue(':fechaHoraIngresoMesa', $this->fechaHoraIngresoMesa, PDO::PARAM_STR);
 
         $consulta->execute();
 
         return $objAccesoDatos->obtenerUltimoId();
+    }
+
+    public function cargarPedido($codigoPedido, $idEmpleado, $fechaHoraIngresoMesa)#FALTA
+    {
+       
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE mesas SET codigoPedido = :codigoPedido, idEmpleadoMozo = :idEmpleadoMozo, estado = :estado, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
+
+        var_dump($fechaHoraIngresoMesa);
+        $consulta->bindValue(':codigoPedido', $codigoPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':idEmpleadoMozo', $idEmpleado, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', "con cliente esperando pedido", PDO::PARAM_STR);
+        $consulta->bindValue(':fechaHoraIngresoMesa', $fechaHoraIngresoMesa, PDO::PARAM_STR);
+        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
+
+        // AGREGA LOGICA DE FOTO
+
+        $consulta->execute();
+
+        return $objAccesoDatos->obtenerUltimoId();
+    
     }
 
     public static function obtenerTodos()
@@ -75,4 +96,5 @@ class Mesa
     
         return $codigo;
     }
+
 }

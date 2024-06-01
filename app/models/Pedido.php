@@ -14,29 +14,38 @@ class Pedido
     public function crearPedido()
     {
         $mesa = Mesa::obtenerMesa($this->codigoMesa);
-        $empleado = Usuario::obtenerUsuario($this->idEmpleado);
-        if ($mesa != false && $empleado != false){
-            $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, idEmpleado, nombreCliente, estado, horaIngreso, factura) VALUES (:codigo, :codigoMesa, :idEmpleado, :nombreCliente, :estado, :horaIngreso, :factura )");
+        $empleado = Usuario::obtenerUsuario($this->idEmpleado); # esto se valida despues con el usuario que inicio sesion
+        if ($mesa != false && $empleado != false){ # VALIDACION MESA Y USUARIO EXISTAN
+            if ($mesa->estado == "cerrado"){ # VALIDACION MESA NO OCUPADA
+                $objAccesoDatos = AccesoDatos::obtenerInstancia();
+                $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, idEmpleado, nombreCliente, estado, horaIngreso, factura) VALUES (:codigo, :codigoMesa, :idEmpleado, :nombreCliente, :estado, :horaIngreso, :factura )");
 
-            $codigo = $this->generarCodigoAlfanumerico();
+                $codigo = $this->generarCodigoAlfanumerico();
 
-            $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
-            $consulta->bindValue(':codigoMesa', $this->codigoMesa, PDO::PARAM_STR);
-            $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_INT);
-            $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_INT);
-            $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
-            $fecha = new DateTime(date("d-m-Y"));
-            $consulta->bindValue(':horaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
-            $consulta->bindValue(':factura', $this->factura, PDO::PARAM_INT);
-    
-            // AGREGA LOGICA DE FOTO
-    
-            $consulta->execute();
-    
-            return $objAccesoDatos->obtenerUltimoId();
+                $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+                $consulta->bindValue(':codigoMesa', $this->codigoMesa, PDO::PARAM_STR);
+                $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_INT);
+                $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_INT);
+                $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
+                $fecha = new DateTime();
+                $consulta->bindValue(':horaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
+                $consulta->bindValue(':factura', $this->factura, PDO::PARAM_INT);
+        
+                // AGREGA LOGICA DE FOTO
+        
+                $consulta->execute();
+                
+                $mesa->cargarPedido($codigo,$this->idEmpleado,date_format($fecha, 'Y-m-d H:i:s'));
+                
+
+                return $objAccesoDatos->obtenerUltimoId();
+            } else {
+
+                return null;
+            }
+
         }else {
-            return null;
+            return -1;
         }
 
        

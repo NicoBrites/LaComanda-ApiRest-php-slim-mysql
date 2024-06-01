@@ -9,14 +9,14 @@ class MesaController extends Mesa implements IApiUsable
         $parametros = $request->getParsedBody();
 
         $estado = $parametros['estado'];
-        $idPedido = $parametros['idPedido'];
+        $codigoPedido = $parametros['codigoPedido'];
         $idEmpleadoMozo = $parametros['idEmpleadoMozo'];
         $fechaHoraIngresoMesa = $parametros['fechaHoraIngresoMesa'];
 
         // Creamos la mesa
         $mesa = new Mesa();
         $mesa->estado = $estado;
-        $mesa->idPedido = $idPedido;
+        $mesa->codigoPedido = $codigoPedido;
         $mesa->idEmpleadoMozo = $idEmpleadoMozo;
         $mesa->fechaHoraIngresoMesa = $fechaHoraIngresoMesa;
         $mesa->crearMesa();
