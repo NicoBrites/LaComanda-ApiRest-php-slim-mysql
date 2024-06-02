@@ -27,6 +27,17 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
             $payload = json_encode(array("mensaje" => "Error al cargar el pedido, la mesa esta ocupada"));
         }
 
+        if ($_FILES['fotoPedido'] != null && $validacion != null)
+        {
+            try{
+                $destino = "./imagenesPedido/".$validacion .".PNG";
+                move_uploaded_file($_FILES["fotoPedido"]["tmp_name"], $destino);
+            }
+            catch(Exception $exception)
+            {
+                echo "Error al subir la foto del pedido. error-> " . $exception;
+            }
+        }
 
         $response->getBody()->write($payload);
         return $response

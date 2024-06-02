@@ -38,7 +38,7 @@ class Pedido
                 $mesa->cargarPedido($codigo,$this->idEmpleado,date_format($fecha, 'Y-m-d H:i:s'));
                 
 
-                return $objAccesoDatos->obtenerUltimoId();
+                return $codigo;
             } else {
 
                 return null;
@@ -54,7 +54,7 @@ class Pedido
     public function CargarProductosAlPedido($idProducto)
     {
         $prod = Producto::obtenerProducto($idProducto);
-        if ($prod != false){
+        if ($prod != false){ # VALIDACION DE PRODUCTO EXISTE
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
             $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos_productos (idPedido, idProducto, estado) VALUES (:idPedido, :idProducto, :estado)");
             
