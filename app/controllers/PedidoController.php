@@ -22,7 +22,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         if ($validacion == -1){ # VALIDACION EXISTENCIA DE MESA Y USUARIO
             $payload = json_encode(array("mensaje" => "Error al cargar el pedido, revise los ids"));
         } elseif  ($validacion != null){  # VALIDACION MESA LIBRE
-            $payload = json_encode(array("mensaje" => "Pedido creada con exito"));
+            $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
         } else {
             $payload = json_encode(array("mensaje" => "Error al cargar el pedido, la mesa esta ocupada"));
         }

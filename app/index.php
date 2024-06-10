@@ -3,8 +3,10 @@
 error_reporting(-1);
 ini_set('display_errors', 1);
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+//use Psr\Http\Message\ResponseInterface as Response;
+//use Psr\Http\Message\ServerRequestInterface as Request;
+
+use Illuminate\Support\Facades\Auth;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
@@ -19,6 +21,8 @@ require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/PedidoController.php';
+require_once './middlewares/ValidadorPostMiddleware.php';
+require_once './middlewares/AuthMiddleware.php';
 
 // Load ENV
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -35,31 +39,31 @@ $app->addBodyParsingMiddleware();
 
 // Routes
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \UsuarioController::class . ':TraerTodos');
-    $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
-    $group->post('[/]', \UsuarioController::class . ':CargarUno');
+    $group->get('[/]', \UsuarioController::class . ':TraerTodos')->add(new AuthMiddleware());
+    $group->get('/{usuario}', \UsuarioController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"));
   });
 $app->group('/productos', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \ProductoController::class . ':TraerTodos');
-    $group->get('/{producto}', \ProductoController::class . ':TraerUno');
-    $group->post('[/]', \ProductoController::class . ':CargarUno');
+    $group->get('[/]', \ProductoController::class . ':TraerTodos')->add(new AuthMiddleware());
+    $group->get('/{producto}', \ProductoController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("producto"));
   });
 $app->group('/mesas', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \MesaController::class . ':TraerTodos');
-    $group->get('/{mesa}', \MesaController::class . ':TraerUno');
-    $group->post('[/]', \MesaController::class . ':CargarUno');
+    $group->get('[/]', \MesaController::class . ':TraerTodos')->add(new AuthMiddleware());
+    $group->get('/{mesa}', \MesaController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));;
   });
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \PedidoController::class . ':TraerTodos');
-    $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
-    $group->post('[/]', \PedidoController::class . ':CargarUno');
-    $group->post('/{pedido}', \PedidoController::class . ':CargarProductos');
+    $group->get('[/]', \PedidoController::class . ':TraerTodos')->add(new AuthMiddleware());
+    $group->get('/{pedido}', \PedidoController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));;
+    $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("producto"));;
   });
 $app->group('/estados', function (RouteCollectorProxy $group) {
-  $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
+  $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado')->add(new AuthMiddleware());
 });
 
-$app->get('[/]', function (Request $request, Response $response) {    
+$app->get('[/]', function ($request, $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));
     
     $response->getBody()->write($payload);
