@@ -29,7 +29,6 @@ class Mesa
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("UPDATE mesas SET codigoPedido = :codigoPedido, idEmpleadoMozo = :idEmpleadoMozo, estado = :estado, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
 
-        var_dump($fechaHoraIngresoMesa);
         $consulta->bindValue(':codigoPedido', $codigoPedido, PDO::PARAM_STR);
         $consulta->bindValue(':idEmpleadoMozo', $idEmpleado, PDO::PARAM_INT);
         $consulta->bindValue(':estado', "con cliente esperando pedido", PDO::PARAM_STR);

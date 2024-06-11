@@ -20,6 +20,8 @@ class ValidadorPostMiddleware {
             return $this->validarPostMesa($request,  $handler);
         } elseif ($this->tipoValidador == "pedido"){
             return $this->validarPostPedido($request,  $handler);
+        } elseif ($this->tipoValidador == "cargarProducto"){
+            return $this->validarPostCargarPedido($request,  $handler);
         }
     }
 
@@ -136,6 +138,36 @@ class ValidadorPostMiddleware {
             } else {
                 if (is_string($params["codigoMesa"]) && $this->validarEntero($params["idEmpleado"]) &&
                 is_string($params["nombreCliente"])) {
+
+                    $response = $handler->handle($request); 
+                } else {
+
+                    $response = new Response();
+                    $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+
+                }
+            }
+
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response;
+    }
+
+    private function validarPostCargarPedido(Request $request, RequestHandler $handler) {
+        $params = $request->getParsedBody();
+
+        if(isset($params["idProducto"], $params["credenciales"])){
+               
+            if ($params["credenciales"] != "supervisor"){ // ESTO SE CAMBIA POR JWT
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "No estas autorizado")));
+
+            } else {
+                if ($this->validarEntero($params["idProducto"])) {
 
                     $response = $handler->handle($request); 
                 } else {

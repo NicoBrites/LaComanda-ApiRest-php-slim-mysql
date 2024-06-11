@@ -51,13 +51,13 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos')->add(new AuthMiddleware());
     $group->get('/{mesa}', \MesaController::class . ':TraerUno')->add(new AuthMiddleware());
-    $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));;
+    $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));
   });
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos')->add(new AuthMiddleware());
     $group->get('/{pedido}', \PedidoController::class . ':TraerUno')->add(new AuthMiddleware());
-    $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));;
-    $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("producto"));;
+    $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));
+    $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("cargarProducto"));
   });
 $app->group('/estados', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado')->add(new AuthMiddleware());
