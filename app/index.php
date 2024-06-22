@@ -22,6 +22,8 @@ require_once './controllers/ProductoController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/PendienteController.php';
+require_once './controllers/AuthController.php';
+
 require_once './middlewares/ValidadorPostMiddleware.php';
 require_once './middlewares/AuthMiddleware.php';
 
@@ -65,6 +67,10 @@ $app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->get('/{pendiente}', \PendienteController::class . ':CambiarEstado')->add(new AuthMiddleware());
 });
 
+// JWT en login
+$app->group('/auth', function (RouteCollectorProxy $group) {
+  $group->post('/login', \AuthController::class . ':Login');
+});
 $app->get('[/]', function ($request, $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));
     
