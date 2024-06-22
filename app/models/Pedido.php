@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Date;
+
 require_once 'PedidoProducto.php';
 class Pedido
 {
@@ -51,16 +53,18 @@ class Pedido
        
     }
 
-    public function CargarProductosAlPedido($idProducto)
+    public function CargarProductosAlPedido($idProducto) # SE CARGA A PENDIENTE
     {
         $prod = Producto::obtenerProducto($idProducto);
         if ($prod != false){ # VALIDACION DE PRODUCTO EXISTE
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos_productos (idPedido, idProducto, estado) VALUES (:idPedido, :idProducto, :estado)");
+            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :fechaHoraIngreso)");
             
             $consulta->bindValue(':idPedido', $this->codigo, PDO::PARAM_STR);
             $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
             $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
+            $fecha = new DateTime();
+            $consulta->bindValue(':fechaHoraIngreso', date_format($fecha, 'Y-m-d H:i:s') , PDO::PARAM_STR);
     
             // AGREGA LOGICA DE FOTO
     
@@ -78,10 +82,10 @@ class Pedido
     public static function listarPedidosEstado()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos_productos");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes");
         $consulta->execute();
 
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'PedidoProducto');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
     }
 
     public function SumarFactura($saldo){
@@ -115,7 +119,7 @@ class Pedido
 
         return $consulta->fetchObject('Mesa');
     }
-
+    /*
     public static function modificarProducto($producto)#FALTA
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
@@ -134,7 +138,7 @@ class Pedido
         $consulta->bindValue(':id', $productoId, PDO::PARAM_INT);
         $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
         $consulta->execute();
-    }
+    }*/
 
     function generarCodigoAlfanumerico($longitud = 5) {
         // Definir el conjunto de caracteres alfanuméricos

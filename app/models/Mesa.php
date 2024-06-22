@@ -61,7 +61,7 @@ class Mesa
 
         return $consulta->fetchObject('Mesa');
     }
-
+    /*
     public static function modificarProducto($producto)#FALTA
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
@@ -80,7 +80,7 @@ class Mesa
         $consulta->bindValue(':id', $productoId, PDO::PARAM_INT);
         $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
         $consulta->execute();
-    }
+    }*/
 
     function generarCodigoAlfanumerico($longitud = 5) {
         // Definir el conjunto de caracteres alfanuméricos

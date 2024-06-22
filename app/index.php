@@ -21,6 +21,7 @@ require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/PedidoController.php';
+require_once './controllers/PendienteController.php';
 require_once './middlewares/ValidadorPostMiddleware.php';
 require_once './middlewares/AuthMiddleware.php';
 
@@ -59,8 +60,9 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));
     $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("cargarProducto"));
   });
-$app->group('/estados', function (RouteCollectorProxy $group) {
+$app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado')->add(new AuthMiddleware());
+  $group->get('/{pendiente}', \PendienteController::class . ':CambiarEstado')->add(new AuthMiddleware());
 });
 
 $app->get('[/]', function ($request, $response) {    
