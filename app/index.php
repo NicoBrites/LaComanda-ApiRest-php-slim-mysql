@@ -42,10 +42,10 @@ $app->addBodyParsingMiddleware();
 
 // Routes
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \UsuarioController::class . ':TraerTodos')->add(new AuthMiddleware());
-    $group->get('/{usuario}', \UsuarioController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->get('[/]', \UsuarioController::class . ':TraerTodos');
+    $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
     $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"));
-  });
+  })->add(new AuthMiddleware("Socio"));
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos')->add(new AuthMiddleware());
     $group->get('/{producto}', \ProductoController::class . ':TraerUno')->add(new AuthMiddleware());

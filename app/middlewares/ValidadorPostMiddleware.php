@@ -39,24 +39,17 @@ class ValidadorPostMiddleware {
         $params = $request->getParsedBody();
 
         if(isset($params["usuario"], $params["clave"],$params["tipoUsuario"], $params["nombreSector"],$params["credenciales"])){
-               
-            if ($params["credenciales"] != "supervisor"){ // ESTO SE CAMBIA POR JWT
+                          
+            if (is_string($params["usuario"]) && is_string($params["clave"]) && 
+                is_string($params["tipoUsuario"]) && is_string($params["nombreSector"])) {
+
+                $response = $handler->handle($request); 
+            } else {
 
                 $response = new Response();
-                $response->getBody()->write(json_encode(array("error" => "No estas autorizado")));
-
-            } else {
-                if (is_string($params["usuario"]) && is_string($params["clave"]) && 
-                    is_string($params["tipoUsuario"]) && is_string($params["nombreSector"])) {
-
-                    $response = $handler->handle($request); 
-                } else {
-
-                    $response = new Response();
-                    $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
-                }
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
             }
-
+        
         } else {
             $response = new Response();
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));

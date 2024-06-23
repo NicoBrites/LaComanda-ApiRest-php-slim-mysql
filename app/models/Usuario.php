@@ -1,5 +1,7 @@
 <?php
 
+require_once './exceptions/Exceptions.php';
+
 class Usuario
 {
     public $id;
@@ -12,7 +14,8 @@ class Usuario
     public $fechaBaja;
 
     public function crearUsuario()
-    {
+    {   
+        $this->ValidarUsuario($this->usuario);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, tipoUsuario, fechaIngreso, nombreSector, estaSuspendido, fechaBaja) VALUES (:usuario, :clave, :tipoUsuario, :fechaIngreso, :nombreSector, :estaSuspendido, :fechaBaja)");
         $claveHash = crypt($this->clave, "akhsdgkals");
@@ -70,4 +73,17 @@ class Usuario
         $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
         $consulta->execute();
     }
+
+    private function ValidarUsuario($usuario)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE usuario = :usuario");
+        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+        $consulta->execute();
+
+        if ($consulta->fetchObject('Usuario') !== false){
+            throw new UsuarioYaEnUsoException("El usuario ya esta en uso");
+        }
+
+    } 
 }

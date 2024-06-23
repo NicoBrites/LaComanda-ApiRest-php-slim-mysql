@@ -15,26 +15,18 @@ class AuthController
         $lista = Usuario::obtenerTodos();
 
         $flag = 0;
+        $tipoUsuario = "";
 
         foreach ($lista as $value) {
-            var_dump($usuario);
-            var_dump($clave);
-            var_dump($value->usuario);
-            var_dump($value->clave);
-
-            var_dump(password_verify($clave, $value->clave));
-
             if ($usuario == $value->usuario && password_verify($clave, $value->clave)){
-
                 $flag++;
-                var_dump($flag);
-
+                $tipoUsuario = $value->tipoUsuario;
             }
         }
         
         if($flag == 1){ 
 
-            $datos = array('usuario' => $usuario);
+            $datos = array('usuario' => $usuario, 'tipoUsuario' => $tipoUsuario);
             $token = AutentificadorJWT::CrearToken($datos);
             $payload = json_encode(array('jwt' => $token));
 
