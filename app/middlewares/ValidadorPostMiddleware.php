@@ -61,11 +61,11 @@ class ValidadorPostMiddleware {
     private function validarPostProducto(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["nombre"], $params["precio"],$params["tiempoPreparacion"])){
+        if(isset($params["nombre"], $params["precio"],$params["tiempoPreparacion"],$params["sector"])){
 
           
             if (is_string($params["nombre"]) && $this->validarEntero($params["precio"]) && 
-            $this->validarHorario($params["tiempoPreparacion"])) {
+            $this->validarHorario($params["tiempoPreparacion"]) && is_string($params["sector"])) {
                 
                 $response = $handler->handle($request); 
             } else {

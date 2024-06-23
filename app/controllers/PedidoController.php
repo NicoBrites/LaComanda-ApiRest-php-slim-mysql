@@ -9,13 +9,13 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
     {
         $parametros = $request->getParsedBody();
         $codigoMesa = $parametros['codigoMesa'];
-        $idEmpleado = $parametros['idEmpleado'];
+        $usuario = $parametros['usuario'];
         $nombreCliente = $parametros['nombreCliente'];
 
         // Creamos el Pedido
         $pedido = new Pedido();
         $pedido->codigoMesa = $codigoMesa;
-        $pedido->idEmpleado = $idEmpleado;
+        $pedido->usuario = $usuario;
         $pedido->nombreCliente = $nombreCliente;
        
         $validacion =  $pedido->crearPedido();

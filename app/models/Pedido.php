@@ -7,7 +7,7 @@ class Pedido
 {
     public $codigo;
     public $codigoMesa;
-    public $idEmpleado;
+    public $usuario;
     public $nombreCliente;
     public $estado;
     public $horaIngreso;
@@ -16,17 +16,17 @@ class Pedido
     public function crearPedido()
     {
         $mesa = Mesa::obtenerMesa($this->codigoMesa);
-        $empleado = Usuario::obtenerUsuario($this->idEmpleado); # esto se valida despues con el usuario que inicio sesion
+        $empleado = Usuario::obtenerUsuario($this->usuario); # esto se valida despues con el usuario que inicio sesion
         if ($mesa != false && $empleado != false){ # VALIDACION MESA Y USUARIO EXISTAN
             if ($mesa->estado == "cerrado"){ # VALIDACION MESA NO OCUPADA
                 $objAccesoDatos = AccesoDatos::obtenerInstancia();
-                $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, idEmpleado, nombreCliente, estado, horaIngreso, factura) VALUES (:codigo, :codigoMesa, :idEmpleado, :nombreCliente, :estado, :horaIngreso, :factura )");
+                $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, usuario, nombreCliente, estado, horaIngreso, factura) VALUES (:codigo, :codigoMesa, :usuario, :nombreCliente, :estado, :horaIngreso, :factura )");
 
                 $codigo = $this->generarCodigoAlfanumerico();
 
                 $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
                 $consulta->bindValue(':codigoMesa', $this->codigoMesa, PDO::PARAM_STR);
-                $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_INT);
+                $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_INT);
                 $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_INT);
                 $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
                 $fecha = new DateTime();
@@ -37,7 +37,7 @@ class Pedido
         
                 $consulta->execute();
                 
-                $mesa->cargarPedido($codigo,$this->idEmpleado,date_format($fecha, 'Y-m-d H:i:s'));
+                $mesa->cargarPedido($codigo,$this->usuario,date_format($fecha, 'Y-m-d H:i:s'));
                 
 
                 return $codigo;
@@ -117,7 +117,7 @@ class Pedido
 
         $pendientes = Pedido::listarPedidosEstadoPorPedido($codigoPedido);
 
-        
+
 
 
         

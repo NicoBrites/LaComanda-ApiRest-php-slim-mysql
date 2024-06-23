@@ -22,14 +22,18 @@ class Pendiente
             $consulta->bindValue(':id', $id, PDO::PARAM_STR);
 
             if ($pendiente->estado == "pendiente"){
+
                 $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
                 $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+
             } elseif ($pendiente->estado == "en preparacion") {
+
                 if ($pendiente->usuario == $usuario){
                     $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);
                 } else {
                     return -1; 
                 }
+                
             }
 
             $consulta->execute();
