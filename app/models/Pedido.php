@@ -31,7 +31,7 @@ class Pedido
                 $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
                 $fecha = new DateTime();
                 $consulta->bindValue(':horaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
-                $consulta->bindValue(':factura', $this->factura, PDO::PARAM_INT);
+                $consulta->bindValue(':factura', 0, PDO::PARAM_INT);
         
                 // AGREGA LOGICA DE FOTO
         
@@ -53,14 +53,15 @@ class Pedido
        
     }
 
-    public function CargarProductosAlPedido($idProducto) # SE CARGA A PENDIENTE
+    public static function CargarProductosAlPedido($pedidoId,$idProducto) # SE CARGA A PENDIENTE
     {
         $prod = Producto::obtenerProducto($idProducto);
-        if ($prod != false){ # VALIDACION DE PRODUCTO EXISTE
+        $pedido = Pedido::obtenerPedido($pedidoId);
+        if ($prod != false && $pedido != false){ # VALIDACION DE PRODUCTO EXISTE
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
             $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :fechaHoraIngreso)");
             
-            $consulta->bindValue(':idPedido', $this->codigo, PDO::PARAM_STR);
+            $consulta->bindValue(':idPedido', $pedido->codigo, PDO::PARAM_STR);
             $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
             $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
             $fecha = new DateTime();
@@ -70,7 +71,7 @@ class Pedido
     
             $consulta->execute();
             
-            $this->SumarFactura($prod->precio);
+            $pedido->SumarFactura($prod->precio);
 
             return $objAccesoDatos->obtenerUltimoId();
         }else {
@@ -93,8 +94,11 @@ class Pedido
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET factura = :factura WHERE codigo = :codigo");
 
-        $facturaSumada = $this->factura += $saldo;
+        $facturaSumada = (int)$this->factura + (int)$saldo;
 
+        var_dump($this->factura);
+        var_dump($saldo);
+        var_dump($facturaSumada);
         $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
         $consulta->bindValue(':factura', $facturaSumada, PDO::PARAM_INT);
         $consulta->execute();
@@ -117,7 +121,7 @@ class Pedido
         $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->execute();
 
-        return $consulta->fetchObject('Mesa');
+        return $consulta->fetchObject('Pedido');
     }
     /*
     public static function modificarProducto($producto)#FALTA

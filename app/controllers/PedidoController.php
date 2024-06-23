@@ -101,14 +101,12 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         $pedidoId = $args['pedido'];
         $idProducto = $parametros['idProducto'];
 
-        // Creamos el Pedido
-        $pedido = new Pedido();
-        $pedido->codigo = $pedidoId;
-        $validacion = $pedido->CargarProductosAlPedido($idProducto);
+
+        $validacion = Pedido::CargarProductosAlPedido($pedidoId,$idProducto);
         if ($validacion != null){
             $payload = json_encode(array("mensaje" => "Producto cargado al pedido con exito"));
         } else {
-        $payload = json_encode(array("mensaje" => "Error al cargar producto, revise el id"));
+        $payload = json_encode(array("mensaje" => "Error al cargar producto, revise los ids"));
         }
 
         $response->getBody()->write($payload);
