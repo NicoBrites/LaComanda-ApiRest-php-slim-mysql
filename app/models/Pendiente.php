@@ -18,22 +18,24 @@ class Pendiente
         if ($pendiente != false){
 
             $objAccesoDato = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario WHERE id = :id");
-            $consulta->bindValue(':id', $id, PDO::PARAM_STR);
 
             if ($pendiente->estado == "pendiente"){
 
+                $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario WHERE id = :id");
+                $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                 $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
                 $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
 
             } elseif ($pendiente->estado == "en preparacion") {
 
                 if ($pendiente->usuario == $usuario){
+                    $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado WHERE id = :id");
+                    $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                     $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);
                 } else {
                     return -1; 
                 }
-                
+
             }
 
             $consulta->execute();

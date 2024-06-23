@@ -57,9 +57,14 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
     }
 
     public function TraerTodos($request, $response, $args)
-    {
-        $lista = Pedido::obtenerTodos();
-        $payload = json_encode(array("listaPedidos" => $lista));
+    {   
+        try {
+            $lista = Pedido::obtenerTodos();
+            $payload = json_encode(array("listaPedidos" => $lista));
+        } catch (Exception $e){
+            
+            $payload = json_encode(array("Error" => $e->getMessage()));
+        }
 
         $response->getBody()->write($payload);
         return $response

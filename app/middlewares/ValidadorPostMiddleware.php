@@ -22,6 +22,8 @@ class ValidadorPostMiddleware {
             return $this->validarPostPedido($request,  $handler);
         } elseif ($this->tipoValidador == "cargarProducto"){
             return $this->validarPostCargarPedido($request,  $handler);
+        } elseif ($this->tipoValidador == "cargarCsv"){
+            return $this->validarPostCargarCsv($request,  $handler);
         }
     }
 
@@ -157,6 +159,27 @@ class ValidadorPostMiddleware {
         return $response;
     }
    
+    private function validarPostCargarCsv(Request $request, RequestHandler $handler) {
+        $uploadedFiles = $request->getUploadedFiles();
 
+        if (!isset($uploadedFiles['archivo_csv'])) {
+            $response = new Response();
+            $response->getBody()->write(json_encode(["error" => "Por favor sube un archivo CSV."]));
+        } else {
+            
+            $archivoCsv = $uploadedFiles['archivo_csv'];
+
+            if ($archivoCsv->getError() !== UPLOAD_ERR_OK) {
+                $response = new Response();
+                $response->getBody()->write(json_encode(["error" => "Error al subir el archivo."]));
+            } else {
+
+                $response = $handler->handle($request); 
+
+            }
+        }
+
+        return $response;
+    }
    
 }

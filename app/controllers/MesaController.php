@@ -84,16 +84,22 @@ class MesaController extends Mesa implements IApiUsable
 
         $mesa = $args['mesa'];
 
-        $validador = Mesa::CerrarMesa($mesa);
-        if ($validador == -1){
+        try{
+          $validador = Mesa::CerrarMesa($mesa);
 
-          $payload = json_encode(array('mensaje' => 'ERROR: No existe esa mesa'));
-        } else {
-    
-          $payload = json_encode(array('mensaje' => 'Exito! Mesa cerrada'));
-    
+          if ($validador == -1){
+
+            $payload = json_encode(array('mensaje' => 'ERROR: No existe esa mesa'));
+          } else {
+      
+            $payload = json_encode(array('mensaje' => 'Exito! Mesa cerrada'));
+      
+          }
+  
+        } catch (Exception $e) {
+          $payload = json_encode(array('Error' => $e->getMessage()));
         }
-
+        
         $response->getBody()->write($payload);
         return $response
           ->withHeader('Content-Type', 'application/json');

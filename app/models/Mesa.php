@@ -99,24 +99,23 @@ class Mesa
 
     public static function CerrarMesa($codigo)
     {   
-        echo"xd1";
+
         $mesa = Mesa::obtenerMesa($codigo);
         if ($mesa != false){
 
             $objAccesoDato = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, idEmpleadoMozo = :idEmpleadoMozo, fechaHoraIngresoMesa = : fechaHoraIngresoMesa WHERE codigo = :codigo");
+            $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, idEmpleadoMozo = :idEmpleadoMozo, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
+
             $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
             $consulta->bindValue(':estado', "cerrada", PDO::PARAM_STR);
             $consulta->bindValue(':codigoPedido', "", PDO::PARAM_STR);
             $consulta->bindValue(':idEmpleadoMozo', "", PDO::PARAM_STR);
             $consulta->bindValue(':fechaHoraIngresoMesa', "", PDO::PARAM_STR);
 
-            echo"xd2";
 
             $consulta->execute();
             
         } else {
-            echo"xd3";
             return -1;
         }
     }
