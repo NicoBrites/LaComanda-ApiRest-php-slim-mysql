@@ -80,7 +80,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
           ->withHeader('Content-Type', 'application/json');
     }
 
-    public function BorrarUno($request, $response, $args)
+    public function BorrarUno($request, $response, $args)# FALTA
     {
         $parametros = $request->getParsedBody();
 
@@ -93,7 +93,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
-
+    
     public function CargarProductos($request, $response, $args)
     {
         $parametros = $request->getParsedBody();

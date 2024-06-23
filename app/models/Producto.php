@@ -4,14 +4,16 @@ class Producto
     public $id;
     public $nombre;
     public $precio;
+    public $sector;
     public $tiempoPreparacion;
 
     public function crearProducto()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO productos (nombre, precio, tiempoPreparacion) VALUES (:nombre, :precio, :tiempoPreparacion)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO productos (nombre, precio, sector, tiempoPreparacion) VALUES (:nombre, :precio, :sector, :tiempoPreparacion)");
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
+        $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoPreparacion', $this->tiempoPreparacion, PDO::PARAM_STR);
 
         $consulta->execute();
@@ -44,6 +46,7 @@ class Producto
         $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET nombre = :nombre, precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE id = :id");
         $consulta->bindValue(':nombre', $producto->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
+        $consulta->bindValue(':sector', $producto->sector, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoPreparacion', $producto->tiempoPreparacion, PDO::PARAM_STR);
         $consulta->execute();
     }

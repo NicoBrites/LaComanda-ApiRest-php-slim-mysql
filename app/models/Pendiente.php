@@ -1,8 +1,9 @@
 <?php
+
 class Pendiente
 {
     public $id;
-    public $idUsuario;
+    public $usuario;
     public $codigoPedido;
     public $idProducto;
     public $nombreSector;
@@ -10,20 +11,25 @@ class Pendiente
     public $fechaHoraIngreso;
     public $tiempoDemora;
 
-    public function cambiarEstadoPedido($id)
+    public function cambiarEstadoPedido($id, $usuario)
     {
 
         $pendiente = $this->obtenerPendiente($id);
         if ($pendiente != false){
 
             $objAccesoDato = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado WHERE id = :id");
+            $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario WHERE id = :id");
             $consulta->bindValue(':id', $id, PDO::PARAM_STR);
 
             if ($pendiente->estado == "pendiente"){
                 $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
+                $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
             } elseif ($pendiente->estado == "en preparacion") {
-                $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);
+                if ($pendiente->usuario == $usuario){
+                    $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);
+                } else {
+                    return -1; 
+                }
             }
 
             $consulta->execute();

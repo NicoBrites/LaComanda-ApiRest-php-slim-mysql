@@ -59,11 +59,12 @@ class Pedido
         $pedido = Pedido::obtenerPedido($pedidoId);
         if ($prod != false && $pedido != false){ # VALIDACION DE PRODUCTO EXISTE
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :fechaHoraIngreso)");
+            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, nombreSector, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :nombreSector, :fechaHoraIngreso)");
             
             $consulta->bindValue(':idPedido', $pedido->codigo, PDO::PARAM_STR);
             $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
             $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
+            $consulta->bindValue(':nombreSector', $prod->sector, PDO::PARAM_STR);
             $fecha = new DateTime();
             $consulta->bindValue(':fechaHoraIngreso', date_format($fecha, 'Y-m-d H:i:s') , PDO::PARAM_STR);
     
@@ -89,20 +90,37 @@ class Pedido
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
     }
 
-    public function SumarFactura($saldo){
+    public static function listarPedidosEstadoPorPedido($codigoPedido)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes where codigoPedido = :codigoPedido");
+        $consulta->bindValue(':codigo', $codigoPedido, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
+    }
+
+    private function SumarFactura($saldo){
 
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET factura = :factura WHERE codigo = :codigo");
 
         $facturaSumada = (int)$this->factura + (int)$saldo;
 
-        var_dump($this->factura);
-        var_dump($saldo);
-        var_dump($facturaSumada);
         $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
         $consulta->bindValue(':factura', $facturaSumada, PDO::PARAM_INT);
         $consulta->execute();
 
+    }
+
+    public static function CalcularDemora($codigoPedido){
+
+        $pendientes = Pedido::listarPedidosEstadoPorPedido($codigoPedido);
+
+        
+
+
+        
     }
 
     public static function obtenerTodos()
