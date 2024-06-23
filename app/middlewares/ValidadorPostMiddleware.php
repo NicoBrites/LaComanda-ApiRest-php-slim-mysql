@@ -38,7 +38,7 @@ class ValidadorPostMiddleware {
     private function validarPostUsuario(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["usuario"], $params["clave"],$params["tipoUsuario"], $params["nombreSector"],$params["credenciales"])){
+        if(isset($params["usuario"], $params["clave"],$params["tipoUsuario"], $params["nombreSector"])){
                           
             if (is_string($params["usuario"]) && is_string($params["clave"]) && 
                 is_string($params["tipoUsuario"]) && is_string($params["nombreSector"])) {
@@ -61,24 +61,17 @@ class ValidadorPostMiddleware {
     private function validarPostProducto(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["nombre"], $params["precio"],$params["tiempoPreparacion"],$params["credenciales"])){
+        if(isset($params["nombre"], $params["precio"],$params["tiempoPreparacion"])){
 
-            if ($params["credenciales"] != "supervisor"){ // ESTO SE CAMBIA POR JWT
+          
+            if (is_string($params["nombre"]) && $this->validarEntero($params["precio"]) && 
+            $this->validarHorario($params["tiempoPreparacion"])) {
+                
+                $response = $handler->handle($request); 
+            } else {
                 
                 $response = new Response();
-                $response->getBody()->write(json_encode(array("error" => "No estas autorizado")));
-
-            } else {
-
-                if (is_string($params["nombre"]) && $this->validarEntero($params["precio"]) && 
-                $this->validarHorario($params["tiempoPreparacion"])) {
-                    
-                    $response = $handler->handle($request); 
-                } else {
-                    
-                    $response = new Response();
-                    $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
-                }
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));        
             }
         } else {
             $response = new Response();
@@ -91,24 +84,19 @@ class ValidadorPostMiddleware {
     private function validarPostMesa(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["estado"], $params["codigoPedido"],$params["idEmpleadoMozo"], $params["fechaHoraIngresoMesa"],$params["credenciales"])){
+        if(isset($params["estado"], $params["codigoPedido"],$params["idEmpleadoMozo"], $params["fechaHoraIngresoMesa"])){
                
-            if ($params["credenciales"] != "supervisor"){ // ESTO SE CAMBIA POR JWT
+        
+            if (is_string($params["estado"])) {
+
+                $response = $handler->handle($request); 
+            } else {
 
                 $response = new Response();
-                $response->getBody()->write(json_encode(array("error" => "No estas autorizado")));
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
 
-            } else {
-                if (is_string($params["estado"])) {
-
-                    $response = $handler->handle($request); 
-                } else {
-
-                    $response = new Response();
-                    $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
-
-                }
             }
+        
 
         } else {
             $response = new Response();
@@ -121,25 +109,20 @@ class ValidadorPostMiddleware {
     private function validarPostPedido(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["codigoMesa"], $params["idEmpleado"],$params["nombreCliente"],$params["credenciales"])){
+        if(isset($params["codigoMesa"], $params["idEmpleado"],$params["nombreCliente"])){
                
-            if ($params["credenciales"] != "supervisor"){ // ESTO SE CAMBIA POR JWT
+        
+            if (is_string($params["codigoMesa"]) && $this->validarEntero($params["idEmpleado"]) &&
+            is_string($params["nombreCliente"])) {
+
+                $response = $handler->handle($request); 
+            } else {
 
                 $response = new Response();
-                $response->getBody()->write(json_encode(array("error" => "No estas autorizado")));
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
 
-            } else {
-                if (is_string($params["codigoMesa"]) && $this->validarEntero($params["idEmpleado"]) &&
-                is_string($params["nombreCliente"])) {
-
-                    $response = $handler->handle($request); 
-                } else {
-
-                    $response = new Response();
-                    $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
-
-                }
             }
+        
 
         } else {
             $response = new Response();
@@ -152,24 +135,19 @@ class ValidadorPostMiddleware {
     private function validarPostCargarPedido(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["idProducto"], $params["credenciales"])){
+        if(isset($params["idProducto"])){
                
-            if ($params["credenciales"] != "supervisor"){ // ESTO SE CAMBIA POR JWT
+           
+            if ($this->validarEntero($params["idProducto"])) {
+
+                $response = $handler->handle($request); 
+            } else {
 
                 $response = new Response();
-                $response->getBody()->write(json_encode(array("error" => "No estas autorizado")));
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
 
-            } else {
-                if ($this->validarEntero($params["idProducto"])) {
-
-                    $response = $handler->handle($request); 
-                } else {
-
-                    $response = new Response();
-                    $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
-
-                }
             }
+        
 
         } else {
             $response = new Response();

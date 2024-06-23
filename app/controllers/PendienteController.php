@@ -6,10 +6,24 @@ class PendienteController extends Pendiente implements IPendiente
 {
   public function CambiarEstado($request, $response, $args)
   {
+
+    $header = $request->getHeaderLine('Authorization');
+    $token = trim(explode("Bearer", $header)[1]);
+    $credencial = AutentificadorJWT::ObtenerData($token);
+
     // Buscamos producto por nombre
     $pendiente = $args['pendiente'];
     $pendiente = Pendiente::cambiarEstadoPedido($pendiente);
-    $payload = json_encode($pendiente);
+    if ($pendiente == null){
+
+      $payload = json_encode(array('mensaje' => 'ERROR: No existe ese producto pendiente'));
+
+    } else {
+
+      $payload = json_encode(array('mensaje' => 'Exito! Pendiente cambiado de estado'));
+
+    }
+    
 
     $response->getBody()->write($payload);
     return $response
