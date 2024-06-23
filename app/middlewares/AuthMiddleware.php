@@ -12,26 +12,6 @@ class AuthMiddleware {
         $this->tipoUsuarioPermitido = $tipoUsuarioPermitido;
     }
 
-    /*public function __invoke(Request $request, RequestHandler $handler) {
-        $params = $request->getQueryParams();
-        
-        if(isset($params["credenciales"])){
-            $credenciales = $params["credenciales"];
-
-            if($credenciales == "supervisor" || $this->tipoDeUsuario == $this->tipoUsuarioPermitido){
-                $response = $handler->handle($request);
-            } else {
-                $response = new Response();
-                $response->getBody()->write(json_encode(array("error" => "No sos " . $this->tipoUsuarioPermitido)));
-            }
-        } else {
-            //Si no hay credenciales 
-            $response = new Response();
-            $response->getBody()->write(json_encode(array("error" => "No hay credenciales")));
-        }    
-        return $response;
-    }*/
-
     public function __invoke(Request $request, RequestHandler $handler): Response
     {   
         $header = $request->getHeaderLine('Authorization');
@@ -60,12 +40,7 @@ class AuthMiddleware {
             }
 
             $response = $handler->handle($request);
-        } catch (UsuarioYaEnUsoException $e){
-
-            $response = new Response();
-            $payload = json_encode(array('mensaje' => $e->getMessage()));
-            $response->getBody()->write($payload);
-
+            
         } catch (Exception $e) {
         
             $response = new Response();

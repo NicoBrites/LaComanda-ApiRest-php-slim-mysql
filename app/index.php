@@ -47,25 +47,25 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"));
   })->add(new AuthMiddleware("Socio"));
 $app->group('/productos', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \ProductoController::class . ':TraerTodos')->add(new AuthMiddleware());
-    $group->get('/{producto}', \ProductoController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->get('[/]', \ProductoController::class . ':TraerTodos');
+    $group->get('/{producto}', \ProductoController::class . ':TraerUno');
     $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("producto"));
-  });
+  })->add(new AuthMiddleware());
 $app->group('/mesas', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \MesaController::class . ':TraerTodos')->add(new AuthMiddleware());
-    $group->get('/{mesa}', \MesaController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->get('[/]', \MesaController::class . ':TraerTodos');
+    $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));
-  });
+  })->add(new AuthMiddleware());
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \PedidoController::class . ':TraerTodos')->add(new AuthMiddleware());
-    $group->get('/{pedido}', \PedidoController::class . ':TraerUno')->add(new AuthMiddleware());
+    $group->get('[/]', \PedidoController::class . ':TraerTodos');
+    $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
     $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));
     $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("cargarProducto"));
-  });
+  })->add(new AuthMiddleware());
 $app->group('/pendientes', function (RouteCollectorProxy $group) {
-  $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado')->add(new AuthMiddleware());
-  $group->get('/{pendiente}', \PendienteController::class . ':CambiarEstado')->add(new AuthMiddleware());
-});
+  $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
+  $group->get('/{pendiente}', \PendienteController::class . ':CambiarEstado');
+})->add(new AuthMiddleware());
 
 // JWT en login
 $app->group('/auth', function (RouteCollectorProxy $group) {
