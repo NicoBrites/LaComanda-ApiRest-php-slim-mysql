@@ -20,9 +20,9 @@ class Pendiente
             $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado WHERE id = :id");
             $consulta->bindValue(':id', $id, PDO::PARAM_STR);
 
-            if ($pendiente.$this->estado == "pendiente"){
+            if ($pendiente->estado == "pendiente"){
                 $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
-            } elseif ($pendiente.$this->estado == "en preparacion") {
+            } elseif ($pendiente->estado == "en preparacion") {
                 $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);
             }
 

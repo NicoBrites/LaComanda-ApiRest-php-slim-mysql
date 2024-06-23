@@ -12,7 +12,8 @@ class PendienteController extends Pendiente implements IPendiente
     $credencial = AutentificadorJWT::ObtenerData($token);
 
     // Buscamos producto por nombre
-    $pendiente = $args['pendiente'];
+    $parametros = $request->getParsedBody();
+    $pendiente = $parametros['pendienteId'];
     $pendiente = Pendiente::cambiarEstadoPedido($pendiente);
     if ($pendiente == null){
 

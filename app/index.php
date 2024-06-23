@@ -64,7 +64,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
   })->add(new AuthMiddleware());
 $app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
-  $group->get('/{pendiente}', \PendienteController::class . ':CambiarEstado');
+  $group->post('[/]', \PendienteController::class . ':CambiarEstado');
 })->add(new AuthMiddleware());
 
 // JWT en login
