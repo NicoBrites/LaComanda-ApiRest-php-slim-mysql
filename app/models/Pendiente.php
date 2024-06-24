@@ -11,7 +11,7 @@ class Pendiente
     public $fechaHoraIngreso;
     public $tiempoDemora;
 
-    public function cambiarEstadoPedido($id, $usuario)
+    public function cambiarEstadoPedido($id, $credencial)
     {
 
         $pendiente = $this->obtenerPendiente($id);
@@ -19,7 +19,7 @@ class Pendiente
 
             $objAccesoDato = AccesoDatos::obtenerInstancia();
 
-            if ($pendiente->sector == $usuario->sector){
+            if ($pendiente->sector == $credencial->sector){
 
                 if ($pendiente->estado == "pendiente"){
 
@@ -28,12 +28,12 @@ class Pendiente
                     $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario, tiempoDemora = :tiempoDemora WHERE id = :id");
                     $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                     $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
-                    $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+                    $consulta->bindValue(':usuario', $credencial->usuario, PDO::PARAM_STR);
                     $consulta->bindValue(':tiempoDemora', $producto->tiempoPreparacion, PDO::PARAM_STR);
 
                 } elseif ($pendiente->estado == "en preparacion") {
 
-                    if ($pendiente->usuario == $usuario){
+                    if ($pendiente->usuario == $credencial->usuario){
                         $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado WHERE id = :id");
                         $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                         $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);

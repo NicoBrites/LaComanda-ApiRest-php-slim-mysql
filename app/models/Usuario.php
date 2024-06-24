@@ -9,7 +9,7 @@ class Usuario
     public $clave;
     public $tipoUsuario;
     public $fechaIngreso;
-    public $nombreSector;
+    public $sector;
     public $estaSuspendido;
     public $fechaBaja;
 
@@ -17,14 +17,14 @@ class Usuario
     {   
         $this->ValidarUsuario($this->usuario);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, tipoUsuario, fechaIngreso, nombreSector, estaSuspendido, fechaBaja) VALUES (:usuario, :clave, :tipoUsuario, :fechaIngreso, :nombreSector, :estaSuspendido, :fechaBaja)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, tipoUsuario, fechaIngreso, sector, estaSuspendido, fechaBaja) VALUES (:usuario, :clave, :tipoUsuario, :fechaIngreso, :sector, :estaSuspendido, :fechaBaja)");
         $claveHash = crypt($this->clave, "akhsdgkals");
         $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $claveHash);
         $consulta->bindValue(':tipoUsuario', $this->tipoUsuario, PDO::PARAM_STR);
         $fecha = new DateTime(date("d-m-Y"));
         $consulta->bindValue(':fechaIngreso', date_format($fecha, 'Y-m-d H:i:s'));
-        $consulta->bindValue(':nombreSector', $this->nombreSector, PDO::PARAM_STR);
+        $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':estaSuspendido', false, PDO::PARAM_BOOL);
         $consulta->bindValue(':fechaBaja', null, PDO::PARAM_STR);
 
@@ -55,27 +55,27 @@ class Usuario
     public static function modificarUsuario($usuario)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave, tipoUsuario = :tipoUsuario, nombreSector = :nombreSector  WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave, tipoUsuario = :tipoUsuario, sector = :sector  WHERE id = :id");
         $claveHash = crypt($usuario->clave, "akhsdgkals");
 
         $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $claveHash, PDO::PARAM_STR);
         $consulta->bindValue(':id', $usuario->id, PDO::PARAM_INT);
         $consulta->bindValue(':tipoUsuario', $usuario->tipoUsuario, PDO::PARAM_STR);
-        $consulta->bindValue(':nombreSector', $usuario->nombreSector, PDO::PARAM_STR);
+        $consulta->bindValue(':sector', $usuario->sector, PDO::PARAM_STR);
         $consulta->execute();
     }
 
     public static function modificarUsuarioPorUsuario($usuario)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET clave = :clave, tipoUsuario = :tipoUsuario, nombreSector = :nombreSector  WHERE usuario = :usuario");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET clave = :clave, tipoUsuario = :tipoUsuario, sector = :sector  WHERE usuario = :usuario");
         $claveHash = crypt($usuario->clave, "akhsdgkals");
 
         $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $claveHash, PDO::PARAM_STR);
         $consulta->bindValue(':tipoUsuario', $usuario->tipoUsuario, PDO::PARAM_STR);
-        $consulta->bindValue(':nombreSector', $usuario->nombreSector, PDO::PARAM_STR);
+        $consulta->bindValue(':sector', $usuario->sector, PDO::PARAM_STR);
         $consulta->execute();
     }
 

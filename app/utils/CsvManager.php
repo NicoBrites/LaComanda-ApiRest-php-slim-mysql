@@ -124,13 +124,13 @@ class CsvManager{
             $usuario = $data[0];
             $clave = $data[1];
             $tipoUsuario = $data[2];
-            $nombreSector = $data[3];
+            $sector = $data[3];
 
             $usr = new Usuario();
             $usr->usuario = $usuario;
             $usr->clave = $clave;
             $usr->tipoUsuario = $tipoUsuario;
-            $usr->nombreSector = $nombreSector;
+            $usr->sector = $sector;
 
             try {
 

@@ -11,14 +11,14 @@ class UsuarioController extends Usuario implements IApiUsable
     $usuario = $parametros['usuario'];
     $clave = $parametros['clave'];
     $tipoUsuario = $parametros['tipoUsuario'];
-    $nombreSector = $parametros['nombreSector'];
+    $sector = $parametros['sector'];
 
     // Creamos el usuario
     $usr = new Usuario();
     $usr->usuario = $usuario;
     $usr->clave = $clave;
     $usr->tipoUsuario = $tipoUsuario;
-    $usr->nombreSector = $nombreSector;
+    $usr->sector = $sector;
 
     try {
 

@@ -14,7 +14,7 @@ class PendienteController extends Pendiente implements IPendiente
     // Buscamos producto por nombre
     $parametros = $request->getParsedBody();
     $pendiente = $parametros['pendienteId'];
-    $pendiente = Pendiente::cambiarEstadoPedido($pendiente, $credencial->usuario);
+    $pendiente = Pendiente::cambiarEstadoPedido($pendiente, $credencial);
     if ($pendiente == null){
 
       $payload = json_encode(array('mensaje' => 'ERROR: No existe ese producto pendiente'));
