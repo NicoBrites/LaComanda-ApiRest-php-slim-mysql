@@ -15,9 +15,9 @@ class PendienteController extends Pendiente implements IPendiente
     $parametros = $request->getParsedBody();
     $pendiente = $parametros['pendienteId'];
     $pendiente = Pendiente::cambiarEstadoPedido($pendiente, $credencial);
-    if ($pendiente == null){
+    if ($pendiente == true){
 
-      $payload = json_encode(array('mensaje' => 'ERROR: No existe ese producto pendiente'));
+      $payload = json_encode(array('mensaje' => 'Exito! Pendiente cambiado de estado'));
 
     } elseif ($pendiente == -1 ) {
 
@@ -27,9 +27,9 @@ class PendienteController extends Pendiente implements IPendiente
 
       $payload = json_encode(array('mensaje' => 'ERROR: Este producto pendiente no pertenece a tu sector'));
 
-    } else {
+    } else if ($pendiente == null) {
 
-      $payload = json_encode(array('mensaje' => 'Exito! Pendiente cambiado de estado'));
+      $payload = json_encode(array('mensaje' => 'ERROR: No existe ese producto pendiente'));
 
     }
     

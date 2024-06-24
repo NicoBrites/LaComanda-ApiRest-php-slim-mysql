@@ -31,12 +31,22 @@ class Pendiente
                     $consulta->bindValue(':usuario', $credencial->usuario, PDO::PARAM_STR);
                     $consulta->bindValue(':tiempoDemora', $producto->tiempoPreparacion, PDO::PARAM_STR);
 
+                    $consulta->execute();
+            
+                    return true;
+
+
                 } elseif ($pendiente->estado == "en preparacion") {
 
                     if ($pendiente->usuario == $credencial->usuario){
                         $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado WHERE id = :id");
                         $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                         $consulta->bindValue(':estado', "listo para servir", PDO::PARAM_STR);
+
+                        $consulta->execute();
+            
+                        return true;
+
                     } else {
                         return -1; 
                     }
@@ -47,9 +57,8 @@ class Pendiente
                 return -2;
             }
 
-            $consulta->execute();
-            
         } else {
+
             return null;
         }
     }
