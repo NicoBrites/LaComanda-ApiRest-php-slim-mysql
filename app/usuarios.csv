@@ -1,0 +1,7 @@
+id,usuario,clave,tipoUsuario,fechaIngreso,nombreSector,estaSuspendido,fechaBaja
+16,1,akmdaVjPcPGCY,Socio,2024-06-23,Mesas,0,
+17,mozo,akB.K0dMcB9LE,Mozo,2024-06-23,Mesas,0,
+18,nico,akRxvrQ9xodQ.,Mozo,2024-06-24,Mesas,0,
+19,agus,akRaUrc4FnBPU,Cocinero,2024-06-24,Cocina,0,
+20,tete,akt/uEYqU1FHs,Bartender,2024-06-24,Barra,0,
+21,toto,akXJCCfRLLa/Q,Cervezero,2024-06-24,Choperas,0,

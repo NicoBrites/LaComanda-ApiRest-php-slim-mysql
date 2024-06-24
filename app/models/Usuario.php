@@ -56,8 +56,10 @@ class Usuario
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave, tipoUsuario = :tipoUsuario, nombreSector = :nombreSector  WHERE id = :id");
+        $claveHash = crypt($usuario->clave, "akhsdgkals");
+
         $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
-        $consulta->bindValue(':clave', $usuario->clave, PDO::PARAM_STR);
+        $consulta->bindValue(':clave', $claveHash, PDO::PARAM_STR);
         $consulta->bindValue(':id', $usuario->id, PDO::PARAM_INT);
         $consulta->bindValue(':tipoUsuario', $usuario->tipoUsuario, PDO::PARAM_STR);
         $consulta->bindValue(':nombreSector', $usuario->nombreSector, PDO::PARAM_STR);
@@ -68,8 +70,10 @@ class Usuario
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET clave = :clave, tipoUsuario = :tipoUsuario, nombreSector = :nombreSector  WHERE usuario = :usuario");
+        $claveHash = crypt($usuario->clave, "akhsdgkals");
+
         $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
-        $consulta->bindValue(':clave', $usuario->clave, PDO::PARAM_STR);
+        $consulta->bindValue(':clave', $claveHash, PDO::PARAM_STR);
         $consulta->bindValue(':tipoUsuario', $usuario->tipoUsuario, PDO::PARAM_STR);
         $consulta->bindValue(':nombreSector', $usuario->nombreSector, PDO::PARAM_STR);
         $consulta->execute();
@@ -97,4 +101,5 @@ class Usuario
         }
 
     } 
+
 }

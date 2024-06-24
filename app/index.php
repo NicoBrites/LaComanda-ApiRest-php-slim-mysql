@@ -69,7 +69,7 @@ $app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->post('[/]', \PendienteController::class . ':CambiarEstado');
 })->add(new AuthMiddleware());
 $app->group('/csv', function (RouteCollectorProxy $group) {
-  $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
+  $group->get('/download/{tabla}', \CsvController::class . ':Descargarcsv');
   $group->post('/usuarios', \CsvController::class . ':CargarCsvUsuarios');
 })->add(new AuthMiddleware("Socio"));
 
