@@ -46,14 +46,16 @@ class CsvManager{
 
         if ($table == "usuarios"){
             
-            $tableArray[] = CsvManager::DevolverArrayAsociativoUsuarios();
+            $tableArray = CsvManager::DevolverArrayAsociativoUsuarios();
             
         } else if ($table == "productos") {
            
-            $tableArray[] = CsvManager::DevolverArrayAsociativoProductos();
+            $tableArray = CsvManager::DevolverArrayAsociativoProductos();
             
-        }  
+        } else if ($table == "mesas") {
 
+            $tableArray = CsvManager::DevolverArrayAsociativoMesas();
+        } 
         // Abrir un archivo CSV para escribir
         $filename = "$table.csv";
         $fp = fopen($filename, 'w');
@@ -62,6 +64,8 @@ class CsvManager{
         if (!empty($tableArray)) {
             // Escribir el encabezado del CSV usando las claves del primer usuario
             $header = array_keys($tableArray[0]);
+            var_dump($tableArray);
+            var_dump($header);
             fputcsv($fp, $header);
 
             // Escribir los datos de los usuarios
@@ -79,6 +83,7 @@ class CsvManager{
 
         $usuarios = Usuario::obtenerTodos();
 
+        $tableArray = [];
         // Convertir cada objeto Usuario a un array asociativo
         foreach ($usuarios as $usuario) {
             $usuarioArray = [
@@ -100,6 +105,7 @@ class CsvManager{
 
         $productos = Producto::obtenerTodos();
 
+        $tableArray = [];
         // Convertir cada objeto Usuario a un array asociativo
         foreach ($productos as $prod) {
             $productoArray = [
@@ -111,6 +117,25 @@ class CsvManager{
             ];
             $tableArray[] = $productoArray;
         }
+        return $tableArray;
+    }
+
+    private static function DevolverArrayAsociativoMesas(){
+
+        $mesas = Mesa::obtenerTodos();
+
+        $tableArray = [];
+        // Convertir cada objeto Usuario a un array asociativo
+       /* foreach ($mesas as $mesa) {
+            $productoArray = [
+                'id' => $prod->id,
+                'nombre' => $prod->nombre,
+                'precio' => $prod->precio,
+                'sector' => $prod->sector,
+                'tiempoPreparacion' => $prod->tiempoPreparacion,
+            ];
+            $tableArray[] = $productoArray;
+        }*/
         return $tableArray;
     }
 }
