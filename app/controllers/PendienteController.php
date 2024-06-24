@@ -15,21 +15,22 @@ class PendienteController extends Pendiente implements IPendiente
     $parametros = $request->getParsedBody();
     $pendiente = $parametros['pendienteId'];
     $pendiente = Pendiente::cambiarEstadoPedido($pendiente, $credencial);
-    if ($pendiente == true){
 
-      $payload = json_encode(array('mensaje' => 'Exito! Pendiente cambiado de estado'));
-
-    } elseif ($pendiente == -1 ) {
+    if ($pendiente === -1){
 
       $payload = json_encode(array('mensaje' => 'ERROR: Este usuario no estaba preparando el pedido'));
 
-    } else if ($pendiente == -2 ) {
+    } elseif ($pendiente === -2 ) {
 
       $payload = json_encode(array('mensaje' => 'ERROR: Este producto pendiente no pertenece a tu sector'));
 
-    } else if ($pendiente == null) {
+    } else if ($pendiente === null ) {
 
       $payload = json_encode(array('mensaje' => 'ERROR: No existe ese producto pendiente'));
+
+    } else if ($pendiente === true) {
+
+      $payload = json_encode(array('mensaje' => 'Exito! Pendiente cambiado de estado'));
 
     }
     

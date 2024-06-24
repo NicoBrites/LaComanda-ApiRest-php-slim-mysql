@@ -104,7 +104,7 @@ class MesaController extends Mesa implements IApiUsable
       
           } else {
       
-            $payload = json_encode(array('mensaje' => 'Exito! Mesa cerrada'));
+            $payload = json_encode(array('mensaje' => 'Exito! Estado de la mesa cambiado'));
       
           }
   

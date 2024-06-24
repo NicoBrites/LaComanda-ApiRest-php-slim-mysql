@@ -16,11 +16,9 @@ class Pendiente
 
         $pendiente = $this->obtenerPendiente($id);
         if ($pendiente != false){
-
             $objAccesoDato = AccesoDatos::obtenerInstancia();
 
             if ($pendiente->sector == $credencial->sector){
-
                 if ($pendiente->estado == "pendiente"){
 
                     $producto = Producto::obtenerProducto($pendiente->idProducto);
@@ -32,12 +30,12 @@ class Pendiente
                     $consulta->bindValue(':tiempoDemora', $producto->tiempoPreparacion, PDO::PARAM_STR);
 
                     $consulta->execute();
-            
+
                     return true;
 
 
                 } elseif ($pendiente->estado == "en preparacion") {
-
+                    
                     if ($pendiente->usuario == $credencial->usuario){
                         $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado WHERE id = :id");
                         $consulta->bindValue(':id', $id, PDO::PARAM_STR);
@@ -54,6 +52,7 @@ class Pendiente
                 }
 
             } else {
+
                 return -2;
             }
 
