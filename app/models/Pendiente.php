@@ -6,7 +6,7 @@ class Pendiente
     public $usuario;
     public $codigoPedido;
     public $idProducto;
-    public $nombreSector;
+    public $sector;
     public $estado;
     public $fechaHoraIngreso;
     public $tiempoDemora;
@@ -23,10 +23,13 @@ class Pendiente
 
                 if ($pendiente->estado == "pendiente"){
 
-                    $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario WHERE id = :id");
+                    $producto = Producto::obtenerProducto($pendiente->idProducto);
+
+                    $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario, tiempoDemora = :tiempoDemora WHERE id = :id");
                     $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                     $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
                     $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+                    $consulta->bindValue(':tiempoDemora', $producto->tiempoPreparacion, PDO::PARAM_STR);
 
                 } elseif ($pendiente->estado == "en preparacion") {
 
@@ -39,7 +42,7 @@ class Pendiente
                     }
 
                 }
-                
+
             } else {
                 return -2;
             }

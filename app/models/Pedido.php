@@ -61,12 +61,12 @@ class Pedido
         if ($prod != false && $pedido != false){ # VALIDACION DE PRODUCTO EXISTE
 
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, nombreSector, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :nombreSector, :fechaHoraIngreso)");
+            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, sector, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :sector, :fechaHoraIngreso)");
             
             $consulta->bindValue(':idPedido', $pedido->codigo, PDO::PARAM_STR);
             $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
             $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
-            $consulta->bindValue(':nombreSector', $prod->sector, PDO::PARAM_STR);
+            $consulta->bindValue(':sector', $prod->sector, PDO::PARAM_STR);
             $fecha = new DateTime();
             $consulta->bindValue(':fechaHoraIngreso', date_format($fecha, 'Y-m-d H:i:s') , PDO::PARAM_STR);
     
@@ -85,7 +85,6 @@ class Pedido
 
     public static function listarPedidosEstado($tipoUsuario)
     {
-        var_dump($tipoUsuario);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         if ($tipoUsuario == "Socio" || $tipoUsuario == "Mozo"){
 
@@ -93,15 +92,15 @@ class Pedido
 
         } else if ($tipoUsuario == "Cocinero") {
 
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = Cocina");
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Cocina'");
 
         } else if ($tipoUsuario == "Bartender") {
 
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = Barra");
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Barra'");
 
         } else if ($tipoUsuario == "Cervecero") {
 
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = Choperas");
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Choperas'");
 
         } 
     

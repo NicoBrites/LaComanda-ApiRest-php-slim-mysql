@@ -21,12 +21,13 @@ class AuthController
             if ($usuario == $value->usuario && password_verify($clave, $value->clave)){
                 $flag++;
                 $tipoUsuario = $value->tipoUsuario;
+                $sector = $value->sector;
             }
         }
         
         if($flag == 1){ 
 
-            $datos = array('usuario' => $usuario, 'tipoUsuario' => $tipoUsuario);
+            $datos = array('usuario' => $usuario, 'tipoUsuario' => $tipoUsuario, 'sector' => $sector);
             $token = AutentificadorJWT::CrearToken($datos);
             $payload = json_encode(array('jwt' => $token));
 
@@ -34,7 +35,7 @@ class AuthController
 
             $payload = json_encode(array('error' => 'Usuario o contraseña incorrectos'));
         }
-        
+
         $response->getBody()->write($payload);
         return $response
             ->withHeader('Content-Type', 'application/json');
