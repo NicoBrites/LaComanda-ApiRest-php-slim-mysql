@@ -86,7 +86,7 @@ class ValidadorPostMiddleware {
     private function validarPostMesa(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["estado"], $params["codigoPedido"],$params["idEmpleadoMozo"], $params["fechaHoraIngresoMesa"])){
+        if(isset($params["estado"], $params["codigoPedido"],$params["usuarioEmpleadoMozo"], $params["fechaHoraIngresoMesa"])){
                
         
             if (is_string($params["estado"])) {

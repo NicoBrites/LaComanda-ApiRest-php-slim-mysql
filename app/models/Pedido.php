@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Date;
 require_once 'Pendiente.php';
 class Pedido
 {
+    public $id;
     public $codigo;
     public $codigoMesa;
     public $usuario;

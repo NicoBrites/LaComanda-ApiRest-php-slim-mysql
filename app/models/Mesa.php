@@ -5,18 +5,18 @@ class Mesa
     public $codigo;
     public $estado;
     public $codigoPedido;
-    public $idEmpleadoMozo;
+    public $usuarioEmpleadoMozo;
     public $fechaHoraIngresoMesa;
 
     public function crearMesa()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, codigoPedido, idEmpleadoMozo, fechaHoraIngresoMesa) VALUES (:codigo, :estado, :codigoPedido, :idEmpleadoMozo, :fechaHoraIngresoMesa)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, codigoPedido, usuarioEmpleadoMozo, fechaHoraIngresoMesa) VALUES (:codigo, :estado, :codigoPedido, :usuarioEmpleadoMozo, :fechaHoraIngresoMesa)");
         $codigo = $this->generarCodigoAlfanumerico();
         $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':codigoPedido', $this->codigoPedido, PDO::PARAM_STR);
-        $consulta->bindValue(':idEmpleadoMozo', $this->idEmpleadoMozo, PDO::PARAM_INT);
+        $consulta->bindValue(':usuarioEmpleadoMozo', $this->usuarioEmpleadoMozo, PDO::PARAM_INT);
         $consulta->bindValue(':fechaHoraIngresoMesa', $this->fechaHoraIngresoMesa, PDO::PARAM_STR);
 
         $consulta->execute();
@@ -28,10 +28,10 @@ class Mesa
     {
        
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("UPDATE mesas SET codigoPedido = :codigoPedido, idEmpleadoMozo = :idEmpleadoMozo, estado = :estado, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE mesas SET codigoPedido = :codigoPedido, usuarioEmpleadoMozo = :usuarioEmpleadoMozo, estado = :estado, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
 
         $consulta->bindValue(':codigoPedido', $codigoPedido, PDO::PARAM_STR);
-        $consulta->bindValue(':idEmpleadoMozo', $idEmpleado, PDO::PARAM_INT);
+        $consulta->bindValue(':usuarioEmpleadoMozo', $idEmpleado, PDO::PARAM_INT);
         $consulta->bindValue(':estado', "con cliente esperando pedido", PDO::PARAM_STR);
         $consulta->bindValue(':fechaHoraIngresoMesa', $fechaHoraIngresoMesa, PDO::PARAM_STR);
         $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
@@ -102,12 +102,12 @@ class Mesa
         if ($mesa != false){
 
             $objAccesoDato = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, idEmpleadoMozo = :idEmpleadoMozo, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
+            $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, usuarioEmpleadoMozo = :usuarioEmpleadoMozo, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
 
             $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
             $consulta->bindValue(':estado', "cerrada", PDO::PARAM_STR);
             $consulta->bindValue(':codigoPedido', "", PDO::PARAM_STR);
-            $consulta->bindValue(':idEmpleadoMozo', "", PDO::PARAM_STR);
+            $consulta->bindValue(':usuarioEmpleadoMozo', "", PDO::PARAM_STR);
             $consulta->bindValue(':fechaHoraIngresoMesa', "", PDO::PARAM_STR);
 
 
