@@ -121,7 +121,12 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
 
     public function TraerTodosPedidosEstado($request, $response, $args)
     {
-        $lista = Pedido::listarPedidosEstado();
+        
+        $header = $request->getHeaderLine('Authorization');
+        $token = trim(explode("Bearer", $header)[1]);
+        $credencial = AutentificadorJWT::ObtenerData($token);
+
+        $lista = Pedido::listarPedidosEstado($credencial->usuario);
         $payload = json_encode(array("listaPedidosEstado" => $lista));
 
         $response->getBody()->write($payload);

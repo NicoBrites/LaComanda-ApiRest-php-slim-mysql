@@ -81,10 +81,27 @@ class Pedido
     
     }
 
-    public static function listarPedidosEstado()
+    public static function listarPedidosEstado($tipoUsuario)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes");
+        if ($tipoUsuario == "Socio" || $tipoUsuario == "Mozo"){
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes");
+
+        } else if ($tipoUsuario == "Cocinero") {
+
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = Cocina");
+
+        } else if ($tipoUsuario == "Bartender") {
+
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = Barra");
+
+        } else if ($tipoUsuario == "Cervecero") {
+
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = Choperas");
+
+        } 
+    
+        
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
