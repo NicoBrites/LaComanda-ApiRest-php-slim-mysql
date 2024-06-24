@@ -78,18 +78,30 @@ class MesaController extends Mesa implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
 
-    public function CerraMesa($request, $response, $args)
+    public function CambiarEstado($request, $response, $args)
     {
-        // Buscamos producto por nombre
 
         $mesa = $args['mesa'];
 
+        $header = $request->getHeaderLine('Authorization');
+        $token = trim(explode("Bearer", $header)[1]);
+        $credencial = AutentificadorJWT::ObtenerData($token);
+
         try{
-          $validador = Mesa::CerrarMesa($mesa);
+          $validador = Mesa::CambiarEstadoMesa($mesa, $credencial);
 
           if ($validador == -1){
 
             $payload = json_encode(array('mensaje' => 'ERROR: No existe esa mesa'));
+
+          } else if ($validador == -2) {
+      
+            $payload = json_encode(array('mensaje' => 'ERROR! No sos el Mozo que abrio maneja esa mesa'));
+      
+          } else if ($validador == -3) {
+      
+            $payload = json_encode(array('mensaje' => 'ERROR! Solo el socio puede cerrar la mesa'));
+      
           } else {
       
             $payload = json_encode(array('mensaje' => 'Exito! Mesa cerrada'));

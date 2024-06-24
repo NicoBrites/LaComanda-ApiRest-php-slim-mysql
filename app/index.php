@@ -56,7 +56,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));
-    $group->post('/{mesa}', \MesaController::class . ':CerraMesa');
+    $group->post('/{mesa}', \MesaController::class . ':CambiarEstado');
   })->add(new AuthMiddleware());
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos');

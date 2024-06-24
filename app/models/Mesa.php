@@ -95,23 +95,56 @@ class Mesa
         return $codigo;
     }
 
-    public static function CerrarMesa($codigo)
+    public static function CambiarEstadoMesa($codigo, $credencial)
     {   
 
         $mesa = Mesa::obtenerMesa($codigo);
         if ($mesa != false){
-
             $objAccesoDato = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, usuarioEmpleadoMozo = :usuarioEmpleadoMozo, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
+            if ($mesa->estado == "con cliente pagando" ){
+                if ($credencial->tipoUsuario == "Socio"){
+                
+                $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, usuarioEmpleadoMozo = :usuarioEmpleadoMozo, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
+    
+                $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+                $consulta->bindValue(':estado', "cerrada", PDO::PARAM_STR);
+                $consulta->bindValue(':codigoPedido', "", PDO::PARAM_STR);
+                $consulta->bindValue(':usuarioEmpleadoMozo', "", PDO::PARAM_STR);
+                $consulta->bindValue(':fechaHoraIngresoMesa', "", PDO::PARAM_STR);
+                   
+                $consulta->execute();
 
-            $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
-            $consulta->bindValue(':estado', "cerrada", PDO::PARAM_STR);
-            $consulta->bindValue(':codigoPedido', "", PDO::PARAM_STR);
-            $consulta->bindValue(':usuarioEmpleadoMozo', "", PDO::PARAM_STR);
-            $consulta->bindValue(':fechaHoraIngresoMesa', "", PDO::PARAM_STR);
+                return true;
 
+                } else {
+                    return -3;
+                }
 
-            $consulta->execute();
+            }
+        
+            if( $mesa->usuarioEmpleadoMozo == $credencial->usuario){
+                if ($mesa->estado == "con cliente esperando pedido"){
+                   
+                    $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado WHERE codigo = :codigo");
+
+                    $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+                    $consulta->bindValue(':estado', "con cliente comiendo", PDO::PARAM_STR);
+
+                } else if ($mesa->estado == "con cliente comiendo"){
+
+                    $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado WHERE codigo = :codigo");
+
+                    $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+                    $consulta->bindValue(':estado', "con cliente pagando", PDO::PARAM_STR);
+                }
+
+                $consulta->execute();
+
+            } else {
+
+                return -2;
+
+            }
             
         } else {
             return -1;
