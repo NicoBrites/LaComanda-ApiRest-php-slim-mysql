@@ -9,13 +9,17 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
     {
         $parametros = $request->getParsedBody();
         $codigoMesa = $parametros['codigoMesa'];
-        $usuario = $parametros['usuario'];
         $nombreCliente = $parametros['nombreCliente'];
+
+        $header = $request->getHeaderLine('Authorization');
+        $token = trim(explode("Bearer", $header)[1]);
+        $credencial = AutentificadorJWT::ObtenerData($token);
+    
 
         // Creamos el Pedido
         $pedido = new Pedido();
         $pedido->codigoMesa = $codigoMesa;
-        $pedido->usuario = $usuario;
+        $pedido->usuario = $credencial->usuario;
         $pedido->nombreCliente = $nombreCliente;
        
         $validacion =  $pedido->crearPedido();

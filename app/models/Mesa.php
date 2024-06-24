@@ -24,7 +24,7 @@ class Mesa
         return $objAccesoDatos->obtenerUltimoId();
     }
 
-    public function cargarPedido($codigoPedido, $idEmpleado, $fechaHoraIngresoMesa)#FALTA
+    public function cargarPedido($codigoPedido, $idEmpleado, $fechaHoraIngresoMesa)
     {
        
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
@@ -35,8 +35,6 @@ class Mesa
         $consulta->bindValue(':estado', "con cliente esperando pedido", PDO::PARAM_STR);
         $consulta->bindValue(':fechaHoraIngresoMesa', $fechaHoraIngresoMesa, PDO::PARAM_STR);
         $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
-
-        // AGREGA LOGICA DE FOTO
 
         $consulta->execute();
 
