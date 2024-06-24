@@ -23,6 +23,7 @@ require_once './controllers/MesaController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/PendienteController.php';
 require_once './controllers/AuthController.php';
+require_once './controllers/CsvController.php';
 
 require_once './middlewares/ValidadorPostMiddleware.php';
 require_once './middlewares/AuthMiddleware.php';
@@ -67,6 +68,10 @@ $app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
   $group->post('[/]', \PendienteController::class . ':CambiarEstado');
 })->add(new AuthMiddleware());
+$app->group('/csv', function (RouteCollectorProxy $group) {
+  $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
+  $group->post('/usuarios', \CsvController::class . ':CargarCsvUsuarios');
+})->add(new AuthMiddleware("Socio"));
 
 // JWT en login
 $app->group('/auth', function (RouteCollectorProxy $group) {

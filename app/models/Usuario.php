@@ -70,7 +70,6 @@ class Usuario
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET clave = :clave, tipoUsuario = :tipoUsuario, nombreSector = :nombreSector  WHERE usuario = :usuario");
         $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $usuario->clave, PDO::PARAM_STR);
-        $consulta->bindValue(':id', $usuario->id, PDO::PARAM_INT);
         $consulta->bindValue(':tipoUsuario', $usuario->tipoUsuario, PDO::PARAM_STR);
         $consulta->bindValue(':nombreSector', $usuario->nombreSector, PDO::PARAM_STR);
         $consulta->execute();

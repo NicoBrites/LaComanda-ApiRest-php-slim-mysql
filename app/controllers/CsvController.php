@@ -1,20 +1,31 @@
 <?php
-require_once './utils/AutentificadorJWT.php';
-require_once './models/Usuario.php';
-
+require_once './utils/CsvManager.php';
 
 class CsvController  
 {
-    public function CargarCsv($request, $response, $args)
+    public function CargarCsvUsuarios($request, $response, $args)
     {
         $uploadedFiles = $request->getUploadedFiles();
 
         $archivoCsv = $uploadedFiles['archivo_csv'];
 
-        $validador = 
-    
-        $response->getBody()->write(json_encode(["message" => "Datos importados exitosamente."]));
+        try{
+            CsvManager::CargarCsvUsuarios($archivoCsv);
+            $response->getBody()->write(json_encode(["message" => "Datos importados exitosamente."]));            
+        } catch (Exception $e) {
+
+            $response->getBody()->write(json_encode(["Error" => $e->getMessage()]));
+        }
+
+
         return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function DescargarCsvUsuarios($request, $response, $args){
+
+        
+
+
     }
 
 }
