@@ -8,7 +8,8 @@ class Producto
     public $tiempoPreparacion;
 
     public function crearProducto()
-    {
+    {   
+        $this->ValidarProducto($this->nombre);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO productos (nombre, precio, sector, tiempoPreparacion) VALUES (:nombre, :precio, :sector, :tiempoPreparacion)");
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
@@ -51,6 +52,17 @@ class Producto
         $consulta->execute();
     }
 
+    public static function modificarProductoPorNombre($producto)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE nombre = :nombre");
+        $consulta->bindValue(':nombre', $producto->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
+        $consulta->bindValue(':sector', $producto->sector, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempoPreparacion', $producto->tiempoPreparacion, PDO::PARAM_STR);
+        $consulta->execute();
+    }
+
     public static function borrarProducto($productoId)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
@@ -60,4 +72,18 @@ class Producto
         $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
         $consulta->execute();
     }
+
+    private function ValidarProducto($nombre)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM productos WHERE nombre = :nombre");
+        $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $consulta->execute();
+
+        if ($consulta->fetchObject('Producto') !== false){
+            throw new UsuarioYaEnUsoException("El nombre del producto ya esta en uso");
+        }
+
+    } 
+
 }

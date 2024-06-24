@@ -2,43 +2,16 @@
 
 class CsvManager{
 
-    public static function CargarCsvUsuarios($archivoCsv){
+    public static function CargarCsv($archivoCsv, $tabla){
 
-        $tempPath = $archivoCsv->getStream()->getMetadata('uri');
-        $handle = fopen($tempPath, 'r');
-
-        // Saltar la primera línea si contiene encabezados
-        fgetcsv($handle, 1000, ",");
-
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $usuario = $data[0];
-            $clave = $data[1];
-            $tipoUsuario = $data[2];
-            $nombreSector = $data[3];
-
-            $usr = new Usuario();
-            $usr->usuario = $usuario;
-            $usr->clave = $clave;
-            $usr->tipoUsuario = $tipoUsuario;
-            $usr->nombreSector = $nombreSector;
-
-            try {
-
-                $usr->crearUsuario();
-          
-            } catch (UsuarioYaEnUsoException $e) {
-
-                $usr->modificarUsuarioPorUsuario($usr);    
-
-            } catch (Exception $e){
-
-                throw new Exception($e->getMessage());
-            }
-            
+        
+        if ($tabla == "usuarios"){
+            $bool = CsvManager::CargarCsvUsuario($archivoCsv);
+        } else if ($tabla == "productos"){
+            $bool = CsvManager::CargarCsvProducto($archivoCsv);
         }
 
-        fclose($handle);
-
+        return $bool;
     }
     public static function DescargarCsv($table){
 
@@ -137,5 +110,86 @@ class CsvManager{
             $tableArray[] = $productoArray;
         }*/
         return $tableArray;
+    }
+
+    private static function CargarCsvUsuario($archivoCsv){
+
+        $tempPath = $archivoCsv->getStream()->getMetadata('uri');
+        $handle = fopen($tempPath, 'r');
+
+        // Saltar la primera línea si contiene encabezados
+        fgetcsv($handle, 1000, ",");
+
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $usuario = $data[0];
+            $clave = $data[1];
+            $tipoUsuario = $data[2];
+            $nombreSector = $data[3];
+
+            $usr = new Usuario();
+            $usr->usuario = $usuario;
+            $usr->clave = $clave;
+            $usr->tipoUsuario = $tipoUsuario;
+            $usr->nombreSector = $nombreSector;
+
+            try {
+
+                $usr->crearUsuario();
+          
+            } catch (UsuarioYaEnUsoException $e) {
+
+                $usr->modificarUsuarioPorUsuario($usr);    
+
+            } catch (Exception $e){
+
+                throw new Exception($e->getMessage());
+            }
+            
+        }
+
+        fclose($handle);
+
+        return true;
+
+
+    }
+
+    private static function CargarCsvProducto($archivoCsv){
+
+        $tempPath = $archivoCsv->getStream()->getMetadata('uri');
+        $handle = fopen($tempPath, 'r');
+
+        // Saltar la primera línea si contiene encabezados
+        fgetcsv($handle, 1000, ",");
+
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $nombre = $data[0];
+            $precio = $data[1];
+            $sector = $data[2];
+            $tiempoPreparacion = $data[3];
+
+            $prod = new Producto();
+            $prod->nombre = $nombre;
+            $prod->precio = $precio;
+            $prod->sector = $sector;
+            $prod->tiempoPreparacion = $tiempoPreparacion;
+
+            try {
+
+                $prod->crearProducto();
+          
+            } catch (NombreYaEnUsoException $e) {
+
+                $prod->modificarProductoPorNombre($prod);    
+
+            } catch (Exception $e){
+
+                throw new Exception($e->getMessage());
+            }
+            
+        }
+
+        fclose($handle);
+        return true;
     }
 }

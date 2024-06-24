@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Date;
 
-require_once 'PedidoProducto.php';
+require_once 'Pendiente.php';
 class Pedido
 {
     public $codigo;
@@ -58,6 +58,7 @@ class Pedido
         $prod = Producto::obtenerProducto($idProducto);
         $pedido = Pedido::obtenerPedido($pedidoId);
         if ($prod != false && $pedido != false){ # VALIDACION DE PRODUCTO EXISTE
+
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
             $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, nombreSector, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :nombreSector, :fechaHoraIngreso)");
             

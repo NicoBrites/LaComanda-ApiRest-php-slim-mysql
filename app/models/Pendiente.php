@@ -39,8 +39,8 @@ class Pendiente
                     }
 
                 }
+                
             } else {
-
                 return -2;
             }
 

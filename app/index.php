@@ -70,7 +70,7 @@ $app->group('/pendientes', function (RouteCollectorProxy $group) {
 })->add(new AuthMiddleware());
 $app->group('/csv', function (RouteCollectorProxy $group) {
   $group->get('/download/{tabla}', \CsvController::class . ':Descargarcsv');
-  $group->post('/usuarios', \CsvController::class . ':CargarCsvUsuarios');
+  $group->post('/{tabla}', \CsvController::class . ':CargarCsvUsuarios');
 })->add(new AuthMiddleware("Socio"));
 
 // JWT en login

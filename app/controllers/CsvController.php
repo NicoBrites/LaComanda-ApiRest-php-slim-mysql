@@ -5,13 +5,19 @@ class CsvController
 {
     public function CargarCsvUsuarios($request, $response, $args)
     {
+        $tabla = $args['tabla'];
+
         $uploadedFiles = $request->getUploadedFiles();
 
         $archivoCsv = $uploadedFiles['archivo_csv'];
 
         try{
-            CsvManager::CargarCsvUsuarios($archivoCsv);
-            $response->getBody()->write(json_encode(["message" => "Datos importados exitosamente."]));            
+            $bool = CsvManager::CargarCsv($archivoCsv, $tabla);
+            if ($bool){
+                $response->getBody()->write(json_encode(["message" => "Datos de $tabla importados exitosamente."]));    
+            } else {
+                $response->getBody()->write(json_encode(["Error" => "Datos de $tabla no se pudieron importar"]));    
+            }    
         } catch (Exception $e) {
 
             $response->getBody()->write(json_encode(["Error" => $e->getMessage()]));
