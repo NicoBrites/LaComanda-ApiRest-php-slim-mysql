@@ -23,6 +23,10 @@ class PendienteController extends Pendiente implements IPendiente
 
       $payload = json_encode(array('mensaje' => 'ERROR: Este usuario no estaba preparando el pedido'));
 
+    } else if ($pendiente == -2 ) {
+
+      $payload = json_encode(array('mensaje' => 'ERROR: Este producto pendiente no pertenece a tu sector'));
+
     } else {
 
       $payload = json_encode(array('mensaje' => 'Exito! Pendiente cambiado de estado'));
