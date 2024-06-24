@@ -42,10 +42,42 @@ class CsvManager{
     }
     public static function DescargarCsv($table){
 
+        $tableArray = [];
+
         if ($table == "usuarios"){
-            $usuarios = Usuario::obtenerTodos();
-        } 
-        $usuariosArray = [];
+            
+            $tableArray[] = CsvManager::DevolverArrayAsociativoUsuarios();
+            
+        } else if ($table == "productos") {
+           
+            $tableArray[] = CsvManager::DevolverArrayAsociativoProductos();
+            
+        }  
+
+        // Abrir un archivo CSV para escribir
+        $filename = "$table.csv";
+        $fp = fopen($filename, 'w');
+
+        // Verificar si hay datos
+        if (!empty($tableArray)) {
+            // Escribir el encabezado del CSV usando las claves del primer usuario
+            $header = array_keys($tableArray[0]);
+            fputcsv($fp, $header);
+
+            // Escribir los datos de los usuarios
+            foreach ($tableArray as $tableEntity) {
+                fputcsv($fp, $tableEntity);
+            }
+        }
+
+        fclose($fp);
+        return $fp;
+    }
+
+
+    private static function DevolverArrayAsociativoUsuarios(){
+
+        $usuarios = Usuario::obtenerTodos();
 
         // Convertir cada objeto Usuario a un array asociativo
         foreach ($usuarios as $usuario) {
@@ -59,27 +91,26 @@ class CsvManager{
                 'estaSuspendido' => $usuario->estaSuspendido,
                 'fechaBaja' => $usuario->fechaBaja,
             ];
-            $usuariosArray[] = $usuarioArray;
+            $tableArray[] = $usuarioArray;
         }
+        return $tableArray;
+    }
 
-        // Abrir un archivo CSV para escribir
-        $filename = 'usuarios.csv';
-        $fp = fopen($filename, 'w');
+    private static function DevolverArrayAsociativoProductos(){
 
-        // Verificar si hay datos
-        if (!empty($usuariosArray)) {
-            // Escribir el encabezado del CSV usando las claves del primer usuario
-            $header = array_keys($usuariosArray[0]);
-            fputcsv($fp, $header);
+        $productos = Producto::obtenerTodos();
 
-            // Escribir los datos de los usuarios
-            foreach ($usuariosArray as $usuario) {
-                fputcsv($fp, $usuario);
-            }
+        // Convertir cada objeto Usuario a un array asociativo
+        foreach ($productos as $prod) {
+            $productoArray = [
+                'id' => $prod->id,
+                'nombre' => $prod->nombre,
+                'precio' => $prod->precio,
+                'sector' => $prod->sector,
+                'tiempoPreparacion' => $prod->tiempoPreparacion,
+            ];
+            $tableArray[] = $productoArray;
         }
-
-        // Cerrar el archivo
-        fclose($fp);
-        return $fp;
+        return $tableArray;
     }
 }
