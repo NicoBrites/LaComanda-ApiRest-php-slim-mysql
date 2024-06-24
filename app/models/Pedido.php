@@ -65,7 +65,7 @@ class Pedido
             
             $consulta->bindValue(':idPedido', $pedido->codigo, PDO::PARAM_STR);
             $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
-            $consulta->bindValue(':estado', "pediente", PDO::PARAM_STR);
+            $consulta->bindValue(':estado', "pendiente", PDO::PARAM_STR);
             $consulta->bindValue(':nombreSector', $prod->sector, PDO::PARAM_STR);
             $fecha = new DateTime();
             $consulta->bindValue(':fechaHoraIngreso', date_format($fecha, 'Y-m-d H:i:s') , PDO::PARAM_STR);
@@ -85,8 +85,10 @@ class Pedido
 
     public static function listarPedidosEstado($tipoUsuario)
     {
+        var_dump($tipoUsuario);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         if ($tipoUsuario == "Socio" || $tipoUsuario == "Mozo"){
+
             $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes");
 
         } else if ($tipoUsuario == "Cocinero") {

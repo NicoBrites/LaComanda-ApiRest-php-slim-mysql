@@ -130,7 +130,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         $token = trim(explode("Bearer", $header)[1]);
         $credencial = AutentificadorJWT::ObtenerData($token);
 
-        $lista = Pedido::listarPedidosEstado($credencial->usuario);
+        $lista = Pedido::listarPedidosEstado($credencial->tipoUsuario);
         $payload = json_encode(array("listaPedidosEstado" => $lista));
 
         $response->getBody()->write($payload);
