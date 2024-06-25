@@ -55,7 +55,7 @@ class Producto
     public static function modificarProductoPorNombre($producto)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE nombre = :nombre");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET precio = :precio, sector = :sector, tiempoPreparacion = :tiempoPreparacion  WHERE nombre = :nombre");
         $consulta->bindValue(':nombre', $producto->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
         $consulta->bindValue(':sector', $producto->sector, PDO::PARAM_STR);
@@ -81,7 +81,7 @@ class Producto
         $consulta->execute();
 
         if ($consulta->fetchObject('Producto') !== false){
-            throw new UsuarioYaEnUsoException("El nombre del producto ya esta en uso");
+            throw new NombreYaEnUsoException("El nombre del producto ya esta en uso");
         }
 
     } 

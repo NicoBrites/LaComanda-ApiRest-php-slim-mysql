@@ -128,14 +128,15 @@ class CsvManager{
             $sector = $data[2];
             $tiempoPreparacion = $data[3];
 
+
             $validador = CsvManager::ValidarProductoCsv($nombre,$precio,$sector,$tiempoPreparacion);
+
             if ($validador){
                 $prod = new Producto();
                 $prod->nombre = $nombre;
                 $prod->precio = $precio;
                 $prod->sector = $sector;
                 $prod->tiempoPreparacion = $tiempoPreparacion;
-
                 try {
 
                     $prod->crearProducto();
@@ -148,12 +149,8 @@ class CsvManager{
 
                     throw new Exception($e->getMessage());
                 }
-            } else {
+            } 
 
-                
-
-            }
-            
         }
 
         fclose($handle);
@@ -167,7 +164,7 @@ class CsvManager{
         if (!is_string($nombre) && !(strlen($nombre) < 50)){
             return false;
         }
-        if (!is_int($precio)){
+        if (!is_numeric($precio)){
             return false;
         }
         if (!is_string($sector) && !in_array($sector, $sectores)){
