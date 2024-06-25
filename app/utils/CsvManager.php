@@ -25,10 +25,7 @@ class CsvManager{
            
             $tableArray = CsvManager::DevolverArrayAsociativoProductos();
             
-        } else if ($table == "mesas") {
-
-            $tableArray = CsvManager::DevolverArrayAsociativoMesas();
-        } 
+        }
     
         return $tableArray;
     }
@@ -72,25 +69,6 @@ class CsvManager{
             ];
             $tableArray[] = $productoArray;
         }
-        return $tableArray;
-    }
-
-    private static function DevolverArrayAsociativoMesas(){
-
-        $mesas = Mesa::obtenerTodos();
-
-        $tableArray = [];
-        // Convertir cada objeto Usuario a un array asociativo
-       /* foreach ($mesas as $mesa) {
-            $productoArray = [
-                'id' => $prod->id,
-                'nombre' => $prod->nombre,
-                'precio' => $prod->precio,
-                'sector' => $prod->sector,
-                'tiempoPreparacion' => $prod->tiempoPreparacion,
-            ];
-            $tableArray[] = $productoArray;
-        }*/
         return $tableArray;
     }
 
@@ -150,28 +128,61 @@ class CsvManager{
             $sector = $data[2];
             $tiempoPreparacion = $data[3];
 
-            $prod = new Producto();
-            $prod->nombre = $nombre;
-            $prod->precio = $precio;
-            $prod->sector = $sector;
-            $prod->tiempoPreparacion = $tiempoPreparacion;
+            $validador = CsvManager::ValidarProductoCsv($nombre,$precio,$sector,$tiempoPreparacion);
+            if ($validador){
+                $prod = new Producto();
+                $prod->nombre = $nombre;
+                $prod->precio = $precio;
+                $prod->sector = $sector;
+                $prod->tiempoPreparacion = $tiempoPreparacion;
 
-            try {
+                try {
 
-                $prod->crearProducto();
-          
-            } catch (NombreYaEnUsoException $e) {
+                    $prod->crearProducto();
+            
+                } catch (NombreYaEnUsoException $e) {
 
-                $prod->modificarProductoPorNombre($prod);    
+                    $prod->modificarProductoPorNombre($prod);    
 
-            } catch (Exception $e){
+                } catch (Exception $e){
 
-                throw new Exception($e->getMessage());
+                    throw new Exception($e->getMessage());
+                }
+            } else {
+
+                
+
             }
             
         }
 
         fclose($handle);
         return true;
+    }
+
+    private static function ValidarProductoCsv($nombre,$precio,$sector,$tiempoPreparacion){
+
+        $sectores = ["Barra", "Choperas", "Cocina"];
+
+        if (!is_string($nombre) && !(strlen($nombre) < 50)){
+            return false;
+        }
+        if (!is_int($precio)){
+            return false;
+        }
+        if (!is_string($sector) && !in_array($sector, $sectores)){
+            return false;
+        }
+        if (!is_string($tiempoPreparacion) && !CsvManager::esHoraValida($tiempoPreparacion)){
+            return false;
+        }
+
+        return true;
+    }
+
+    private static function esHoraValida($hora) {
+        $formato = 'H:i:s';
+        $dateTime = DateTime::createFromFormat($formato, $hora);
+        return $dateTime && $dateTime->format($formato) === $hora;
     }
 }
