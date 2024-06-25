@@ -1,2 +1,6 @@
 id,nombre,precio,sector,tiempoPreparacion
 5,Ensalada,500,Cocina,00:04:00
+6,"Milanesa a caballo",5000,Cocina,00:10:00
+7,"Hamburgueza de Garbanzo",4000,Cocina,00:09:00
+8,Corona,2000,Choperas,00:00:10
+9,Daikiri,2500,Barra,00:01:00

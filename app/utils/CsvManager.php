@@ -29,26 +29,8 @@ class CsvManager{
 
             $tableArray = CsvManager::DevolverArrayAsociativoMesas();
         } 
-        // Abrir un archivo CSV para escribir
-        $filename = "$table.csv";
-        $fp = fopen($filename, 'w');
-
-        // Verificar si hay datos
-        if (!empty($tableArray)) {
-            // Escribir el encabezado del CSV usando las claves del primer usuario
-            $header = array_keys($tableArray[0]);
-            var_dump($tableArray);
-            var_dump($header);
-            fputcsv($fp, $header);
-
-            // Escribir los datos de los usuarios
-            foreach ($tableArray as $tableEntity) {
-                fputcsv($fp, $tableEntity);
-            }
-        }
-
-        fclose($fp);
-        return $fp;
+    
+        return $tableArray;
     }
 
 
