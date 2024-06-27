@@ -11,13 +11,14 @@ class Mesa
     public function crearMesa()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, codigoPedido, usuarioEmpleadoMozo, fechaHoraIngresoMesa) VALUES (:codigo, :estado, :codigoPedido, :usuarioEmpleadoMozo, :fechaHoraIngresoMesa)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (codigo, estado, codigoPedido, usuarioEmpleadoMozo, fechaHoraIngresoMesa, borrado) VALUES (:codigo, :estado, :codigoPedido, :usuarioEmpleadoMozo, :fechaHoraIngresoMesa, :borrado)");
         $codigo = $this->generarCodigoAlfanumerico();
         $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':codigoPedido', $this->codigoPedido, PDO::PARAM_STR);
         $consulta->bindValue(':usuarioEmpleadoMozo', $this->usuarioEmpleadoMozo, PDO::PARAM_INT);
         $consulta->bindValue(':fechaHoraIngresoMesa', $this->fechaHoraIngresoMesa, PDO::PARAM_STR);
+        $consulta->bindValue(':borrado', false, PDO::PARAM_BOOL);
 
         $consulta->execute();
 
@@ -60,26 +61,28 @@ class Mesa
 
         return $consulta->fetchObject('Mesa');
     }
-    /*
-    public static function modificarProducto($producto)#FALTA
+    
+    public static function modificarMesa($mesa)#FALTA
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET nombre = :nombre, precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE id = :id");
-        $consulta->bindValue(':nombre', $producto->nombre, PDO::PARAM_STR);
-        $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
-        $consulta->bindValue(':tiempoPreparacion', $producto->tiempoPreparacion, PDO::PARAM_STR);
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET nombre = :nombre, precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE id = :id");
+        $consulta->bindValue(':codigo', $mesa->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $mesa->estado, PDO::PARAM_STR);
+        $consulta->bindValue(':codigoPedido', $mesa->codigoPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':usuarioEmpleadoMozo', $mesa->usuarioEmpleadoMozo, PDO::PARAM_INT);
+        $consulta->bindValue(':fechaHoraIngresoMesa', $mesa->fechaHoraIngresoMesa, PDO::PARAM_STR);
         $consulta->execute();
     }
 
-    public static function borrarProducto($productoId)#FALTA
+    public static function borrarMesa($mesaId)#FALTA
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fechaBaja = :fechaBaja WHERE id = :id");
-        $fecha = new DateTime(date("d-m-Y"));
-        $consulta->bindValue(':id', $productoId, PDO::PARAM_INT);
-        $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET borrado = :borrado WHERE id = :id");
+
+        $consulta->bindValue(':id', $mesaId, PDO::PARAM_INT);
+        $consulta->bindValue(':borrado', true, PDO::PARAM_BOOL);
         $consulta->execute();
-    }*/
+    }
 
     function generarCodigoAlfanumerico($longitud = 5) {
         // Definir el conjunto de caracteres alfanuméricos
