@@ -6,16 +6,18 @@ class Producto
     public $precio;
     public $sector;
     public $tiempoPreparacion;
+    public $borrado;
 
     public function crearProducto()
     {   
         $this->ValidarProducto($this->nombre);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO productos (nombre, precio, sector, tiempoPreparacion) VALUES (:nombre, :precio, :sector, :tiempoPreparacion)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO productos (nombre, precio, sector, tiempoPreparacion, borrado) VALUES (:nombre, :precio, :sector, :tiempoPreparacion , :borrado)");
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
         $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoPreparacion', $this->tiempoPreparacion, PDO::PARAM_STR);
+        $consulta->bindValue(':borrado', false, PDO::PARAM_BOOL);
 
         $consulta->execute();
 

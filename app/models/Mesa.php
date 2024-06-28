@@ -7,6 +7,7 @@ class Mesa
     public $codigoPedido;
     public $usuarioEmpleadoMozo;
     public $fechaHoraIngresoMesa;
+    public $borrado;
 
     public function crearMesa()
     {
