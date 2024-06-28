@@ -48,27 +48,32 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"));
     $group->put('/{usuario}', \UsuarioController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("usuario"));
   })->add(new AuthMiddleware("Socio"));
+
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
     $group->get('/{producto}', \ProductoController::class . ':TraerUno');
     $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("producto"));
-  })->add(new AuthMiddleware());
+  })->add(new AuthMiddleware("Socio"));
+
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
     $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));
     $group->post('/{mesa}', \MesaController::class . ':CambiarEstado');
-  })->add(new AuthMiddleware());
+  })->add(new AuthMiddleware(["Socio", "Mozo"]));
+
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
     $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));
     $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("cargarProducto"));
   })->add(new AuthMiddleware());
+
 $app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
   $group->post('[/]', \PendienteController::class . ':CambiarEstado');
 })->add(new AuthMiddleware());
+
 $app->group('/csv', function (RouteCollectorProxy $group) {
   $group->get('/download/{tabla}', \CsvController::class . ':Descargarcsv');
   $group->post('/{tabla}', \CsvController::class . ':CargarCsvUsuarios');

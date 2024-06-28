@@ -63,7 +63,7 @@ class UsuarioController extends Usuario implements IApiUsable
     $putdata = file_get_contents('php://input');
     $params = json_decode($putdata, true);
 
-    $usuario = $params['usuario'];
+    $usuario = $args['usuario'];
     $clave = $params['clave'];
     $tipoUsuario = $params['tipoUsuario'];
     $sector = $params['sector'];

@@ -16,7 +16,7 @@ class AuthController
 
         $flag = 0;
         $tipoUsuario = "";
-
+        
         foreach ($lista as $value) {
             if ($usuario == $value->usuario && password_verify($clave, $value->clave)){
                 $flag++;

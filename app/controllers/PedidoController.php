@@ -80,7 +80,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         $parametros = $request->getParsedBody();
 
         $nombre = $parametros['nombre'];
-        Usuario::modificarUsuario($nombre);
+        Usuario::modificarUsuarioPorUsuario($nombre);
 
         $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
 
