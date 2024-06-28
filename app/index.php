@@ -24,6 +24,7 @@ require_once './controllers/PedidoController.php';
 require_once './controllers/PendienteController.php';
 require_once './controllers/AuthController.php';
 require_once './controllers/CsvController.php';
+require_once './controllers/ClienteController.php';
 
 require_once './middlewares/ValidadorPostMiddleware.php';
 require_once './middlewares/AuthMiddleware.php';
@@ -78,6 +79,11 @@ $app->group('/csv', function (RouteCollectorProxy $group) {
   $group->get('/download/{tabla}', \CsvController::class . ':Descargarcsv');
   $group->post('/{tabla}', \CsvController::class . ':CargarCsvUsuarios');
 })->add(new AuthMiddleware("Socio"));
+
+$app->group('/clientes', function (RouteCollectorProxy $group) {
+  $group->post('/encuesta/{pedido}', \ClienteController::class . ':CargarEncuesta');
+  $group->post('/{tabla}', \CsvController::class . ':CargarCsvUsuarios');
+});
 
 // JWT en login
 $app->group('/auth', function (RouteCollectorProxy $group) {
