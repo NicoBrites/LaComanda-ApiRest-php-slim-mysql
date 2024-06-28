@@ -14,35 +14,38 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         $header = $request->getHeaderLine('Authorization');
         $token = trim(explode("Bearer", $header)[1]);
         $credencial = AutentificadorJWT::ObtenerData($token);
-    
+        
+        if ($credencial->tipoUsuario == "Mozo"){
 
-        // Creamos el Pedido
-        $pedido = new Pedido();
-        $pedido->codigoMesa = $codigoMesa;
-        $pedido->usuario = $credencial->usuario;
-        $pedido->nombreCliente = $nombreCliente;
-       
-        $validacion =  $pedido->crearPedido();
-        if ($validacion == -1){ # VALIDACION EXISTENCIA DE MESA Y USUARIO
-            $payload = json_encode(array("mensaje" => "Error al cargar el pedido, revise los ids"));
-        } elseif  ($validacion != null){  # VALIDACION MESA LIBRE
-            $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
-        } else {
-            $payload = json_encode(array("mensaje" => "Error al cargar el pedido, la mesa esta ocupada"));
-        }
-
-        if ($_FILES['fotoPedido'] != null && $validacion != null)
-        {
-            try{
-                $destino = "./imagenesPedido/".$validacion .".PNG";
-                move_uploaded_file($_FILES["fotoPedido"]["tmp_name"], $destino);
+            // Creamos el Pedido
+            $pedido = new Pedido();
+            $pedido->codigoMesa = $codigoMesa;
+            $pedido->usuario = $credencial->usuario;
+            $pedido->nombreCliente = $nombreCliente;
+        
+            $validacion =  $pedido->crearPedido();
+            if ($validacion == -1){ # VALIDACION EXISTENCIA DE MESA Y USUARIO
+                $payload = json_encode(array("mensaje" => "Error al cargar el pedido, revise los ids"));
+            } elseif  ($validacion != null){  # VALIDACION MESA LIBRE
+                $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
+            } else {
+                $payload = json_encode(array("mensaje" => "Error al cargar el pedido, la mesa esta ocupada"));
             }
-            catch(Exception $exception)
+
+            if ($_FILES['fotoPedido'] != null && $validacion != null)
             {
-                echo "Error al subir la foto del pedido. error-> " . $exception;
+                try{
+                    $destino = "./imagenesPedido/".$validacion .".PNG";
+                    move_uploaded_file($_FILES["fotoPedido"]["tmp_name"], $destino);
+                }
+                catch(Exception $exception)
+                {
+                    echo "Error al subir la foto del pedido. error-> " . $exception;
+                }
             }
+        } else {
+            $payload = json_encode(array("Error" => "Solo los mozos pueden atender una mesa"));
         }
-
         $response->getBody()->write($payload);
         return $response
           ->withHeader('Content-Type', 'application/json');

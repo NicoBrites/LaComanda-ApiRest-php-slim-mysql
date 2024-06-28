@@ -17,8 +17,7 @@ class Pedido
     public function crearPedido()
     {
         $mesa = Mesa::obtenerMesa($this->codigoMesa);
-        $empleado = Usuario::obtenerUsuario($this->usuario); # esto se valida despues con el usuario que inicio sesion
-        if ($mesa != false && $empleado != false){ # VALIDACION MESA Y USUARIO EXISTAN
+        if ($mesa != false ){ # VALIDACION MESA Y USUARIO EXISTAN
             if ($mesa->estado == "cerrada"){ # VALIDACION MESA NO OCUPADA
                 $objAccesoDatos = AccesoDatos::obtenerInstancia();
                 $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (codigo, codigoMesa, usuario, nombreCliente, estado, horaIngreso, factura) VALUES (:codigo, :codigoMesa, :usuario, :nombreCliente, :estado, :horaIngreso, :factura )");
