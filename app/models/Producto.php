@@ -27,7 +27,8 @@ class Producto
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM productos");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM productos WHERE borrado = :borrado");
+        $consulta->bindValue(':borrado', false, PDO::PARAM_BOOL);
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
@@ -36,8 +37,9 @@ class Producto
     public static function obtenerProducto($id)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM productos WHERE id = :id");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM productos WHERE id = :id AND borrado = :borrado");
         $consulta->bindValue(':id', $id, PDO::PARAM_STR);
+        $consulta->bindValue(':borrado', false, PDO::PARAM_BOOL);
         $consulta->execute();
 
         return $consulta->fetchObject('Producto');
@@ -68,10 +70,9 @@ class Producto
     public static function borrarProducto($productoId)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fechaBaja = :fechaBaja WHERE id = :id");
-        $fecha = new DateTime(date("d-m-Y"));
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET borrado = :borrado WHERE id = :id");
         $consulta->bindValue(':id', $productoId, PDO::PARAM_INT);
-        $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
+        $consulta->bindValue(':borrado', true, PDO::PARAM_BOOL);
         $consulta->execute();
     }
 
