@@ -161,26 +161,15 @@ class Pedido
 
         return $consulta->fetchObject('Pedido');
     }
-    /*
-    public static function modificarProducto($producto)#FALTA
+ 
+    public static function cambiarEstadoPedido($codigoPedido, $estado)
     {
-        $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE productos SET nombre = :nombre, precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE id = :id");
-        $consulta->bindValue(':nombre', $producto->nombre, PDO::PARAM_STR);
-        $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
-        $consulta->bindValue(':tiempoPreparacion', $producto->tiempoPreparacion, PDO::PARAM_STR);
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET estado = :estado WHERE codigo = :codigo");
+        $consulta->bindValue(':codigo', $codigoPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $estado, PDO::PARAM_STR);
         $consulta->execute();
     }
-
-    public static function borrarProducto($productoId)#FALTA
-    {
-        $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET fechaBaja = :fechaBaja WHERE id = :id");
-        $fecha = new DateTime(date("d-m-Y"));
-        $consulta->bindValue(':id', $productoId, PDO::PARAM_INT);
-        $consulta->bindValue(':fechaBaja', date_format($fecha, 'Y-m-d H:i:s'));
-        $consulta->execute();
-    }*/
 
     function generarCodigoAlfanumerico($longitud = 5) {
         // Definir el conjunto de caracteres alfanuméricos

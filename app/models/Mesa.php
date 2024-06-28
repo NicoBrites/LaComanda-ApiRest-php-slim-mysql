@@ -1,4 +1,6 @@
 <?php
+
+require_once 'Pedido.php';
 class Mesa
 { 
     public $id;
@@ -117,6 +119,7 @@ class Mesa
                 $consulta->bindValue(':fechaHoraIngresoMesa', "", PDO::PARAM_STR);
                    
                 $consulta->execute();
+
 
                 return true;
 
