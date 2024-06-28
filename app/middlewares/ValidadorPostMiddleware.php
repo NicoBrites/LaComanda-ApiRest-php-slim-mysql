@@ -26,6 +26,8 @@ class ValidadorPostMiddleware {
             return $this->validarPostCargarPedido($request,  $handler);
         } elseif ($this->tipoValidador == "cargarCsv"){
             return $this->validarPostCargarCsv($request,  $handler);
+        } elseif ($this->tipoValidador == "encuesta"){
+            return $this->validarPostEncuesta($request,  $handler);
         }
     }
 
@@ -35,7 +37,8 @@ class ValidadorPostMiddleware {
     }
 
     private function validarEntero($cadena) {
-        return filter_var($cadena, FILTER_VALIDATE_INT) !== false;
+        $numero = filter_var($cadena, FILTER_VALIDATE_INT);
+        return $numero !== false && $numero > 0;
     }
 
 
@@ -59,7 +62,7 @@ class ValidadorPostMiddleware {
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
         }
         
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     private function validarPostProducto(Request $request, RequestHandler $handler) {
@@ -82,7 +85,7 @@ class ValidadorPostMiddleware {
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
         }
         
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     private function validarPostMesa(Request $request, RequestHandler $handler) {
@@ -107,7 +110,7 @@ class ValidadorPostMiddleware {
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
         }
         
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     private function validarPostPedido(Request $request, RequestHandler $handler) {
@@ -133,7 +136,7 @@ class ValidadorPostMiddleware {
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
         }
         
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     private function validarPostCargarPedido(Request $request, RequestHandler $handler) {
@@ -158,7 +161,7 @@ class ValidadorPostMiddleware {
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
         }
         
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
    
     private function validarPostCargarCsv(Request $request, RequestHandler $handler) {
@@ -181,7 +184,7 @@ class ValidadorPostMiddleware {
             }
         }
 
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     private function validarPutUsuario(Request $request, RequestHandler $handler) {
@@ -210,7 +213,45 @@ class ValidadorPostMiddleware {
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
         }
         
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function validarPostEncuesta(Request $request, RequestHandler $handler) {
+        $params = $request->getParsedBody();
+
+        if(isset($params["puntajeMesa"],$params["puntajeRestaurante"],$params["puntajeMozo"],$params["puntajeCocinero"],$params["textoExperiencia"])){
+               
+           
+            if ($this->validarEntero($params["puntajeMesa"]) && $this->validarEntero($params["puntajeRestaurante"]) 
+            && $this->validarEntero($params["puntajeMozo"]) && $this->validarEntero($params["puntajeCocinero"]) 
+            && is_string($params["textoExperiencia"])) {
+
+                if ($params["puntajeMesa"]< 11 && $params["puntajeRestaurante"]< 11 && $params["puntajeMozo"]< 11 &&
+                $params["puntajeCocinero"]< 11 && strlen($params["textoExperiencia"])< 67) {
+
+                    $response = $handler->handle($request); 
+
+                } else {
+
+                    $response = new Response();
+                    $response->getBody()->write(json_encode(array("error" => "Te excediste del valor maximo")));
+    
+                }
+
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+
+            }
+        
+
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
     }
    
 }
