@@ -120,6 +120,7 @@ class Mesa
                    
                 $consulta->execute();
 
+                Pedido::cambiarEstadoPedido($mesa->codigoPedido, "cerrado");
 
                 return true;
 
@@ -136,6 +137,8 @@ class Mesa
 
                     $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
                     $consulta->bindValue(':estado', "con cliente comiendo", PDO::PARAM_STR);
+
+                    Pedido::cambiarEstadoPedido($mesa->codigoPedido, "servido");
 
                 } else if ($mesa->estado == "con cliente comiendo"){
 
