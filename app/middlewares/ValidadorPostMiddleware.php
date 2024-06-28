@@ -14,6 +14,8 @@ class ValidadorPostMiddleware {
     public function __invoke(Request $request, RequestHandler $handler) {
         if ($this->tipoValidador == "usuario"){
             return $this->validarPostUsuario($request,  $handler);
+        } elseif ($this->tipoValidador == "modificarUsuario"){
+            return $this->validarPutUsuario($request,  $handler);
         } elseif ($this->tipoValidador == "producto"){
             return $this->validarPostProducto($request,  $handler);
         } elseif ($this->tipoValidador == "mesa"){
@@ -179,6 +181,35 @@ class ValidadorPostMiddleware {
             }
         }
 
+        return $response;
+    }
+
+    private function validarPutUsuario(Request $request, RequestHandler $handler) {
+        $putdata = file_get_contents('php://input');
+        $params = json_decode($putdata, true);      
+
+        if(isset($params["usuario"],$params["clave"],$params["tipoUsuario"],$params["sector"])){
+            
+            $tipoUsuarios = ["Socio", "Mozo","Bartender","Cocinero","Cervecero"];
+            $sectores = ["Mesas", "Barra", "Cocina", "Choepras"];
+           
+            if (is_string($params["idProducto"]) && is_string($params["clave"]) &&
+                in_array($params["sector"],$sectores) && in_array($params["tipoUsuario"],$tipoUsuarios)) {
+
+                $response = $handler->handle($request); 
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+
+            }
+        
+
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
         return $response;
     }
    

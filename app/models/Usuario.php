@@ -52,20 +52,7 @@ class Usuario
         return $consulta->fetchObject('Usuario');
     }
 
-    public static function modificarUsuario($usuario)
-    {
-        $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave, tipoUsuario = :tipoUsuario, sector = :sector  WHERE id = :id");
-        $claveHash = crypt($usuario->clave, "akhsdgkals");
-
-        $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
-        $consulta->bindValue(':clave', $claveHash, PDO::PARAM_STR);
-        $consulta->bindValue(':id', $usuario->id, PDO::PARAM_INT);
-        $consulta->bindValue(':tipoUsuario', $usuario->tipoUsuario, PDO::PARAM_STR);
-        $consulta->bindValue(':sector', $usuario->sector, PDO::PARAM_STR);
-        $consulta->execute();
-    }
-
+    
     public static function modificarUsuarioPorUsuario($usuario)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();

@@ -62,7 +62,7 @@ class Mesa
         return $consulta->fetchObject('Mesa');
     }
     
-    public static function modificarMesa($mesa)#FALTA
+    public static function modificarMesa($mesa)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET nombre = :nombre, precio = :precio, tiempoPreparacion = :tiempoPreparacion WHERE id = :id");
@@ -74,7 +74,7 @@ class Mesa
         $consulta->execute();
     }
 
-    public static function borrarMesa($mesaId)#FALTA
+    public static function borrarMesa($mesaId)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET borrado = :borrado WHERE id = :id");

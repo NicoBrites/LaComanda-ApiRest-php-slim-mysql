@@ -58,15 +58,31 @@ class UsuarioController extends Usuario implements IApiUsable
       ->withHeader('Content-Type', 'application/json');
   }
   
-  public function ModificarUno($request, $response, $args) # FALTA
+  public function ModificarUno($request, $response, $args) 
   {
-    $parametros = $request->getParsedBody();
+    $putdata = file_get_contents('php://input');
+    $params = json_decode($putdata, true);
 
-    $nombre = $parametros['nombre'];
-    Usuario::modificarUsuario($nombre);
+    $usuario = $params['usuario'];
+    $clave = $params['clave'];
+    $tipoUsuario = $params['tipoUsuario'];
+    $sector = $params['sector'];
 
-    $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
+    $usuarioModif = new Usuario();
+    $usuarioModif->usuario = $usuario;
+    $usuarioModif->clave = $clave;
+    $usuarioModif->tipoUsuario = $tipoUsuario;
+    $usuarioModif->sector = $sector;
+    try{
+        Usuario::modificarUsuarioPorUsuario($usuarioModif);
 
+        $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
+        
+    } catch (Exception $e) {
+
+        $payload = json_encode(array("Error" => $e->getMessage()));
+
+    }
     $response->getBody()->write($payload);
     return $response
       ->withHeader('Content-Type', 'application/json');
