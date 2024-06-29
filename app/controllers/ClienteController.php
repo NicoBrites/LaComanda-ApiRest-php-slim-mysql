@@ -24,6 +24,7 @@ class ClienteController
             
                 // Creamos el usuario
                 $enc = new Encuesta();
+                $enc->codigoPedido = $pedido;
                 $enc->puntajeMesa = $puntajeMesa;
                 $enc->puntajeRestaurante = $puntajeRestaurante;
                 $enc->puntajeMozo = $puntajeMozo;
@@ -35,9 +36,13 @@ class ClienteController
                     $enc->crearEncuesta();
                     $payload = json_encode(array("mensaje" => "Encuesta cargada con exito"));
             
-                } catch (UsuarioYaEnUsoException $e) {
+                } catch (EncuestaYaRealizadaException $e) {
             
-                    $payload = json_encode(array("mensaje" => $e->getMessage()));
+                    $payload = json_encode(array("Error" => $e->getMessage()));
+            
+                } catch (Exception $e) {
+            
+                    $payload = json_encode(array("Error" => $e->getMessage()));
             
                 }
             } else {
