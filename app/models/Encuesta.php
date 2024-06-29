@@ -12,7 +12,8 @@ class Encuesta
     public $textoExperiencia;
 
     public function crearEncuesta()
-    {
+    {   
+        $this->ValidarEncuesta($this->codigoPedido);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO encuestas (codigoPedido, puntajeMesa, puntajeRestaurante, puntajeMozo, puntajeCocinero, textoExperiencia) VALUES (:puntajeMesa, :puntajeRestaurante, :puntajeMozo, :puntajeCocinero, :textoExperiencia)");
         $consulta->bindValue(':codigoPedido', $this->codigoPedido, PDO::PARAM_STR);
