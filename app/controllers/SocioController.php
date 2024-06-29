@@ -15,4 +15,15 @@ class SocioController
 
     }
 
+    public function MesaMasUsada($request, $response, $args)
+    {
+        $mesa = Pedido::MesaMasUsada();
+        $payload = json_encode(array("Mesa mas usada" => $mesa));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+
+    }
+
 }

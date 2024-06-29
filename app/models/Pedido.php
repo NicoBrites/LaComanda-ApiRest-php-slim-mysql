@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Date;
-
+require_once 'Dto/MesaMasUsadaDto.php';
 require_once 'Pendiente.php';
 class Pedido
 {
@@ -182,5 +181,15 @@ class Pedido
         }
     
         return $codigo;
+    }
+
+    public static function MesaMasUsada()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT codigoMesa, COUNT(*) AS cantidadPedidos FROM pedidos
+        GROUP BY codigoMesa ORDER BY cantidadPedidos DESC LIMIT 1");
+        $consulta->execute();
+
+        return $consulta->fetchObject('MesaMasUsadaDto');
     }
 }

@@ -88,6 +88,7 @@ $app->group('/clientes', function (RouteCollectorProxy $group) {
 
 $app->group('/socios', function (RouteCollectorProxy $group) {
   $group->get('/mejoresComentarios', \SocioController::class . ':MejoresComentarios');
+  $group->get('/mesaMasUsada', \SocioController::class . ':MesaMasUsada');
 });
 
 // JWT en login
