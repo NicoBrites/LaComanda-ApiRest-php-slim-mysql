@@ -81,7 +81,7 @@ $app->group('/csv', function (RouteCollectorProxy $group) {
 })->add(new AuthMiddleware("Socio"));
 
 $app->group('/clientes', function (RouteCollectorProxy $group) {
-  $group->post('/encuesta/{pedido}', \ClienteController::class . ':CargarEncuesta')->add(new ValidadorPostMiddleware("encuesta"));
+  $group->post('/encuesta', \ClienteController::class . ':CargarEncuesta')->add(new ValidadorPostMiddleware("encuesta"));
   $group->post('/{tabla}', \CsvController::class . ':CargarCsvUsuarios');
 });
 
