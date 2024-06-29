@@ -219,12 +219,13 @@ class ValidadorPostMiddleware {
     private function validarPostEncuesta(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
-        if(isset($params["puntajeMesa"],$params["puntajeRestaurante"],$params["puntajeMozo"],$params["puntajeCocinero"],$params["textoExperiencia"])){
+        if(isset($params["puntajeMesa"],$params["puntajeRestaurante"],$params["puntajeMozo"],$params["puntajeCocinero"],$params["textoExperiencia"],
+        $params["mesa"],$params["pedido"])){
                
            
             if ($this->validarEntero($params["puntajeMesa"]) && $this->validarEntero($params["puntajeRestaurante"]) 
             && $this->validarEntero($params["puntajeMozo"]) && $this->validarEntero($params["puntajeCocinero"]) 
-            && is_string($params["textoExperiencia"])) {
+            && is_string($params["textoExperiencia"]) && is_string($params["mesa"]) && is_string($params["pedido"])) {
 
                 if ($params["puntajeMesa"]< 11 && $params["puntajeRestaurante"]< 11 && $params["puntajeMozo"]< 11 &&
                 $params["puntajeCocinero"]< 11 && strlen($params["textoExperiencia"])< 67) {
