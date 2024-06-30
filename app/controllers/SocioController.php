@@ -55,7 +55,7 @@ class SocioController
 
         if ($validacionUsuario != null ) {
 
-            if ($validacionUsuario->estaSuspendido == false) {
+            if (!$validacionUsuario->estaSuspendido) {
 
                 try {
                     Usuario::SuspenderUsuario($validacionUsuario->usuario, true);

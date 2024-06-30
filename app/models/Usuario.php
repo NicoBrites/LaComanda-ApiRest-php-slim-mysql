@@ -94,7 +94,7 @@ class Usuario
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET estaSuspendido = :estaSuspendido WHERE usuario = :usuario");
 
-        $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
+        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
         $consulta->bindValue(':estaSuspendido', $estaSuspendido, PDO::PARAM_BOOL);
 
         $consulta->execute();
