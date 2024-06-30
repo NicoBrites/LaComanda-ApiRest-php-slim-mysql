@@ -1,6 +1,7 @@
 <?php
 
 require_once './models/Encuesta.php';
+require_once './utils/PDFManager.php';
 
 class SocioController  
 {
@@ -24,6 +25,13 @@ class SocioController
         return $response
           ->withHeader('Content-Type', 'application/json');
 
+    }
+
+    public function CrearPdf($request, $response, $args)
+    {
+        
+        $prueba = PDFManager::CrearPdf();
+        
     }
 
 }
