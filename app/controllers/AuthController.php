@@ -22,14 +22,25 @@ class AuthController
                 $flag++;
                 $tipoUsuario = $value->tipoUsuario;
                 $sector = $value->sector;
+                $suspendido = $value->estaSuspendido;
+                $fechaBaja = $value->fechaBaja;
             }
         }
         
         if($flag == 1){ 
 
-            $datos = array('usuario' => $usuario, 'tipoUsuario' => $tipoUsuario, 'sector' => $sector);
-            $token = AutentificadorJWT::CrearToken($datos);
-            $payload = json_encode(array('jwt' => $token));
+            if($suspendido || $fechaBaja != null)
+            {
+
+                $payload = json_encode(array('No Autorizado' => 'Estas suspendido o dado de baja, no podes iniciar sesion'));
+            
+            } else {
+
+                $datos = array('usuario' => $usuario, 'tipoUsuario' => $tipoUsuario, 'sector' => $sector);
+                $token = AutentificadorJWT::CrearToken($datos);
+                $payload = json_encode(array('jwt' => $token));
+
+            }
 
         } else {
 
