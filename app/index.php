@@ -89,8 +89,8 @@ $app->group('/clientes', function (RouteCollectorProxy $group) {
 $app->group('/socios', function (RouteCollectorProxy $group) {
   $group->get('/mejoresComentarios', \SocioController::class . ':MejoresComentarios');
   $group->get('/mesaMasUsada', \SocioController::class . ':MesaMasUsada');
-  $group->get('/pruebaPDF', \SocioController::class . ':CrearPdf');
-  $group->post('/suspenderUsuario', \SocioController::class . ':SuspenderUsuario');
+  $group->post('/suspenderUsuario', \SocioController::class . ':SuspenderUsuario')->add(new ValidadorPostMiddleware("inputUsuario"));
+  $group->post('/historialDeLogueo', \SocioController::class . ':LogueoDeUsuariosEnPDF')->add(new ValidadorPostMiddleware("inputUsuario")); // PDF
 })->add(new AuthMiddleware("Socio"));
 
 

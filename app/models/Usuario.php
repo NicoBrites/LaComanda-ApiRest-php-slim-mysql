@@ -52,6 +52,15 @@ class Usuario
         return $consulta->fetchObject('Usuario');
     }
 
+    public static function obtenerUsuarioConBaja($usuario)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE usuario = :usuario");
+        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchObject('Usuario');
+    }
     
     public static function modificarUsuarioPorUsuario($usuario)
     {

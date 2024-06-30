@@ -5,6 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
+require_once './utils/ArchivosJson.php';
 
 class Logger implements MiddlewareInterface
 {
@@ -84,18 +85,20 @@ class Logger implements MiddlewareInterface
 
     private static function registrarInicioSecion($request, $response)
     {
+        
+        $logData = ArchivosJson::LeerJson("./logs/log_sesion.json");
 
-       // Datos para registrar en el log
-       $fecha = date('Y-m-d H:i:s');
-       $ipCliente = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del cliente
-       $responseBody = $response->getBody();
+        // Datos para registrar en el log
+        $fecha = date('Y-m-d H:i:s');
+        $ipCliente = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del cliente
+        $responseBody = $response->getBody();
 
-       $arrayResponse = json_decode($responseBody, true);
-       if (isset($arrayResponse['jwt'])){
+        $arrayResponse = json_decode($responseBody, true);
+        if (isset($arrayResponse['jwt'])){
 
-           $credencial = AutentificadorJWT::ObtenerData($arrayResponse['jwt']);
+            $credencial = AutentificadorJWT::ObtenerData($arrayResponse['jwt']);
 
-           $logData = [
+           $logData[] = [
             'fecha' => $fecha,
             'ip'=> $ipCliente,
             'usuario' => $credencial->usuario, // Datos del token de autenticación
@@ -103,31 +106,14 @@ class Logger implements MiddlewareInterface
 
         } else {
 
-            $logData = [
+            $logData[] = [
                 'fecha' => $fecha,
                 'ip'=> $ipCliente,
-                'respuesta' => (string)$responseBody
+                'usuario' => (string)$responseBody
             ];
         }
         
-        // Convertir a JSON
-        $logJson = json_encode($logData) . PHP_EOL;
+        ArchivosJson::GuardarJson("./logs/log_sesion.json",$logData);
 
-        // Ruta del archivo de log (ajusta la ruta y nombre de archivo según tu estructura)
-        $rutaArchivoLog = './logs/log_operaciones.json';
-
-        // Verificar si el archivo existe, si no existe, crearlo
-        if (!file_exists($rutaArchivoLog)) {
-            // Crea el archivo vacío
-            file_put_contents($rutaArchivoLog, '');
-        }
-
-        // Escribir en el archivo de log (agregar al final del archivo)
-        file_put_contents($rutaArchivoLog, $logJson, FILE_APPEND);
-
-    }
-    public static function isJson($string) {
-        json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE);
     }
 }

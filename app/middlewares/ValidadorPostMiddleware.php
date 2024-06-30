@@ -28,6 +28,8 @@ class ValidadorPostMiddleware {
             return $this->validarPostCargarCsv($request,  $handler);
         } elseif ($this->tipoValidador == "encuesta"){
             return $this->validarPostEncuesta($request,  $handler);
+        } elseif ($this->tipoValidador == "inputUsuario"){
+            return $this->validarInputUsuario($request,  $handler);
         }
     }
 
@@ -247,6 +249,28 @@ class ValidadorPostMiddleware {
             }
         
 
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function validarInputUsuario(Request $request, RequestHandler $handler) {
+        $params = $request->getParsedBody();
+
+        if(isset($params["usuario"])){
+                          
+            if (is_string($params["usuario"]) ) {
+
+                $response = $handler->handle($request); 
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+            }
+        
         } else {
             $response = new Response();
             $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));

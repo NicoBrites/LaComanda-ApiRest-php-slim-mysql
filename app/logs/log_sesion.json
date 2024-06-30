@@ -1,0 +1,52 @@
+[
+    {
+        "fecha": "2024-06-30 22:18:00",
+        "ip": "::1",
+        "usuario": "{\"error\":\"Usuario o contrase\\u00f1a incorrectos\"}"
+    },
+    {
+        "fecha": "2024-06-30 22:18:00",
+        "ip": "::1",
+        "usuario": "{\"error\":\"Usuario o contrase\\u00f1a incorrectos\"}"
+    },
+    {
+        "fecha": "2024-06-30 22:18:00",
+        "ip": "::1",
+        "usuario": "{\"error\":\"Usuario o contrase\\u00f1a incorrectos\"}"
+    },
+    {
+        "fecha": "2024-06-30 22:18:05",
+        "ip": "::1",
+        "usuario": "1"
+    },
+    {
+        "fecha": "2024-06-30 22:18:05",
+        "ip": "::1",
+        "usuario": "1"
+    },
+    {
+        "fecha": "2024-06-30 22:18:06",
+        "ip": "::1",
+        "usuario": "1"
+    },
+    {
+        "fecha": "2024-06-30 22:18:06",
+        "ip": "::1",
+        "usuario": "1"
+    },
+    {
+        "fecha": "2024-06-30 22:18:12",
+        "ip": "::1",
+        "usuario": "{\"No Autorizado\":\"Estas suspendido o dado de baja, no podes iniciar sesion\"}"
+    },
+    {
+        "fecha": "2024-06-30 22:18:13",
+        "ip": "::1",
+        "usuario": "{\"No Autorizado\":\"Estas suspendido o dado de baja, no podes iniciar sesion\"}"
+    },
+    {
+        "fecha": "2024-06-30 22:18:14",
+        "ip": "::1",
+        "usuario": "{\"No Autorizado\":\"Estas suspendido o dado de baja, no podes iniciar sesion\"}"
+    }
+]

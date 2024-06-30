@@ -27,7 +27,7 @@ class PDFManager{
         $pdf->Cell(0, 10, $titulo, 0, 1, 'C'); // 0 indica ancho automático, 1 indica salto de línea después
         
         $pdf->SetFont('Arial', '', 12);
-        $pdf->MultiCell(0, 10, $cuerpo, 0, 'C'); // 0 indica ancho automático, 'C' para centrar la alineación
+        $pdf->MultiCell(0, 10, $cuerpo, 0, 'L'); // 0 indica ancho automático, 'C' para centrar la alineación
 
         return $pdf;
     }
