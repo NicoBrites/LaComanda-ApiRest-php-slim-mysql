@@ -125,35 +125,5 @@ class SocioController
         ->withHeader('Content-Type', 'application/json');
     }
 
-    public function DarDeBajaUsuario($request, $response, $args)
-    {
-        
-        $parametros = $request->getParsedBody();
-            
-        $usuario = $parametros['usuario'];
-
-        $validacionUsuario = Usuario::obtenerUsuario($usuario); 
-
-        if ($validacionUsuario != null ) {
-
-            try {
-                Usuario::SuspenderUsuario($validacionUsuario->usuario, true);
-                $payload = json_encode(array("mensaje" =>"Usuario suspendido exitosamente"));
-            } catch (Exception $e) {
-
-                $payload = json_encode(array("error" => $e->getMessage()));
-            }          
-
-        } else {
-
-            $payload = json_encode(array("mensaje" => "No existe ese usuario o esta dado de baja"));
-
-        }
-    
-        $response->getBody()->write($payload);     
-        return $response
-              ->withHeader('Content-Type', 'application/json');
-
-
-    }
+   
 }

@@ -30,6 +30,8 @@ class ValidadorPostMiddleware {
             return $this->validarPostEncuesta($request,  $handler);
         } elseif ($this->tipoValidador == "inputUsuario"){
             return $this->validarInputUsuario($request,  $handler);
+        } elseif ($this->tipoValidador == "inputUsuarioDel"){
+            return $this->validarInputUsuarioDel($request,  $handler);
         }
     }
 
@@ -265,6 +267,32 @@ class ValidadorPostMiddleware {
             if (is_string($params["usuario"]) ) {
 
                 $response = $handler->handle($request); 
+
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+            }
+        
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+   
+    private function validarInputUsuarioDel(Request $request, RequestHandler $handler) {
+
+        $putdata = file_get_contents('php://input');
+        $params = json_decode($putdata, true);
+
+        if(isset($params["usuario"])){
+                          
+            if (is_string($params["usuario"]) ) {
+
+                $response = $handler->handle($request); 
+
             } else {
 
                 $response = new Response();

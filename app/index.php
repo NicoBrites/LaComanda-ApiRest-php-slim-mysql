@@ -49,6 +49,7 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
     $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"));
     $group->put('/{usuario}', \UsuarioController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("usuario"));
+    $group->delete('[/]', \UsuarioController::class . ':BorrarUno')->add(new ValidadorPostMiddleware("inputUsuarioDel"));
   })->add(new AuthMiddleware("Socio"));
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
