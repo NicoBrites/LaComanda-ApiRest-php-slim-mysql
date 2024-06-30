@@ -29,9 +29,18 @@ class SocioController
 
     public function CrearPdf($request, $response, $args)
     {
+        $titulo = 'prueba';
+
+        $pdf = PDFManager::CrearPdf($titulo, ' pruebita aver');
         
-        $prueba = PDFManager::CrearPdf();
-        
+        // Obtener el contenido del PDF como una cadena
+        $pdfOutput = $pdf->Output('S');
+
+        // Escribir el contenido del PDF en el cuerpo de la respuesta
+        $response->getBody()->write($pdfOutput);
+
+        return $response->withHeader('Content-Type', 'application/pdf')
+                        ->withHeader('Content-Disposition', 'attachment; filename="' . $titulo . '.pdf"');
     }
 
 }

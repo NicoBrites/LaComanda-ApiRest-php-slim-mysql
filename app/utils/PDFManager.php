@@ -1,30 +1,42 @@
 <?php
 
 require '../vendor/autoload.php';
+require_once 'PDF.php';
 
 class PDFManager{
 
-    public static function CrearPdf(){
+    public static function CrearPdf($titulo, $cuerpo){
 
-        // Crear una instancia de FPDF
-        $pdf = new FPDF();
-        $pdf->AddPage(); // Agregar una página
 
-        // Establecer fuente
-        $pdf->SetFont('Arial', 'B', 16);
+        $pdf = new PDF();
+        $pdf->setWatermark('./img/loguitoo.png'); // Establece la marca de agua
+        $pdf->AddPage(); 
 
-        // Agregar un título
-        $pdf->Cell(40, 10, '¡Hola, Mundo!');
+        // Suponiendo que $pdf es tu instancia de FPDF
 
-        // Agregar más contenido
+        // Configuración de la posición y el tamaño del texto
+        $pdf->SetY(10); // Posición vertical (10 mm desde el borde superior)
+        $pdf->SetX(10); // Posición horizontal (10 mm desde el borde izquierdo)
+        $pdf->SetFont('Arial', '', 9 ); // Fuente Arial, tamaño 10
+
+        // Obtener la fecha de hoy
+        $hoy = date('d/m/Y');
+
+        // Texto a mostrar (fecha y lugar)
+        $texto = "Fecha: $hoy | Lugar: Lo mas recondito de PHP Docs";
+
+        // Dibujar el texto
+        $pdf->Cell(0, 10, $texto, 0, 2, 'L'); // 0 indica ancho automático, 1 indica salto de línea después, 'L' para alineación a la izquierda
+
+        $pdf->SetFont('Arial', 'BU', 16); // B para bold (negrita), U para underline (subrayado)
+        $pdf->Cell(0, 10, $titulo, 0, 1, 'C'); // 0 indica ancho automático, 1 indica salto de línea después
+        
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Ln(10); // Salto de línea
-        $pdf->Cell(40, 10, 'Este es un ejemplo de PDF generado con FPDF en PHP.');
+        $pdf->MultiCell(0, 10, $cuerpo, 0, 'C'); // 0 indica ancho automático, 'C' para centrar la alineación
 
-        // Salida del PDF al navegador
-        $pdf->Output('D', 'documento.pdf'); // El segundo parámetro 'I' significa "Inline", para mostrar en el navegador
+        //$pdf->Output('documento.pdf', 'D'); 
 
-        return true;
+        return $pdf;
     }
 
 }
