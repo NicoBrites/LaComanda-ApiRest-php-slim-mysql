@@ -83,14 +83,15 @@ $app->group('/csv', function (RouteCollectorProxy $group) {
 
 $app->group('/clientes', function (RouteCollectorProxy $group) {
   $group->post('/encuesta', \ClienteController::class . ':CargarEncuesta')->add(new ValidadorPostMiddleware("encuesta"));
-  $group->post('/{tabla}', \CsvController::class . ':CargarCsvUsuarios');
+  $group->post('/demora', \ClienteController::class . ':DEMORA ME FALTAAAAAAA');//------------------------------------------------------------
 });
 
 $app->group('/socios', function (RouteCollectorProxy $group) {
   $group->get('/mejoresComentarios', \SocioController::class . ':MejoresComentarios');
   $group->get('/mesaMasUsada', \SocioController::class . ':MesaMasUsada');
   $group->get('/pruebaPDF', \SocioController::class . ':CrearPdf');
-});
+  $group->post('/suspenderUsuario', \SocioController::class . ':SuspenderUsuario');
+})->add(new AuthMiddleware("Socio"));
 
 // JWT en login
 $app->group('/auth', function (RouteCollectorProxy $group) {

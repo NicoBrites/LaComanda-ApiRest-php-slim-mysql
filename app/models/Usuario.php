@@ -45,7 +45,7 @@ class Usuario
     public static function obtenerUsuario($usuario)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE usuario = :usuario WHERE fechaBaja IS NULL");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM usuarios WHERE usuario = :usuario AND fechaBaja IS NULL");
         $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
         $consulta->execute();
 
@@ -88,5 +88,16 @@ class Usuario
         }
 
     } 
+
+    public static function SuspenderUsuario($usuario, $estaSuspendido)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET estaSuspendido = :estaSuspendido WHERE usuario = :usuario");
+
+        $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
+        $consulta->bindValue(':estaSuspendido', $estaSuspendido, PDO::PARAM_BOOL);
+
+        $consulta->execute();
+    }
 
 }
