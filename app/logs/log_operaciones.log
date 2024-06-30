@@ -1,0 +1,10 @@
+2024-06-30 20:17:29 - IP: ::1 - Método: POST - Ruta: /auth/login - Código: 200
+Respuesta: {"No Autorizado":"Estas suspendido o dado de baja, no podes iniciar sesion"}
+2024-06-30 20:18:29 - IP: ::1 - Método: POST - Ruta: /auth/login - Código: 200
+Respuesta: {"jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTk3NzE1MDksImV4cCI6MTcxOTgzMTUwOSwiYXVkIjoiZDI3MjBhYmY4NjczMTUzNTI4OGQ4MWVkZTVmMTc2Yzg2ZmY1NGFkMiIsImRhdGEiOnsidXN1YXJpbyI6IjEiLCJ0aXBvVXN1YXJpbyI6IlNvY2lvIiwic2VjdG9yIjoiTWVzYXMifX0.0UcoT6Td5ISPddtRgCR9NCQxhJDuAGG-Spbvbppn8gQ"}
+2024-06-30 20:21:53 - IP: ::1 - Método: POST - Ruta: /auth/login - Código: 200
+Respuesta: {"jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTk3NzE3MTMsImV4cCI6MTcxOTgzMTcxMywiYXVkIjoiZDI3MjBhYmY4NjczMTUzNTI4OGQ4MWVkZTVmMTc2Yzg2ZmY1NGFkMiIsImRhdGEiOnsidXN1YXJpbyI6IjEiLCJ0aXBvVXN1YXJpbyI6IlNvY2lvIiwic2VjdG9yIjoiTWVzYXMifX0.OqrMdkNXhx-Ygnca7-EL85V4teU5CCo1NOm5aEJYKmk"}
+2024-06-30 20:22:41 - IP: ::1 - Método: POST - Ruta: /auth/login - Código: 200
+Respuesta: {"error":"Usuario o contrase\u00f1a incorrectos"}
+2024-06-30 20:23:46 - IP: ::1 - Método: POST - Ruta: /auth/login - Código: 200
+Respuesta: {"error":"Usuario o contrase\u00f1a incorrectos"}

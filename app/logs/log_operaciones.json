@@ -1,0 +1,8 @@
+{"fecha":"2024-06-30 20:17:29","ip":"::1","respuesta":"{\"No Autorizado\":\"Estas suspendido o dado de baja, no podes iniciar sesion\"}"}
+{"fecha":"2024-06-30 20:18:29","ip":"::1","respuesta":"{\"jwt\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTk3NzE1MDksImV4cCI6MTcxOTgzMTUwOSwiYXVkIjoiZDI3MjBhYmY4NjczMTUzNTI4OGQ4MWVkZTVmMTc2Yzg2ZmY1NGFkMiIsImRhdGEiOnsidXN1YXJpbyI6IjEiLCJ0aXBvVXN1YXJpbyI6IlNvY2lvIiwic2VjdG9yIjoiTWVzYXMifX0.0UcoT6Td5ISPddtRgCR9NCQxhJDuAGG-Spbvbppn8gQ\"}"}
+{"fecha":"2024-06-30 20:21:53","ip":"::1","usuario":"1","respuesta":{}}
+{"fecha":"2024-06-30 20:22:41","ip":"::1","respuesta":{}}
+{"fecha":"2024-06-30 20:23:46","ip":"::1","respuesta":"{\"error\":\"Usuario o contrase\\u00f1a incorrectos\"}"}
+{"fecha":"2024-06-30 20:25:07","ip":"::1","respuesta":"{\"error\":\"Usuario o contrase\\u00f1a incorrectos\"}"}
+{"fecha":"2024-06-30 20:25:38","ip":"::1","respuesta":"{\"No Autorizado\":\"Estas suspendido o dado de baja, no podes iniciar sesion\"}"}
+{"fecha":"2024-06-30 20:26:08","ip":"::1","usuario":"1"}

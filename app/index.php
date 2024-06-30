@@ -15,7 +15,7 @@ use Slim\Routing\RouteContext;
 require __DIR__ . '/../vendor/autoload.php';
 
 require_once './db/AccesoDatos.php';
-// require_once './middlewares/Logger.php';
+require_once './middlewares/Logger.php';
 
 require_once './controllers/UsuarioController.php';
 require_once './controllers/ProductoController.php';
@@ -93,9 +93,10 @@ $app->group('/socios', function (RouteCollectorProxy $group) {
   $group->post('/suspenderUsuario', \SocioController::class . ':SuspenderUsuario');
 })->add(new AuthMiddleware("Socio"));
 
+
 // JWT en login
 $app->group('/auth', function (RouteCollectorProxy $group) {
-  $group->post('/login', \AuthController::class . ':Login');
+  $group->post('/login', \AuthController::class . ':Login') ->add(new Logger("Login"));
 });
 $app->get('[/]', function ($request, $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));
