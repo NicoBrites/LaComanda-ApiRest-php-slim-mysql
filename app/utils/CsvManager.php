@@ -123,34 +123,35 @@ class CsvManager{
         fgetcsv($handle, 1000, ",");
 
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $nombre = $data[0];
-            $precio = $data[1];
-            $sector = $data[2];
-            $tiempoPreparacion = $data[3];
+            if (count($data) >= 4) {
+                $nombre = $data[0];
+                $precio = $data[1];
+                $sector = $data[2];
+                $tiempoPreparacion = $data[3];
 
 
-            $validador = CsvManager::ValidarProductoCsv($nombre,$precio,$sector,$tiempoPreparacion);
+                $validador = CsvManager::ValidarProductoCsv($nombre,$precio,$sector,$tiempoPreparacion);
 
-            if ($validador){
-                $prod = new Producto();
-                $prod->nombre = $nombre;
-                $prod->precio = $precio;
-                $prod->sector = $sector;
-                $prod->tiempoPreparacion = $tiempoPreparacion;
-                try {
+                if ($validador){
+                    $prod = new Producto();
+                    $prod->nombre = $nombre;
+                    $prod->precio = $precio;
+                    $prod->sector = $sector;
+                    $prod->tiempoPreparacion = $tiempoPreparacion;
+                    try {
 
-                    $prod->crearProducto();
-            
-                } catch (NombreYaEnUsoException $e) {
+                        $prod->crearProducto();
+                
+                    } catch (NombreYaEnUsoException $e) {
 
-                    $prod->modificarProductoPorNombre($prod);    
+                        $prod->modificarProductoPorNombre($prod);    
 
-                } catch (Exception $e){
+                    } catch (Exception $e){
 
-                    throw new Exception($e->getMessage());
-                }
-            } 
-
+                        throw new Exception($e->getMessage());
+                    }
+                } 
+            }
         }
 
         fclose($handle);
