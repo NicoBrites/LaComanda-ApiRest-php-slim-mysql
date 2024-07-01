@@ -73,7 +73,7 @@ class Pedido
     
             $consulta->execute();
             
-            $pedido->SumarFactura($prod->precio);
+            Pedido::SumarFactura($pedido, $prod->precio);
 
             return $objAccesoDatos->obtenerUltimoId();
         }else {
@@ -119,14 +119,14 @@ class Pedido
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
     }
 
-    public function SumarFactura($saldo){
+    private static function SumarFactura($pedido, $saldo){
 
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET factura = :factura WHERE codigo = :codigo");
 
-        $facturaSumada = (int)$this->factura + (int)$saldo;
+        $facturaSumada = (int)$pedido->factura + (int)$saldo;
 
-        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':codigo', $pedido->codigo, PDO::PARAM_STR);
         $consulta->bindValue(':factura', $facturaSumada, PDO::PARAM_INT);
         $consulta->execute();
 
