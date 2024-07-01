@@ -204,5 +204,17 @@
         "parametros": {
             "producto": 5
         }
+    },
+    {
+        "fecha": "2024-07-01 05:23:30",
+        "ip": "::1",
+        "metodo": "DELETE",
+        "ruta": "\/mesas\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Mesa borrada con exito",
+        "parametros": {
+            "mesa": "xoK1z"
+        }
     }
 ]

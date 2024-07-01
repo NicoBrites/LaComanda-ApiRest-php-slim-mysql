@@ -77,12 +77,12 @@ class Mesa
         $consulta->execute();
     }
 
-    public static function borrarMesa($mesaId)
+    public static function borrarMesa($mesa)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET borrado = :borrado WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET borrado = :borrado WHERE codigo = :codigo");
 
-        $consulta->bindValue(':id', $mesaId, PDO::PARAM_INT);
+        $consulta->bindValue(':codigo', $mesa, PDO::PARAM_INT);
         $consulta->bindValue(':borrado', true, PDO::PARAM_BOOL);
         $consulta->execute();
     }
