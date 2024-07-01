@@ -122,8 +122,6 @@ class Mesa
 
                 Pedido::cambiarEstadoPedido($mesa->codigoPedido, "cerrado");
 
-                return true;
-
                 } else {
                     return -3;
                 }

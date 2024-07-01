@@ -118,5 +118,65 @@
         "usuario": "cervecera",
         "respuesta": "Exito! Pendiente cambiado de estado",
         "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 16:58:41",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "cervecera",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 16:59:58",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "Carlitos23",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 17:00:02",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "Carlitos23",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 17:00:04",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "Carlitos23",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 17:01:17",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/RqYEH",
+        "codigo": 200,
+        "usuario": "moza",
+        "respuesta": "Estado de la mesa cambiado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 17:02:08",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/RqYEH",
+        "codigo": 200,
+        "usuario": "moza",
+        "respuesta": "Estado de la mesa cambiado",
+        "parametros": "\"\""
     }
 ]
