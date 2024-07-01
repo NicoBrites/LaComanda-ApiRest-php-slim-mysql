@@ -49,17 +49,15 @@ class ValidadorPostMiddleware {
 
 
     private function validarPostUsuario(Request $request, RequestHandler $handler) {
-        $params = $request->getParsedBody();
+        $params = $request->getParsedBody();     
 
-        
-
-        if(isset($params["usuario"], $params["clave"],$params["tipoUsuario"], $params["nombreSector"])){
+        if(isset($params["usuario"], $params["clave"],$params["tipoUsuario"], $params["sector"])){
                                
             $listaUsuarios = ['Socio', 'Mozo', 'Cocinero', 'Bartender', 'Cervecero'];
             $listaSector = ['Mesas','Cocina','Barra','Choperas'];
 
             if (is_string($params["usuario"]) && is_string($params["clave"]) && 
-                in_array($params["tipoUsuario"],$listaUsuarios) && in_array($params["nombreSector"],$listaSector)) {
+                in_array($params["tipoUsuario"],$listaUsuarios) && in_array($params["sector"],$listaSector)) {
 
                 $response = $handler->handle($request); 
             } else {

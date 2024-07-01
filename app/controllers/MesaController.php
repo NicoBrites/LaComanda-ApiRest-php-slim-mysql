@@ -92,24 +92,24 @@ class MesaController extends Mesa implements IApiUsable
 
           if ($validador == -1){
 
-            $payload = json_encode(array('mensaje' => 'ERROR: No existe esa mesa'));
+            $payload = json_encode(array('error' => 'No existe esa mesa'));
 
           } else if ($validador == -2) {
       
-            $payload = json_encode(array('mensaje' => 'ERROR! No sos el Mozo que abrio maneja esa mesa'));
+            $payload = json_encode(array('error' => 'No sos el Mozo que abrio maneja esa mesa'));
       
           } else if ($validador == -3) {
       
-            $payload = json_encode(array('mensaje' => 'ERROR! Solo el socio puede cerrar la mesa'));
+            $payload = json_encode(array('error' => 'Solo el socio puede cerrar la mesa'));
       
           } else {
       
-            $payload = json_encode(array('mensaje' => 'Exito! Estado de la mesa cambiado'));
+            $payload = json_encode(array('error' => 'Estado de la mesa cambiado'));
       
           }
   
         } catch (Exception $e) {
-          $payload = json_encode(array('Error' => $e->getMessage()));
+          $payload = json_encode(array('error' => $e->getMessage()));
         }
         
         $response->getBody()->write($payload);

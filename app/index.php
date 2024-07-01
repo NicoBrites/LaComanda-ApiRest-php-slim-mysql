@@ -47,9 +47,9 @@ $app->addBodyParsingMiddleware();
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
-    $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"))->add(new Logger("Login"));
-    $group->put('/{usuario}', \UsuarioController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("usuario"))->add(new Logger("Login"));
-    $group->delete('[/]', \UsuarioController::class . ':BorrarUno')->add(new ValidadorPostMiddleware("inputUsuarioDel"))->add(new Logger("Login"));
+    $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"))->add(new Logger());
+    $group->put('/{usuario}', \UsuarioController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("usuario"))->add(new Logger());
+    $group->delete('[/]', \UsuarioController::class . ':BorrarUno')->add(new ValidadorPostMiddleware("inputUsuarioDel"))->add(new Logger());
   })->add(new AuthMiddleware("Socio"));
 
 $app->group('/productos', function (RouteCollectorProxy $group) {

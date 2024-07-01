@@ -48,5 +48,10 @@
         "fecha": "2024-06-30 22:18:14",
         "ip": "::1",
         "usuario": "{\"No Autorizado\":\"Estas suspendido o dado de baja, no podes iniciar sesion\"}"
+    },
+    {
+        "fecha": "2024-07-01 02:52:10",
+        "ip": "::1",
+        "usuario": "1"
     }
 ]

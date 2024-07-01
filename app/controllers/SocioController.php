@@ -110,13 +110,13 @@ class SocioController
 
             } else {
 
-                $payload = json_encode(array("Error" =>"Error al leer el log"));
+                $payload = json_encode(array("error" =>"Error al leer el log"));
 
             }
          
         } else {
 
-            $payload = json_encode(array("Error" =>"Ese usuario no existe"));
+            $payload = json_encode(array("error" =>"Ese usuario no existe"));
         }
 
     

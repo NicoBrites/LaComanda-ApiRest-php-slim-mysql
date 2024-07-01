@@ -18,15 +18,15 @@ class PendienteController extends Pendiente implements IPendiente
 
     if ($pendiente === -1){
 
-      $payload = json_encode(array('mensaje' => 'ERROR: Este usuario no estaba preparando el pedido'));
+      $payload = json_encode(array('error' => 'Este usuario no estaba preparando el pedido'));
 
     } elseif ($pendiente === -2 ) {
 
-      $payload = json_encode(array('mensaje' => 'ERROR: Este producto pendiente no pertenece a tu sector'));
+      $payload = json_encode(array('error' => 'Este producto pendiente no pertenece a tu sector'));
 
     } else if ($pendiente === null ) {
 
-      $payload = json_encode(array('mensaje' => 'ERROR: No existe ese producto pendiente'));
+      $payload = json_encode(array('error' => 'No existe ese producto pendiente'));
 
     } else if ($pendiente === true) {
 

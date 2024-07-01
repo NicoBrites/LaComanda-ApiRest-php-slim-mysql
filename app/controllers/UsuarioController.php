@@ -27,7 +27,7 @@ class UsuarioController extends Usuario implements IApiUsable
 
     } catch (UsuarioYaEnUsoException $e) {
 
-      $payload = json_encode(array("mensaje" => $e->getMessage()));
+      $payload = json_encode(array("error" => $e->getMessage()));
 
     }
 
@@ -80,7 +80,7 @@ class UsuarioController extends Usuario implements IApiUsable
         
     } catch (Exception $e) {
 
-        $payload = json_encode(array("Error" => $e->getMessage()));
+        $payload = json_encode(array("error" => $e->getMessage()));
 
     }
     $response->getBody()->write($payload);
@@ -101,7 +101,7 @@ class UsuarioController extends Usuario implements IApiUsable
 
     } else {
 
-      $payload = json_encode(array("mensaje" => "No existe ese usuario"));
+      $payload = json_encode(array("error" => "No existe ese usuario"));
 
     }
     $response->getBody()->write($payload);

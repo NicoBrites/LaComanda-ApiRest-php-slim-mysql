@@ -1,0 +1,10 @@
+[
+    {
+        "fecha": "2024-07-01 02:54:32",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/usuarios\/",
+        "codigo": 200,
+        "respuesta": "{\"mensaje\":\"El usuario ya esta en uso\"}"
+    }
+]

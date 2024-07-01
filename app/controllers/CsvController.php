@@ -16,11 +16,11 @@ class CsvController
             if ($bool){
                 $response->getBody()->write(json_encode(["message" => "Datos de $tabla importados exitosamente."]));    
             } else {
-                $response->getBody()->write(json_encode(["Error" => "Datos de $tabla no se pudieron importar"]));    
+                $response->getBody()->write(json_encode(["error" => "Datos de $tabla no se pudieron importar"]));    
             }    
         } catch (Exception $e) {
 
-            $response->getBody()->write(json_encode(["Error" => $e->getMessage()]));
+            $response->getBody()->write(json_encode(["error" => $e->getMessage()]));
         }
 
 
@@ -64,7 +64,7 @@ class CsvController
 
         } catch (Exception $e){
 
-            $response->getBody()->write(json_encode(["Error" => $e->getMessage()]));           
+            $response->getBody()->write(json_encode(["error" => $e->getMessage()]));           
 
         }
         
