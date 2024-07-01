@@ -37,7 +37,7 @@ class Pedido
         
                 $consulta->execute();
                 
-                $mesa->cargarPedido($codigo,$this->usuario,date_format($fecha, 'Y-m-d H:i:s'));
+                $mesa->cargarPedido($codigo,$this->usuario,date_format($fecha, 'Y-m-d H:i:s')); // ESTO EXISTE ?
                 
 
                 return $codigo;
@@ -78,7 +78,7 @@ class Pedido
             if ($pedido->tiempoDemora <= $prod->tiempoPreparacion){
                 Pedido::AgregarTiempoDemora($pedido, $prod->tiempoPreparacion);
             }
-            
+
             return $objAccesoDatos->obtenerUltimoId();
         }else {
             return null;
@@ -193,7 +193,7 @@ class Pedido
     public static function MesaMasUsada()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT codigoMesa, COUNT(*) AS cantidadPedidos FROM pedidos
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, codigoMesa, COUNT(*) AS cantidadPedidos FROM pedidos
         GROUP BY codigoMesa ORDER BY cantidadPedidos DESC LIMIT 1");
         $consulta->execute();
 
