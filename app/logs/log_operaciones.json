@@ -28,9 +28,49 @@
         "fecha": "2024-07-01 03:08:46",
         "ip": "::1",
         "metodo": "POST",
-        "ruta": {},
+        "ruta": [],
         "codigo": 200,
         "usuario": "1",
         "respuesta": "Usuario creado con exito"
+    },
+    {
+        "fecha": "2024-07-01 04:30:31",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario modificado con exito"
+    },
+    {
+        "fecha": "2024-07-01 04:32:29",
+        "ip": "::1",
+        "metodo": "DELETE",
+        "ruta": "\/usuarios\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario borrado con exito"
+    },
+    {
+        "fecha": "2024-07-01 04:34:47",
+        "ip": "::1",
+        "metodo": "DELETE",
+        "ruta": "\/usuarios\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario borrado con exito",
+        "parametros": "{\r\n    \"usuario\" : \"Carlitos234\"\r\n}"
+    },
+    {
+        "fecha": "2024-07-01 04:36:34",
+        "ip": "::1",
+        "metodo": "DELETE",
+        "ruta": "\/usuarios\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario borrado con exito",
+        "parametros": {
+            "usuario": "Carlitos234"
+        }
     }
 ]

@@ -78,22 +78,10 @@ class Logger implements MiddlewareInterface
         $ruta = $request->getUri()->getPath(); // Ruta de la solicitud
         $codigoRespuesta = $response->getStatusCode(); // Código de estado HTTP de la respuesta
 
+        $request = $request->getBody();
+        $arrayRequest = json_decode($request, true);
 
-        if (isset($arrayResponse['mensaje'])){ 
-
-            $logData[] = [
-                'fecha' => $fecha,
-                'ip'=> $ipCliente,
-                'metodo' => $metodo, 
-                'ruta' => $ruta,
-                'codigo' => $codigoRespuesta,
-                'usuario' => $credencial->usuario,
-                'respuesta' => $arrayResponse['mensaje']
-            ];
-
-            ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
-
-        } else {
+        if (isset($arrayResponse['error'])){ 
 
             $logData = ArchivosJson::LeerJson("./logs/log_errores.json");  
 
@@ -104,10 +92,27 @@ class Logger implements MiddlewareInterface
                 'ruta' => $ruta,
                 'codigo' => $codigoRespuesta,
                 'usuario' => $credencial->usuario,
-                'respuesta' => $arrayResponse['error']
+                'respuesta' => $arrayResponse['error'],
+                'parametros' => $request
             ];
 
             ArchivosJson::GuardarJson("./logs/log_errores.json",$logData);
+            
+
+        } else {
+
+            $logData[] = [
+                'fecha' => $fecha,
+                'ip'=> $ipCliente,
+                'metodo' => $metodo, 
+                'ruta' => $ruta,
+                'codigo' => $codigoRespuesta,
+                'usuario' => $credencial->usuario,
+                'respuesta' => $arrayResponse['mensaje'],
+                'parametros' => $arrayRequest
+            ];
+
+            ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
 
         }
 
