@@ -36,7 +36,7 @@ class Encuesta
     public static function obtenerMejoresComentarios()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT textoExperiencia, codigoPedido, fecha,(puntajeMesa + puntajeRestaurante + puntajeMozo + puntajeCocinero) / 5.0 
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT textoExperiencia, codigoPedido, fecha,(puntajeMesa + puntajeRestaurante + puntajeMozo + puntajeCocinero) / 4.0 
         AS promedioPuntajes FROM encuestas ORDER BY promedioPuntajes DESC LIMIT 3");
         $consulta->execute();
 
