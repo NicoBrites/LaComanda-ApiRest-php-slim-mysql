@@ -5,6 +5,7 @@ require_once 'Dto/EncuestaMejoresComentariosDto.php';
 
 class Encuesta
 { 
+    public $id;
     public $codigoPedido;
     public $puntajeMesa;
     public $puntajeRestaurante;
