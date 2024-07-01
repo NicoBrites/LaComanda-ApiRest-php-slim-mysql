@@ -41,7 +41,7 @@ class Logger implements MiddlewareInterface
         $retorno = $next($request, $response);
         
         // Registrar la operación en el log
-        self::registrarEnLog($request, $response);
+        self::RegistrarOperaciones($request, $response);
 
         // Devolver el resultado de la operación principal
         return $retorno;
@@ -53,16 +53,16 @@ class Logger implements MiddlewareInterface
         $retorno = $next($request, $response);
         
         // Registrar la operación en el log
-        self::registrarInicioSecion($request, $response);
+        self::RegistrarInicioSecion($request, $response);
 
         // Devolver el resultado de la operación principal
         return $retorno;
     }
 
-    private static function registrarEnLog($request, $response)
+    private static function RegistrarOperaciones($request, $response)
     {
+        $logData = ArchivosJson::LeerJson("./logs/log_operaciones.json");  
 
-        
         // Datos para registrar en el log
         $fecha = date('Y-m-d H:i:s');
         $ipCliente = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del cliente
@@ -72,18 +72,20 @@ class Logger implements MiddlewareInterface
 
         $responseBody = (string) $response->getBody();
 
-        // Mensaje a registrar en el log
-        $mensaje = "$fecha - IP: $ipCliente - Método: $metodo - Ruta: $ruta - Código: $codigoRespuesta" . PHP_EOL;
-        $mensaje .= "Respuesta: $responseBody" . PHP_EOL;
+        $logData[] = [
+            'fecha' => $fecha,
+            'ip'=> $ipCliente,
+            'metodo' => $metodo, // Datos del token de autenticación
+            'ruta' => $ruta,
+            'codigo' => $codigoRespuesta,
+            'respuesta' => $responseBody
+        ];
 
-        // Ruta del archivo de log (ajusta la ruta y nombre de archivo según tu estructura)
-        $rutaArchivoLog = './logs/log_operaciones.log';
 
-        // Escribir en el archivo de log (agregar al final del archivo)
-        file_put_contents($rutaArchivoLog, $mensaje, FILE_APPEND);
+        ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
     }
 
-    private static function registrarInicioSecion($request, $response)
+    private static function RegistrarInicioSecion($request, $response)
     {
         
         $logData = ArchivosJson::LeerJson("./logs/log_sesion.json");

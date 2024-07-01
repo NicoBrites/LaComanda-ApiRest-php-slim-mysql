@@ -51,10 +51,15 @@ class ValidadorPostMiddleware {
     private function validarPostUsuario(Request $request, RequestHandler $handler) {
         $params = $request->getParsedBody();
 
+        
+
         if(isset($params["usuario"], $params["clave"],$params["tipoUsuario"], $params["nombreSector"])){
-                          
+                               
+            $listaUsuarios = ['Socio', 'Mozo', 'Cocinero', 'Bartender', 'Cervecero'];
+            $listaSector = ['Mesas','Cocina','Barra','Choperas'];
+
             if (is_string($params["usuario"]) && is_string($params["clave"]) && 
-                is_string($params["tipoUsuario"]) && is_string($params["nombreSector"])) {
+                in_array($params["tipoUsuario"],$listaUsuarios) && in_array($params["nombreSector"],$listaSector)) {
 
                 $response = $handler->handle($request); 
             } else {
@@ -76,9 +81,10 @@ class ValidadorPostMiddleware {
 
         if(isset($params["nombre"], $params["precio"],$params["tiempoPreparacion"],$params["sector"])){
 
-          
+            $listaSector = ['Mesas','Cocina','Barra','Choperas'];
+
             if (is_string($params["nombre"]) && $this->validarEntero($params["precio"]) && 
-            $this->validarHorario($params["tiempoPreparacion"]) && is_string($params["sector"])) {
+            $this->validarHorario($params["tiempoPreparacion"]) && in_array($params["nombreSector"],$listaSector)) {
                 
                 $response = $handler->handle($request); 
             } else {
@@ -200,7 +206,7 @@ class ValidadorPostMiddleware {
         if(isset($params["usuario"],$params["clave"],$params["tipoUsuario"],$params["sector"])){
             
             $tipoUsuarios = ["Socio", "Mozo","Bartender","Cocinero","Cervecero"];
-            $sectores = ["Mesas", "Barra", "Cocina", "Choepras"];
+            $sectores = ["Mesas", "Barra", "Cocina", "Choperas"];
            
             if (is_string($params["idProducto"]) && is_string($params["clave"]) &&
                 in_array($params["sector"],$sectores) && in_array($params["tipoUsuario"],$tipoUsuarios)) {
