@@ -136,5 +136,61 @@ class SocioController
           ->withHeader('Content-Type', 'application/json');
 
     }
+
+    public function CantidadDeOperacionesPorSector($request, $response, $args)
+    {
+                
+            
+        $logData = ArchivosJson::LeerJson('./logs/log_operaciones.json');
+
+        if ($logData !== null){
+            $cocina = 0;
+            $mesas = 0;
+            $barra = 0;
+            $choperas = 0;
+
+            foreach($logData as $array =>$dato ){ 
+
+                $usu = Usuario::obtenerUsuario($dato['usuario']);
+
+                if ($usu->sector == "Cocina"){
+
+                   $cocina += 1;
+                }    
+                if ($usu->sector == "Barra"){
+
+                    $barra += 1;
+                }  
+                if ($usu->sector == "Mesas"){
+
+                    $mesas += 1;
+                }  
+                if ($usu->sector == "Choperas"){
+                    $choperas += 1;
+                }   
+
+            }
+
+            $logDataReturn[] = [
+                'OperacionesCocina' => $cocina,
+                'OperacionesMesas'=> $mesas,
+                'OperacionesBarra' => $barra, 
+                'OperacionesChoperas' => $choperas,
+            ];
+
+
+            $payload = json_encode($logDataReturn);
+
+            $response->getBody()->write($payload);
+            return $response
+                ->withHeader('Content-Type', 'application/json');
+
+        } else {
+
+            $payload = json_encode(array("error" =>"Error al leer el log"));
+
+        }
+
+    }
    
 }

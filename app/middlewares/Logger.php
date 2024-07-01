@@ -112,6 +112,7 @@ class Logger implements MiddlewareInterface
                     'ruta' => $ruta,
                     'codigo' => $codigoRespuesta,
                     'usuario' => $credencial->usuario,
+                    'sector' => $credencial->sector,
                     'respuesta' => $arrayResponse['mensaje'],
                     'parametros' => $arrayRequest
                 ];
