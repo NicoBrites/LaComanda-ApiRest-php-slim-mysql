@@ -11,6 +11,7 @@ class Pedido
     public $nombreCliente;
     public $estado;
     public $horaIngreso;
+    public $tiempoDemora;
     public $factura;
 
     public function crearPedido()
@@ -74,6 +75,9 @@ class Pedido
             $consulta->execute();
             
             Pedido::SumarFactura($pedido, $prod->precio);
+            if ($pedido->tiempoDemora <= $prod->tiempoPreparacion){
+                Pedido::AgregarTiempoDemora($pedido, $prod->tiempoPreparacion);
+            }
 
             return $objAccesoDatos->obtenerUltimoId();
         }else {
@@ -132,15 +136,17 @@ class Pedido
 
     }
 
-    public static function CalcularDemora($codigoPedido){
+    private static function AgregarTiempoDemora($pedido, $tiempoDemora){
 
-        $pendientes = Pedido::listarPedidosEstadoPorPedido($codigoPedido);
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET tiempoDemora = :tiempoDemora WHERE codigo = :codigo");
 
+        $consulta->bindValue(':codigo', $pedido->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempoDemora', $tiempoDemora, PDO::PARAM_INT);
+        $consulta->execute();
 
-
-
-        
     }
+
 
     public static function obtenerTodos()
     {

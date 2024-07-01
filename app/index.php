@@ -30,6 +30,7 @@ require_once './controllers/SocioController.php';
 require_once './middlewares/ValidadorPostMiddleware.php';
 require_once './middlewares/AuthMiddleware.php';
 
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 // Load ENV
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
