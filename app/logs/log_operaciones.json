@@ -216,5 +216,55 @@
         "parametros": {
             "mesa": "xoK1z"
         }
+    },
+    {
+        "fecha": "2024-07-01 05:27:07",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Mesa creada con exito",
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 05:38:09",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pedidos\/kg9mm",
+        "codigo": 200,
+        "usuario": "Carlitos2",
+        "respuesta": "Producto cargado al pedido con exito",
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 05:49:13",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pedidos\/z6iUf",
+        "codigo": 200,
+        "usuario": "Carlitos2",
+        "respuesta": "Producto cargado al pedido con exito",
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 05:49:14",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pedidos\/z6iUf",
+        "codigo": 200,
+        "usuario": "Carlitos2",
+        "respuesta": "Producto cargado al pedido con exito",
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 05:49:15",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pedidos\/z6iUf",
+        "codigo": 200,
+        "usuario": "Carlitos2",
+        "respuesta": "Producto cargado al pedido con exito",
+        "parametros": null
     }
 ]

@@ -71,13 +71,13 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{pedido}', \PedidoController::class . ':TraerUno');
-    $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"));
-    $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("cargarProducto"));
+    $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("pedido"))->add(new Logger());
+    $group->post('/{pedido}', \PedidoController::class . ':CargarProductos')->add(new ValidadorPostMiddleware("cargarProducto"))->add(new Logger());
   })->add(new AuthMiddleware());
 
 $app->group('/pendientes', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController::class . ':TraerTodosPedidosEstado');
-  $group->post('[/]', \PendienteController::class . ':CambiarEstado');
+  $group->post('[/]', \PendienteController::class . ':CambiarEstado')->add(new Logger());
 })->add(new AuthMiddleware());
 
 $app->group('/csv', function (RouteCollectorProxy $group) {

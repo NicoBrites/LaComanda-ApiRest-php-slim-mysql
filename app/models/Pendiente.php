@@ -23,11 +23,10 @@ class Pendiente
 
                     $producto = Producto::obtenerProducto($pendiente->idProducto);
 
-                    $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario, tiempoDemora = :tiempoDemora WHERE id = :id");
+                    $consulta = $objAccesoDato->prepararConsulta("UPDATE pendientes SET estado = :estado, usuario = :usuario WHERE id = :id");
                     $consulta->bindValue(':id', $id, PDO::PARAM_STR);
                     $consulta->bindValue(':estado', "en preparacion", PDO::PARAM_STR);
                     $consulta->bindValue(':usuario', $credencial->usuario, PDO::PARAM_STR);
-                    $consulta->bindValue(':tiempoDemora', $producto->tiempoPreparacion, PDO::PARAM_STR);
 
                     $consulta->execute();
 

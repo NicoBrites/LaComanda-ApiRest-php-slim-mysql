@@ -1,6 +1,7 @@
 <?php
 
 require_once './models/Encuesta.php';
+require_once './models/Pendiente.php';
 
 class ClienteController  
 {
@@ -87,15 +88,13 @@ class ClienteController
             if ($validacionMesa->codigoPedido == $pedido){
 
                 $listaPendientes = Pendiente::obtenerPendientePorPedido($pedido);
-
                 $demora = 0;
-
                 foreach ($listaPendientes as $value) {
-                    if ($value->tiempoDemora > $demora){
+
+                    if ($value->tiempoDemora >= $demora){
                        
                         $demora = $value->tiempoDemora;
                         $ingreso = $value->fechaHoraIngreso;
-
                     }
                 }    
                 

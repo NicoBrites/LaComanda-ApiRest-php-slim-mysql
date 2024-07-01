@@ -59,7 +59,7 @@ class Pedido
         if ($prod != false && $pedido != false){ # VALIDACION DE PRODUCTO EXISTE
 
             $objAccesoDatos = AccesoDatos::obtenerInstancia();
-            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, sector, fechaHoraIngreso) VALUES (:idPedido, :idProducto, :estado, :sector, :fechaHoraIngreso)");
+            $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pendientes (codigoPedido, idProducto, estado, sector, fechaHoraIngreso, tiempoDemora) VALUES (:idPedido, :idProducto, :estado, :sector, :fechaHoraIngreso, :tiempoDemora)");
             
             $consulta->bindValue(':idPedido', $pedido->codigo, PDO::PARAM_STR);
             $consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
@@ -67,6 +67,7 @@ class Pedido
             $consulta->bindValue(':sector', $prod->sector, PDO::PARAM_STR);
             $fecha = new DateTime();
             $consulta->bindValue(':fechaHoraIngreso', date_format($fecha, 'Y-m-d H:i:s') , PDO::PARAM_STR);
+            $consulta->bindValue(':tiempoDemora', $prod->tiempoPreparacion, PDO::PARAM_STR);
     
             // AGREGA LOGICA DE FOTO
     
