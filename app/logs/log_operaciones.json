@@ -1,270 +1,82 @@
 [
     {
-        "fecha": "2024-07-01 02:54:32",
+        "fecha": "2024-07-01 05:59:55",
         "ip": "::1",
         "metodo": "POST",
-        "ruta": "\/usuarios\/",
+        "ruta": "\/pendientes\/",
         "codigo": 200,
-        "respuesta": "{\"mensaje\":\"El usuario ya esta en uso\"}"
+        "usuario": "Carlitos23",
+        "respuesta": "ERROR: No existe ese producto pendiente",
+        "parametros": []
     },
     {
-        "fecha": "2024-07-01 03:01:20",
+        "fecha": "2024-07-01 06:01:19",
         "ip": "::1",
         "metodo": "POST",
-        "ruta": "\/usuarios\/",
-        "codigo": 200,
-        "respuesta": "{\"error\":\"El usuario ya esta en uso\"}"
-    },
-    {
-        "fecha": "2024-07-01 03:06:09",
-        "ip": "::1",
-        "metodo": "POST",
-        "ruta": "\/usuarios\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario creado con exito"
-    },
-    {
-        "fecha": "2024-07-01 03:08:46",
-        "ip": "::1",
-        "metodo": "POST",
-        "ruta": [],
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario creado con exito"
-    },
-    {
-        "fecha": "2024-07-01 04:30:31",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/usuarios\/Carlitos23",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario modificado con exito"
-    },
-    {
-        "fecha": "2024-07-01 04:32:29",
-        "ip": "::1",
-        "metodo": "DELETE",
-        "ruta": "\/usuarios\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario borrado con exito"
-    },
-    {
-        "fecha": "2024-07-01 04:34:47",
-        "ip": "::1",
-        "metodo": "DELETE",
-        "ruta": "\/usuarios\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario borrado con exito",
-        "parametros": "{\r\n    \"usuario\" : \"Carlitos234\"\r\n}"
-    },
-    {
-        "fecha": "2024-07-01 04:36:34",
-        "ip": "::1",
-        "metodo": "DELETE",
-        "ruta": "\/usuarios\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario borrado con exito",
-        "parametros": {
-            "usuario": "Carlitos234"
-        }
-    },
-    {
-        "fecha": "2024-07-01 04:39:11",
-        "ip": "::1",
-        "metodo": "GET",
-        "ruta": "\/productos\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": null,
-        "parametros": null
-    },
-    {
-        "fecha": "2024-07-01 04:40:34",
-        "ip": "::1",
-        "metodo": "GET",
-        "ruta": "\/productos\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": null,
-        "parametros": null
-    },
-    {
-        "fecha": "2024-07-01 04:40:36",
-        "ip": "::1",
-        "metodo": "GET",
-        "ruta": "\/productos\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": null,
-        "parametros": null
-    },
-    {
-        "fecha": "2024-07-01 04:48:07",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/usuarios\/Carlitos23",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario modificado con exito",
-        "parametros": {
-            "usuario": "123",
-            "clave": "Carlitos234",
-            "tipoUsuario": "Cocinero",
-            "sector": "Cocina"
-        }
-    },
-    {
-        "fecha": "2024-07-01 04:50:20",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/usuarios\/Carlitos23",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario modificado con exito",
-        "parametros": {
-            "usuario": "123",
-            "clave": "Carlitos234",
-            "tipoUsuario": "Cocinero",
-            "sector": "Cocina"
-        }
-    },
-    {
-        "fecha": "2024-07-01 04:50:42",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/usuarios\/Carlitos23",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Usuario modificado con exito",
-        "parametros": {
-            "usuario": "123",
-            "clave": "Carlitos234",
-            "tipoUsuario": "Cocinero",
-            "sector": "Cocina"
-        }
-    },
-    {
-        "fecha": "2024-07-01 04:51:15",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/usuarios\/Carlitos123123",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "No se encontro el usuario",
-        "parametros": {
-            "usuario": "123",
-            "clave": "Carlitos234",
-            "tipoUsuario": "Cocinero",
-            "sector": "Cocina"
-        }
-    },
-    {
-        "fecha": "2024-07-01 04:59:17",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/productos\/5",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "No se encontro el producto a modificar",
-        "parametros": {
-            "nombre": "panchito",
-            "precio": 2000,
-            "tiempoDemora": "00:05:00",
-            "sector": "Cocina"
-        }
-    },
-    {
-        "fecha": "2024-07-01 05:02:39",
-        "ip": "::1",
-        "metodo": "PUT",
-        "ruta": "\/productos\/5",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Producto modificado con exito",
-        "parametros": {
-            "nombre": "panchito",
-            "precio": 2000,
-            "tiempoPreparacion": "00:05:00",
-            "sector": "Cocina"
-        }
-    },
-    {
-        "fecha": "2024-07-01 05:08:56",
-        "ip": "::1",
-        "metodo": "DELETE",
-        "ruta": "\/productos\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Producto borrado con exito",
-        "parametros": {
-            "producto": 5
-        }
-    },
-    {
-        "fecha": "2024-07-01 05:23:30",
-        "ip": "::1",
-        "metodo": "DELETE",
-        "ruta": "\/mesas\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Mesa borrada con exito",
-        "parametros": {
-            "mesa": "xoK1z"
-        }
-    },
-    {
-        "fecha": "2024-07-01 05:27:07",
-        "ip": "::1",
-        "metodo": "POST",
-        "ruta": "\/mesas\/",
-        "codigo": 200,
-        "usuario": "1",
-        "respuesta": "Mesa creada con exito",
-        "parametros": null
-    },
-    {
-        "fecha": "2024-07-01 05:38:09",
-        "ip": "::1",
-        "metodo": "POST",
-        "ruta": "\/pedidos\/kg9mm",
+        "ruta": "\/mesas\/RqYEH",
         "codigo": 200,
         "usuario": "Carlitos2",
-        "respuesta": "Producto cargado al pedido con exito",
-        "parametros": null
+        "respuesta": "Estado de la mesa cambiado",
+        "parametros": "\"\""
     },
     {
-        "fecha": "2024-07-01 05:49:13",
+        "fecha": "2024-07-01 06:01:21",
         "ip": "::1",
         "metodo": "POST",
-        "ruta": "\/pedidos\/z6iUf",
+        "ruta": "\/mesas\/RqYEHaa",
         "codigo": 200,
         "usuario": "Carlitos2",
-        "respuesta": "Producto cargado al pedido con exito",
-        "parametros": null
+        "respuesta": "ERROR: No existe esa mesa",
+        "parametros": "\"\""
     },
     {
-        "fecha": "2024-07-01 05:49:14",
+        "fecha": "2024-07-01 06:01:33",
         "ip": "::1",
         "metodo": "POST",
-        "ruta": "\/pedidos\/z6iUf",
+        "ruta": "\/mesas\/RqYEH",
         "codigo": 200,
         "usuario": "Carlitos2",
-        "respuesta": "Producto cargado al pedido con exito",
-        "parametros": null
+        "respuesta": "Estado de la mesa cambiado",
+        "parametros": "\"\""
     },
     {
-        "fecha": "2024-07-01 05:49:15",
+        "fecha": "2024-07-01 06:04:13",
         "ip": "::1",
         "metodo": "POST",
-        "ruta": "\/pedidos\/z6iUf",
+        "ruta": "\/mesas\/RqYEH",
         "codigo": 200,
         "usuario": "Carlitos2",
-        "respuesta": "Producto cargado al pedido con exito",
-        "parametros": null
+        "respuesta": "ERROR: Solo el socio puede cerrar la mesa",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 06:04:25",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/RqYEH",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "ERROR: No existe esa mesa",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 06:05:41",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/RqYEH",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "ERROR: No sos el Mozo que abrio maneja esa mesa",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 06:06:01",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/RqYEH",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "ERROR: No sos el Mozo que abrio maneja esa mesa",
+        "parametros": "\"\""
     }
 ]

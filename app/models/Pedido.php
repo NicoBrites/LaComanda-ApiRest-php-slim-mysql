@@ -119,7 +119,7 @@ class Pedido
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
     }
 
-    private function SumarFactura($saldo){
+    public function SumarFactura($saldo){
 
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE pedidos SET factura = :factura WHERE codigo = :codigo");

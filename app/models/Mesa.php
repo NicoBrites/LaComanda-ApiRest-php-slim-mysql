@@ -107,8 +107,8 @@ class Mesa
         $mesa = Mesa::obtenerMesa($codigo);
         if ($mesa != false){
             $objAccesoDato = AccesoDatos::obtenerInstancia();
-            if ($mesa->estado == "con cliente pagando" ){
-                if ($credencial->tipoUsuario == "Socio"){
+            if ($mesa->estado === "con cliente pagando" ){
+                if ($credencial->tipoUsuario === "Socio"){
                 
                 $consulta = $objAccesoDato->prepararConsulta("UPDATE mesas SET estado = :estado, codigoPedido = :codigoPedido, usuarioEmpleadoMozo = :usuarioEmpleadoMozo, fechaHoraIngresoMesa = :fechaHoraIngresoMesa WHERE codigo = :codigo");
     

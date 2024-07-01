@@ -78,8 +78,8 @@ class Logger implements MiddlewareInterface
         $ruta = $request->getUri()->getPath(); // Ruta de la solicitud
         $codigoRespuesta = $response->getStatusCode(); // Código de estado HTTP de la respuesta
 
-        $request = $request->getBody();
-        $arrayRequest = json_decode($request, true);
+        $request =  (string )$request->getBody();
+        $arrayRequest = json_encode($request, true);
 
         if (isset($arrayResponse['error'])){ 
 
