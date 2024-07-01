@@ -63,8 +63,9 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':TraerTodos');
     $group->get('/{mesa}', \MesaController::class . ':TraerUno');
-    $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"));
-    $group->post('/{mesa}', \MesaController::class . ':CambiarEstado');
+    $group->post('[/]', \MesaController::class . ':CargarUno')->add(new ValidadorPostMiddleware("mesa"))->add(new Logger());
+    $group->post('/{mesa}', \MesaController::class . ':CambiarEstado')->add(new Logger());
+    $group->delete('[/]', \MesaController::class . ':BorrarUno')->add(new ValidadorPostMiddleware("inputMesaDel"))->add(new Logger());
   })->add(new AuthMiddleware());
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {

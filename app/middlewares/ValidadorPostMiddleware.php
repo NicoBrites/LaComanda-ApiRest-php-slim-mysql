@@ -38,7 +38,9 @@ class ValidadorPostMiddleware {
             return $this->validarPutProducto($request,  $handler);
         } elseif ($this->tipoValidador == "inputProductoDel"){
             return $this->validarInputProductoDel($request,  $handler);
-        }
+        } elseif ($this->tipoValidador == "inputMesaDel"){
+            return $this->validarInputMesaDel($request,  $handler);
+        } 
     }
 
     private function validarHorario($horario, $formato = 'H:i:s') {
@@ -376,6 +378,31 @@ class ValidadorPostMiddleware {
         if(isset($params["producto"])){
                           
             if ($this->validarEntero($params["producto"]) ) {
+
+                $response = $handler->handle($request); 
+
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+            }
+        
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function validarInputMesaDel(Request $request, RequestHandler $handler) {
+
+        $putdata = file_get_contents('php://input');
+        $params = json_decode($putdata, true);
+
+        if(isset($params["mesa"])){
+                          
+            if (is_string($params["mesa"]) ) {
 
                 $response = $handler->handle($request); 
 

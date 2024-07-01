@@ -85,6 +85,16 @@
         "codigo": 200,
         "usuario": "1",
         "respuesta": "Parametros incorrectos",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 05:20:51",
+        "ip": "::1",
+        "metodo": "DELETE",
+        "ruta": "\/mesas\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Parametros incorrectos",
         "parametros": {}
     }
 ]

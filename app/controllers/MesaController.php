@@ -2,7 +2,7 @@
 require_once './models/Mesa.php';
 require_once './interfaces/IApiUsable.php';
 
-class MesaController extends Mesa implements IApiUsable
+class MesaController 
 {
     public function CargarUno($request, $response, $args)
     {
@@ -31,9 +31,13 @@ class MesaController extends Mesa implements IApiUsable
     public function TraerUno($request, $response, $args)
     {
         // Buscamos producto por nombre
-        $mesa = $args['mesa'];
-        $producto = Mesa::obtenerMesa($mesa);
-        $payload = json_encode($producto);
+        $mesaCodigo = $args['mesa'];
+        $mesa = Mesa::obtenerMesa($mesaCodigo);
+        if ($mesa) {
+          $payload = json_encode($mesa);
+        } else {
+          $payload = json_encode(array("mensaje" => "No se encontro la mesa"));
+        }
 
         $response->getBody()->write($payload);
         return $response
@@ -50,32 +54,31 @@ class MesaController extends Mesa implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
     
-    public function ModificarUno($request, $response, $args) # FALTA
+    public function ModificarUno($request, $response, $args) # no se puede modificar la mesa
     {
-        $parametros = $request->getParsedBody();
 
-        $nombre = $parametros['nombre'];
-        Usuario::modificarUsuarioPorUsuario($nombre);
-
-        $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
-
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
     }
 
     public function BorrarUno($request, $response, $args)
     {
-        $parametros = $request->getParsedBody();
-
-        $usuarioId = $parametros['usuarioId'];
-        Usuario::borrarUsuario($usuarioId);
-
-        $payload = json_encode(array("mensaje" => "Usuario borrado con exito"));
-
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+      $putdata = file_get_contents('php://input');
+      $params = json_decode($putdata, true);
+  
+      $mesa = $params['mesa'];
+      $validacion = Mesa::obtenerMesa($mesa);
+      if ($validacion){
+  
+        Mesa::borrarMesa($mesa);
+        $payload = json_encode(array("mensaje" => "Mesa borrada con exito"));
+  
+      } else {
+  
+        $payload = json_encode(array("mensaje" => "No existe esa mesa"));
+  
+      }
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
     }
 
     public function CambiarEstado($request, $response, $args)
