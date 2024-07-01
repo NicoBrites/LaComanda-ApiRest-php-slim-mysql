@@ -40,6 +40,8 @@ class ValidadorPostMiddleware {
             return $this->validarInputProductoDel($request,  $handler);
         } elseif ($this->tipoValidador == "inputMesaDel"){
             return $this->validarInputMesaDel($request,  $handler);
+        } elseif ($this->tipoValidador == "auth"){
+            return $this->validarAuth($request,  $handler);
         } 
     }
 
@@ -403,6 +405,30 @@ class ValidadorPostMiddleware {
         if(isset($params["mesa"])){
                           
             if (is_string($params["mesa"]) ) {
+
+                $response = $handler->handle($request); 
+
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+            }
+        
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function validarAuth(Request $request, RequestHandler $handler) {
+
+        $params = $request->getParsedBody();
+
+        if(isset($params["usuario"], $params['clave'])){
+                        
+            if (is_string($params["usuario"]) && is_string($params["clave"]) ) {
 
                 $response = $handler->handle($request); 
 

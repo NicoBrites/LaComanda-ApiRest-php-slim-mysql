@@ -91,15 +91,15 @@ class Pedido
 
         } else if ($tipoUsuario == "Cocinero") {
 
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Cocina'");
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Cocina' AND estado != 'listo para servir'");
 
         } else if ($tipoUsuario == "Bartender") {
 
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Barra'");
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Barra' AND estado != 'listo para servir'");
 
         } else if ($tipoUsuario == "Cervecero") {
 
-            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Choperas'");
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE sector = 'Choperas' AND estado != 'listo para servir'");
 
         } 
     

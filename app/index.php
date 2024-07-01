@@ -100,7 +100,7 @@ $app->group('/socios', function (RouteCollectorProxy $group) {
 
 // JWT en login
 $app->group('/auth', function (RouteCollectorProxy $group) {
-  $group->post('/login', \AuthController::class . ':Login') ->add(new Logger("Login"));
+  $group->post('/login', \AuthController::class . ':Login')->add(new ValidadorPostMiddleware("auth"))->add(new Logger("Login"));
 });
 $app->get('[/]', function ($request, $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));
