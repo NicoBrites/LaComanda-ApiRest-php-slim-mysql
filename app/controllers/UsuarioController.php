@@ -78,24 +78,32 @@ class UsuarioController extends Usuario implements IApiUsable
     $params = json_decode($putdata, true);
 
     $usuario = $args['usuario'];
-    $clave = $params['clave'];
-    $tipoUsuario = $params['tipoUsuario'];
-    $sector = $params['sector'];
+    
+    $validacion = Usuario::obtenerUsuario($usuario);
 
-    $usuarioModif = new Usuario();
-    $usuarioModif->usuario = $usuario;
-    $usuarioModif->clave = $clave;
-    $usuarioModif->tipoUsuario = $tipoUsuario;
-    $usuarioModif->sector = $sector;
-    try{
-        Usuario::modificarUsuarioPorUsuario($usuarioModif);
+    if ($validacion){
 
-        $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
-        
-    } catch (Exception $e) {
+      $clave = $params['clave'];
+      $tipoUsuario = $params['tipoUsuario'];
+      $sector = $params['sector'];
 
-        $payload = json_encode(array("error" => $e->getMessage()));
+      $usuarioModif = new Usuario();
+      $usuarioModif->usuario = $usuario;
+      $usuarioModif->clave = $clave;
+      $usuarioModif->tipoUsuario = $tipoUsuario;
+      $usuarioModif->sector = $sector;
+      try{
+          Usuario::modificarUsuarioPorUsuario($usuarioModif);
 
+          $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
+          
+      } catch (Exception $e) {
+
+          $payload = json_encode(array("error" => $e->getMessage()));
+
+      }
+    } else {
+      $payload = json_encode(array("mensaje" => "No se encontro el usuario"));
     }
     $response->getBody()->write($payload);
     return $response

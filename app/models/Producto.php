@@ -53,6 +53,7 @@ class Producto
         $consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
         $consulta->bindValue(':sector', $producto->sector, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoPreparacion', $producto->tiempoPreparacion, PDO::PARAM_STR);
+        $consulta->bindValue(':id', $producto->id, PDO::PARAM_INT);
         $consulta->execute();
     }
 

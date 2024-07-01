@@ -48,14 +48,14 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
     $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new ValidadorPostMiddleware("usuario"))->add(new Logger());
-    $group->put('/{usuario}', \UsuarioController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("usuario"))->add(new Logger());
+    $group->put('/{usuario}', \UsuarioController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("modificarUsuario"))->add(new Logger());
     $group->delete('[/]', \UsuarioController::class . ':BorrarUno')->add(new ValidadorPostMiddleware("inputUsuarioDel"))->add(new Logger());
   })->add(new AuthMiddleware("Socio"));
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
     $group->get('/{producto}', \ProductoController::class . ':TraerUno');
-    $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("producto"));
+    $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("producto"))->add(new Logger());
   })->add(new AuthMiddleware("Socio"));
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {

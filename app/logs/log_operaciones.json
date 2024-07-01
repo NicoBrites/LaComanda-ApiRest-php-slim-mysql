@@ -72,5 +72,95 @@
         "parametros": {
             "usuario": "Carlitos234"
         }
+    },
+    {
+        "fecha": "2024-07-01 04:39:11",
+        "ip": "::1",
+        "metodo": "GET",
+        "ruta": "\/productos\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": null,
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 04:40:34",
+        "ip": "::1",
+        "metodo": "GET",
+        "ruta": "\/productos\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": null,
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 04:40:36",
+        "ip": "::1",
+        "metodo": "GET",
+        "ruta": "\/productos\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": null,
+        "parametros": null
+    },
+    {
+        "fecha": "2024-07-01 04:48:07",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario modificado con exito",
+        "parametros": {
+            "usuario": "123",
+            "clave": "Carlitos234",
+            "tipoUsuario": "Cocinero",
+            "sector": "Cocina"
+        }
+    },
+    {
+        "fecha": "2024-07-01 04:50:20",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario modificado con exito",
+        "parametros": {
+            "usuario": "123",
+            "clave": "Carlitos234",
+            "tipoUsuario": "Cocinero",
+            "sector": "Cocina"
+        }
+    },
+    {
+        "fecha": "2024-07-01 04:50:42",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario modificado con exito",
+        "parametros": {
+            "usuario": "123",
+            "clave": "Carlitos234",
+            "tipoUsuario": "Cocinero",
+            "sector": "Cocina"
+        }
+    },
+    {
+        "fecha": "2024-07-01 04:51:15",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos123123",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "No se encontro el usuario",
+        "parametros": {
+            "usuario": "123",
+            "clave": "Carlitos234",
+            "tipoUsuario": "Cocinero",
+            "sector": "Cocina"
+        }
     }
 ]
