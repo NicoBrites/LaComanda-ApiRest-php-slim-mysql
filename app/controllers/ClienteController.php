@@ -42,7 +42,7 @@ class ClienteController
                 
                     } catch (EncuestaYaRealizadaException $e) {
                 
-                        $payload = json_encode(array("error" => $e->getMessage()));
+                        $payload = json_encode(array("mensaje" => $e->getMessage()));
                 
                     } catch (Exception $e) {
                 
@@ -51,19 +51,19 @@ class ClienteController
                     }
                 } else {
 
-                    $payload = json_encode(array("error" => "Todavia no se habilito la encuesta"));
+                    $payload = json_encode(array("mensaje" => "ERROR: Todavia no se habilito la encuesta"));
 
                 }  
 
             } else {
 
-                $payload = json_encode(array("error" => "Ese pedido no corresponde a esa mesa"));
+                $payload = json_encode(array("mensaje" => "ERROR: Ese pedido no corresponde a esa mesa"));
 
             }
 
         } else {
 
-            $payload = json_encode(array("Error" => "Error al ingresar el pedido o la mesa"));
+            $payload = json_encode(array("mensaje" => "ERROR: Error al ingresar el pedido o la mesa"));
 
         }
         
@@ -107,13 +107,13 @@ class ClienteController
 
             } else {
 
-                $payload = json_encode(array("error" => "Ese pedido no corresponde a esa mesa"));
+                $payload = json_encode(array("mensaje" => "ERROR: Ese pedido no corresponde a esa mesa"));
 
             }
 
         } else {
 
-            $payload = json_encode(array("error" => "Error al ingresar el pedido o la mesa"));
+            $payload = json_encode(array("mensaje" => "Error al ingresar el pedido o la mesa"));
 
         }
         

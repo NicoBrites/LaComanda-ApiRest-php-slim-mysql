@@ -116,7 +116,7 @@ class SocioController
          
         } else {
 
-            $payload = json_encode(array("error" =>"Ese usuario no existe"));
+            $payload = json_encode(array("mensaje" =>"Ese usuario no existe"));
         }
 
     

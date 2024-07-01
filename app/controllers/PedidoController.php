@@ -25,11 +25,11 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         
             $validacion =  $pedido->crearPedido();
             if ($validacion == -1){ # VALIDACION EXISTENCIA DE MESA Y USUARIO
-                $payload = json_encode(array("error" => "Error al cargar el pedido, revise los ids"));
+                $payload = json_encode(array("mensaje" => "Error al cargar el pedido, revise los ids"));
             } elseif  ($validacion != null){  # VALIDACION MESA LIBRE
                 $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
             } else {
-                $payload = json_encode(array("error" => "Error al cargar el pedido, la mesa esta ocupada"));
+                $payload = json_encode(array("mensaje" => "Error al cargar el pedido, la mesa esta ocupada"));
             }
 
             if ($_FILES['fotoPedido'] != null && $validacion != null)
@@ -44,7 +44,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
                 }
             }
         } else {
-            $payload = json_encode(array("error" => "Solo los mozos pueden atender una mesa"));
+            $payload = json_encode(array("mensaje" => "Solo los mozos pueden atender una mesa"));
         }
         $response->getBody()->write($payload);
         return $response
@@ -118,7 +118,7 @@ class PedidoController extends Pedido implements IApiUsable, IPedido
         if ($validacion != null){
             $payload = json_encode(array("mensaje" => "Producto cargado al pedido con exito"));
         } else {
-        $payload = json_encode(array("error" => "Error al cargar producto, revise los ids"));
+        $payload = json_encode(array("mensaje" => "Error al cargar producto, revise los ids"));
         }
 
         $response->getBody()->write($payload);

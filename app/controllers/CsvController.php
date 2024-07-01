@@ -58,7 +58,7 @@ class CsvController
                             
             } else {
 
-                $response->getBody()->write(json_encode(["error" => "No hay datos en la tabla $tabla. Revise el nombre de la tabla"]));
+                $response->getBody()->write(json_encode(["mensaje" => "No hay datos en la tabla $tabla. Revise el nombre de la tabla"]));
 
             }
 

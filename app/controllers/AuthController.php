@@ -44,7 +44,7 @@ class AuthController
 
         } else {
 
-            $payload = json_encode(array('error' => 'Usuario o contraseña incorrectos'));
+            $payload = json_encode(array('mensaje' => 'Usuario o contraseña incorrectos'));
         }
 
         $response->getBody()->write($payload);

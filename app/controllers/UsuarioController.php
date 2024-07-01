@@ -40,8 +40,18 @@ class UsuarioController extends Usuario implements IApiUsable
   {
     // Buscamos usuario por nombre
     $usr = $args['usuario'];
-    $usuario = Usuario::obtenerUsuario($usr);
-    $payload = json_encode($usuario);
+    try{
+      $usuario = Usuario::obtenerUsuario($usr);
+      if ($usuario){
+        $payload = json_encode($usuario);
+      } else {
+        $payload = json_encode(array("mensaje" => "No se encontro el usuario ingresado"));
+      }
+      
+    } catch (Exception $e) {
+
+      $payload = json_encode(array("error" => $e->getMessage()));
+    }
 
     $response->getBody()->write($payload);
     return $response
@@ -50,8 +60,12 @@ class UsuarioController extends Usuario implements IApiUsable
 
   public function TraerTodos($request, $response, $args)
   {
-    $lista = Usuario::obtenerTodos();
-    $payload = json_encode(array("listaUsuario" => $lista));
+    try {
+      $lista = Usuario::obtenerTodos();
+      $payload = json_encode(array("listaUsuario" => $lista));
+    } catch (Exception $e){
+      $payload = json_encode(array("error" => $e->getMessage()));
+    }
 
     $response->getBody()->write($payload);
     return $response
@@ -101,7 +115,7 @@ class UsuarioController extends Usuario implements IApiUsable
 
     } else {
 
-      $payload = json_encode(array("error" => "No existe ese usuario"));
+      $payload = json_encode(array("mensaje" => "No existe ese usuario"));
 
     }
     $response->getBody()->write($payload);
