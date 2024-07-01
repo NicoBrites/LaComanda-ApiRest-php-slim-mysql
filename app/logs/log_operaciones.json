@@ -6,5 +6,31 @@
         "ruta": "\/usuarios\/",
         "codigo": 200,
         "respuesta": "{\"mensaje\":\"El usuario ya esta en uso\"}"
+    },
+    {
+        "fecha": "2024-07-01 03:01:20",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/usuarios\/",
+        "codigo": 200,
+        "respuesta": "{\"error\":\"El usuario ya esta en uso\"}"
+    },
+    {
+        "fecha": "2024-07-01 03:06:09",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/usuarios\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario creado con exito"
+    },
+    {
+        "fecha": "2024-07-01 03:08:46",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": {},
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Usuario creado con exito"
     }
 ]

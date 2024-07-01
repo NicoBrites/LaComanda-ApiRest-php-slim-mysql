@@ -63,6 +63,14 @@ class Logger implements MiddlewareInterface
     {
         $logData = ArchivosJson::LeerJson("./logs/log_operaciones.json");  
 
+        $responseBody = $response->getBody();
+
+        $arrayResponse = json_decode($responseBody, true);
+
+        $header = $request->getHeaderLine('Authorization');
+        $token = trim(explode("Bearer", $header)[1]);
+        $credencial = AutentificadorJWT::ObtenerData($token);
+
         // Datos para registrar en el log
         $fecha = date('Y-m-d H:i:s');
         $ipCliente = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del cliente
@@ -70,19 +78,40 @@ class Logger implements MiddlewareInterface
         $ruta = $request->getUri()->getPath(); // Ruta de la solicitud
         $codigoRespuesta = $response->getStatusCode(); // Código de estado HTTP de la respuesta
 
-        $responseBody = (string) $response->getBody();
 
-        $logData[] = [
-            'fecha' => $fecha,
-            'ip'=> $ipCliente,
-            'metodo' => $metodo, // Datos del token de autenticación
-            'ruta' => $ruta,
-            'codigo' => $codigoRespuesta,
-            'respuesta' => $responseBody
-        ];
+        if (isset($arrayResponse['mensaje'])){ 
 
+            $logData[] = [
+                'fecha' => $fecha,
+                'ip'=> $ipCliente,
+                'metodo' => $metodo, 
+                'ruta' => $ruta,
+                'codigo' => $codigoRespuesta,
+                'usuario' => $credencial->usuario,
+                'respuesta' => $arrayResponse['mensaje']
+            ];
 
-        ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
+            ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
+
+        } else {
+
+            $logData = ArchivosJson::LeerJson("./logs/log_errores.json");  
+
+            $logData[] = [
+                'fecha' => $fecha,
+                'ip'=> $ipCliente,
+                'metodo' => $metodo, 
+                'ruta' => $ruta,
+                'codigo' => $codigoRespuesta,
+                'usuario' => $credencial->usuario,
+                'respuesta' => $arrayResponse['error']
+            ];
+
+            ArchivosJson::GuardarJson("./logs/log_errores.json",$logData);
+
+        }
+
+        
     }
 
     private static function RegistrarInicioSecion($request, $response)
