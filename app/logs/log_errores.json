@@ -16,5 +16,75 @@
         "codigo": 200,
         "usuario": "1",
         "respuesta": "El usuario ya esta en uso"
+    },
+    {
+        "fecha": "2024-07-01 04:56:24",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Parametros incorrectos",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 04:58:37",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Parametros incorrectos",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 04:59:03",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/usuarios\/Carlitos23",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Parametros incorrectos",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 05:00:01",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/productos\/5",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "SQLSTATE[HY093]: Invalid parameter number: parameter was not defined",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 05:01:16",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/productos\/5",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "SQLSTATE[HY093]: Invalid parameter number: parameter was not defined",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 05:02:04",
+        "ip": "::1",
+        "metodo": "PUT",
+        "ruta": "\/productos\/5",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "SQLSTATE[HY093]: Invalid parameter number: parameter was not defined",
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 05:08:14",
+        "ip": "::1",
+        "metodo": "DELETE",
+        "ruta": "\/productos\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Parametros incorrectos",
+        "parametros": {}
     }
 ]

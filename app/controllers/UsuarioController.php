@@ -116,7 +116,8 @@ class UsuarioController extends Usuario implements IApiUsable
     $params = json_decode($putdata, true);
 
     $usuario = $params['usuario'];
-    if ($usuario != null){
+    $validacion = Usuario::obtenerUsuario($usuario);
+    if ($validacion){
 
       Usuario::borrarUsuario($usuario);
       $payload = json_encode(array("mensaje" => "Usuario borrado con exito"));

@@ -34,6 +34,10 @@ class ValidadorPostMiddleware {
             return $this->validarInputUsuarioDel($request,  $handler);
         } elseif ($this->tipoValidador == "demora"){
             return $this->validarPostDemora($request,  $handler);
+        } elseif ($this->tipoValidador == "modificarProducto"){
+            return $this->validarPutProducto($request,  $handler);
+        } elseif ($this->tipoValidador == "inputProductoDel"){
+            return $this->validarInputProductoDel($request,  $handler);
         }
     }
 
@@ -335,5 +339,57 @@ class ValidadorPostMiddleware {
         
         return $response->withHeader('Content-Type', 'application/json');
     }
-   
+    
+    private function validarPutProducto(Request $request, RequestHandler $handler) {
+        $putdata = file_get_contents('php://input');
+        $params = json_decode($putdata, true);      
+
+        if(isset($params["nombre"],$params["tiempoPreparacion"],$params["precio"],$params["sector"])){
+            
+            $sectores = ["Mesas", "Barra", "Cocina", "Choperas"];
+           
+            if (is_string($params["nombre"]) && $this->validarHorario($params["tiempoPreparacion"]) &&
+                in_array($params["sector"],$sectores) && $this->validarEntero($params["precio"])) {
+
+                $response = $handler->handle($request); 
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+
+            }
+        
+
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function validarInputProductoDel(Request $request, RequestHandler $handler) {
+
+        $putdata = file_get_contents('php://input');
+        $params = json_decode($putdata, true);
+
+        if(isset($params["producto"])){
+                          
+            if ($this->validarEntero($params["producto"]) ) {
+
+                $response = $handler->handle($request); 
+
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+            }
+        
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }

@@ -56,12 +56,12 @@ class ProductoController extends Producto implements IApiUsable
           ->withHeader('Content-Type', 'application/json');
     }
     
-    public function ModificarUno($request, $response, $args) # FALTA
+    public function ModificarUno($request, $response, $args)
     {
       $putdata = file_get_contents('php://input');
       $params = json_decode($putdata, true);
   
-      $id = $args['id'];
+      $id = $args['producto'];
 
       $validacion = Producto::obtenerProducto($id);
       if ($validacion){
@@ -96,15 +96,25 @@ class ProductoController extends Producto implements IApiUsable
 
     public function BorrarUno($request, $response, $args)
     {
-        $parametros = $request->getParsedBody();
+      $putdata = file_get_contents('php://input');
+      $params = json_decode($putdata, true);
 
-        $usuarioId = $parametros['usuarioId'];
-        Usuario::borrarUsuario($usuarioId);
+      $producto = $params['producto'];
+      $validacion = Producto::obtenerProducto($producto);
 
-        $payload = json_encode(array("mensaje" => "Usuario borrado con exito"));
+      if ($validacion){
 
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+        Producto::borrarProducto($producto);
+        $payload = json_encode(array("mensaje" => "Producto borrado con exito"));
+
+      } else {
+
+        $payload = json_encode(array("mensaje" => "No existe ese producto"));
+
+      }
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
+  
     }
 }

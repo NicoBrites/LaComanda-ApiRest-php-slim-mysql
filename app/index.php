@@ -56,6 +56,8 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
     $group->get('/{producto}', \ProductoController::class . ':TraerUno');
     $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new ValidadorPostMiddleware("producto"))->add(new Logger());
+    $group->put('/{producto}', \ProductoController::class . ':ModificarUno')->add(new ValidadorPostMiddleware("modificarProducto"))->add(new Logger());
+    $group->delete('[/]', \ProductoController::class . ':BorrarUno')->add(new ValidadorPostMiddleware("inputProductoDel"))->add(new Logger());
   })->add(new AuthMiddleware("Socio"));
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
