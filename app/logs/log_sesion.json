@@ -123,5 +123,15 @@
         "fecha": "2024-07-01 16:49:29",
         "ip": "::1",
         "usuario": "cervecera"
+    },
+    {
+        "fecha": "2024-07-01 17:05:49",
+        "ip": "::1",
+        "usuario": "{\"mensaje\":\"Usuario o contrase\\u00f1a incorrectos\"}"
+    },
+    {
+        "fecha": "2024-07-01 17:06:41",
+        "ip": "::1",
+        "usuario": "nico"
     }
 ]

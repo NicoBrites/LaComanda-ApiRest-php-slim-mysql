@@ -178,5 +178,15 @@
         "usuario": "moza",
         "respuesta": "Estado de la mesa cambiado",
         "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 17:08:06",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/mesas\/9QltJ",
+        "codigo": 200,
+        "usuario": "nico",
+        "respuesta": "Estado de la mesa cambiado",
+        "parametros": "\"\""
     }
 ]

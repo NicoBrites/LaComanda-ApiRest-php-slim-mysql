@@ -105,6 +105,10 @@ class MesaController
       
             $payload = json_encode(array('mensaje' => 'ERROR: Solo el socio puede cerrar la mesa'));
       
+          } else if ($validador == 1) {
+      
+            $payload = json_encode(array('mensaje' => 'Mesa cerrada'));
+      
           }  else {
       
             $payload = json_encode(array('mensaje' => 'Estado de la mesa cambiado'));
