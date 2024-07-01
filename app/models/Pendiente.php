@@ -1,5 +1,6 @@
 <?php
 
+require_once 'Dto/CantidadProductosDto.php';
 class Pendiente
 {
     public $id;
@@ -78,6 +79,18 @@ class Pendiente
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
+    }
+
+    public static function obtenerCantidadDeProductos() 
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT p.id, p.nombre,COUNT(*) AS cantidadVendida
+                                                        FROM pendientes AS pe INNER JOIN productos AS p ON pe.idProducto = p.id
+                                                        GROUP BY p.id, p.nombre ORDER BY cantidadVendida DESC;");
+
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'CantidadProductosDto');
     }
     
 }

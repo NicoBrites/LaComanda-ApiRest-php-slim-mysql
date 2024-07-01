@@ -98,6 +98,7 @@ $app->group('/socios', function (RouteCollectorProxy $group) {
   $group->post('/historialDeLogueo', \SocioController::class . ':LogueoDeUsuariosEnPDF')->add(new ValidadorPostMiddleware("inputUsuario")); // PDF
   $group->get('/listaMesasFacturacion', \SocioController::class . ':ListadoDeMesasMasFacturacion');
   $group->get('/cantidadOperacionesPorSector', \SocioController::class . ':CantidadDeOperacionesPorSector');
+  $group->get('/cantidadProductosVendidos', \SocioController::class . ':ListadoProductosVendidos');
 })->add(new AuthMiddleware("Socio"));
 
 

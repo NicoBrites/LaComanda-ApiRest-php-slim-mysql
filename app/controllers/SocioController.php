@@ -192,5 +192,25 @@ class SocioController
         }
 
     }
+
+    public function ListadoProductosVendidos($request, $response, $args)
+    {
+                  
+        $header = $request->getHeaderLine('Authorization');
+        $token = trim(explode("Bearer", $header)[1]);
+        $credencial = AutentificadorJWT::ObtenerData($token);
+
+        $lista = Pendiente::obtenerCantidadDeProductos();
+      
+        $payload = json_encode(array($lista));
+
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json');
+
+        
+
+    }
+   
    
 }

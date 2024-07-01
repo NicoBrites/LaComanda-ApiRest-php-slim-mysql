@@ -37,16 +37,19 @@ class AuthMiddleware {
                     $payload = json_encode(array('mensaje' => 'ERROR: No estas autorizado'));
                     $response->getBody()->write($payload);
                 }
-            }
+            } 
 
-            $response = $handler->handle($request);
+                $response = $handler->handle($request);
+
+            
             
         } catch (Exception $e) {
         
             $response = new Response();
-            $payload = json_encode(array('mensaje' => 'ERROR: Hubo un error con el TOKEN'));
+            $payload = json_encode(array('mensaje' => $e->getMessage()));
             $response->getBody()->write($payload);
         }
+
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
