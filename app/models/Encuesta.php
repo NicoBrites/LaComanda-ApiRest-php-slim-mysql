@@ -17,9 +17,9 @@ class Encuesta
     {   
         $this->ValidarEncuesta($this->codigoPedido);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO encuestas (codigoPedido, puntajeMesa, puntajeRestaurante, puntajeMozo, puntajeCocinero, textoExperiencia) VALUES (:puntajeMesa, :puntajeRestaurante, :puntajeMozo, :puntajeCocinero, :textoExperiencia)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO encuestas (codigoPedido, puntajeMesa, puntajeRestaurante, puntajeMozo, puntajeCocinero, textoExperiencia) VALUES (:codigoPedido,:puntajeMesa, :puntajeRestaurante, :puntajeMozo, :puntajeCocinero, :textoExperiencia)");
         $fecha = new DateTime(date("d-m-Y"));
-        $consulta->bindValue(':fechaIngreso', date_format($fecha, 'Y-m-d'));
+        $consulta->bindValue(':fechaIngreso', $fecha, PDO::PARAM_STR);
         $consulta->bindValue(':codigoPedido', $this->codigoPedido, PDO::PARAM_STR);
         $consulta->bindValue(':puntajeMesa', $this->puntajeMesa, PDO::PARAM_INT);
         $consulta->bindValue(':puntajeRestaurante', $this->puntajeRestaurante, PDO::PARAM_INT);
@@ -45,8 +45,8 @@ class Encuesta
     private function ValidarEncuesta($pedido)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas WHERE pedido = :pedido");
-        $consulta->bindValue(':pedido', $pedido, PDO::PARAM_STR);
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas WHERE codigoPedido = :codigoPedido");
+        $consulta->bindValue(':codigoPedido', $pedido, PDO::PARAM_STR);
         $consulta->execute();
 
         if ($consulta->fetchObject('Encuesta') !== false){

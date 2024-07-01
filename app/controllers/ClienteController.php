@@ -17,7 +17,7 @@ class ClienteController
 
         if ($validacionPedido != null && $validacionMesa != null) {
             
-            if ($validacionMesa->codigoPedido == $pedido){
+            if ($validacionPedido->codigoMesa == $mesa){
 
                 if ($validacionPedido->estado == "cerrado")
                 {
