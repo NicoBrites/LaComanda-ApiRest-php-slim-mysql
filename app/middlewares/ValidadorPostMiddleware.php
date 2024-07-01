@@ -32,6 +32,8 @@ class ValidadorPostMiddleware {
             return $this->validarInputUsuario($request,  $handler);
         } elseif ($this->tipoValidador == "inputUsuarioDel"){
             return $this->validarInputUsuarioDel($request,  $handler);
+        } elseif ($this->tipoValidador == "demora"){
+            return $this->validarPostDemora($request,  $handler);
         }
     }
 
@@ -290,6 +292,29 @@ class ValidadorPostMiddleware {
         if(isset($params["usuario"])){
                           
             if (is_string($params["usuario"]) ) {
+
+                $response = $handler->handle($request); 
+
+            } else {
+
+                $response = new Response();
+                $response->getBody()->write(json_encode(array("error" => "Error en el tipo de dato ingresado")));
+            }
+        
+        } else {
+            $response = new Response();
+            $response->getBody()->write(json_encode(array("error" => "Parametros incorrectos")));
+        }
+        
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    private function validarPostDemora(Request $request, RequestHandler $handler) {
+        $params = $request->getParsedBody();
+
+        if(isset($params["pedido"],$params["mesa"])){
+                          
+            if (is_string($params["pedido"]) && is_string($params["mesa"]) ) {
 
                 $response = $handler->handle($request); 
 

@@ -84,7 +84,7 @@ $app->group('/csv', function (RouteCollectorProxy $group) {
 
 $app->group('/clientes', function (RouteCollectorProxy $group) {
   $group->post('/encuesta', \ClienteController::class . ':CargarEncuesta')->add(new ValidadorPostMiddleware("encuesta"));
-  $group->post('/demora', \ClienteController::class . ':DEMORA ME FALTAAAAAAA');//------------------------------------------------------------
+  $group->post('/demora', \ClienteController::class . ':Demora')->add(new ValidadorPostMiddleware("demora"));
 });
 
 $app->group('/socios', function (RouteCollectorProxy $group) {

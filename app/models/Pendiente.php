@@ -138,6 +138,16 @@ class Pendiente
         $consulta->execute();
 
         return $consulta->fetchObject('Pendiente');
+    }
+    
+    public static function obtenerPendientePorPedido($codigoPedido) 
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pendientes WHERE codigoPedido = :codigoPedido");
+        $consulta->bindValue(':codigoPedido', $codigoPedido, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pendiente');
     }/*
 
     public static function modificarProducto($producto)#FALTA
