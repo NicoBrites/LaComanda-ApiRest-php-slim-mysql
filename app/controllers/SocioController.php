@@ -125,5 +125,16 @@ class SocioController
         ->withHeader('Content-Type', 'application/json');
     }
 
+
+    public function ListadoDeMesasMasFacturacion($request, $response, $args)
+    {
+        $mesas = Pedido::MesaFacturacionOrdenDescendente();
+        $payload = json_encode(array("Mesas ordenadas por facturacion" => $mesas));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+
+    }
    
 }

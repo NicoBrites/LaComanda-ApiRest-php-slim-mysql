@@ -101,21 +101,23 @@ class Logger implements MiddlewareInterface
 
         } else {
 
-            $logData[] = [
-                'fecha' => $fecha,
-                'ip'=> $ipCliente,
-                'metodo' => $metodo, 
-                'ruta' => $ruta,
-                'codigo' => $codigoRespuesta,
-                'usuario' => $credencial->usuario,
-                'respuesta' => $arrayResponse['mensaje'],
-                'parametros' => $arrayRequest
-            ];
+            if (!strpos($arrayResponse['mensaje'], 'ERROR') === 0)
+            {
+                $logData[] = [
+                    'fecha' => $fecha,
+                    'ip'=> $ipCliente,
+                    'metodo' => $metodo, 
+                    'ruta' => $ruta,
+                    'codigo' => $codigoRespuesta,
+                    'usuario' => $credencial->usuario,
+                    'respuesta' => $arrayResponse['mensaje'],
+                    'parametros' => $arrayRequest
+                ];
 
-            ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
+                ArchivosJson::GuardarJson("./logs/log_operaciones.json",$logData);
+            }
 
         }
-
         
     }
 

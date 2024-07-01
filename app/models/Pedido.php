@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Dto/MesaMasUsadaDto.php';
+require_once 'Dto/MesaFacturacionDto.php';
 require_once 'Pendiente.php';
 class Pedido
 {
@@ -194,9 +195,19 @@ class Pedido
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT id, codigoMesa, COUNT(*) AS cantidadPedidos FROM pedidos
-        GROUP BY codigoMesa ORDER BY cantidadPedidos DESC LIMIT 1");
+                                                        GROUP BY codigoMesa ORDER BY cantidadPedidos DESC LIMIT 1");
         $consulta->execute();
 
         return $consulta->fetchObject('MesaMasUsadaDto');
+    }
+
+    public static function MesaFacturacionOrdenDescendente()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, codigoMesa, MAX(factura) AS facturaMaxima FROM pedidos
+                                                        GROUP BY codigoMesa ORDER BY facturaMaxima DESC");
+            $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'MesaFacturacionDto');
     }
 }
