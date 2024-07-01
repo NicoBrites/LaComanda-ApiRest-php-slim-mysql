@@ -103,5 +103,25 @@
         "fecha": "2024-07-01 15:36:54",
         "ip": "::1",
         "usuario": "Carlitos23"
+    },
+    {
+        "fecha": "2024-07-01 16:38:43",
+        "ip": "::1",
+        "usuario": "moza"
+    },
+    {
+        "fecha": "2024-07-01 16:44:28",
+        "ip": "::1",
+        "usuario": "cocinera"
+    },
+    {
+        "fecha": "2024-07-01 16:47:56",
+        "ip": "::1",
+        "usuario": "bartendera"
+    },
+    {
+        "fecha": "2024-07-01 16:49:29",
+        "ip": "::1",
+        "usuario": "cervecera"
     }
 ]

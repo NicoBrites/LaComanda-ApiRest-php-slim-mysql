@@ -101,7 +101,9 @@ class Logger implements MiddlewareInterface
 
         } else {
 
-            if (!strpos($arrayResponse['mensaje'], 'ERROR') === 0)
+            $palabras = explode(' ', $arrayResponse['mensaje']);
+
+            if ($palabras[0] !== 'ERROR:') 
             {
                 $logData[] = [
                     'fecha' => $fecha,

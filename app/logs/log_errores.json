@@ -95,6 +95,16 @@
         "codigo": 200,
         "usuario": "1",
         "respuesta": "Parametros incorrectos",
-        "parametros": {}
+        "parametros": []
+    },
+    {
+        "fecha": "2024-07-01 16:35:29",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/productos\/",
+        "codigo": 200,
+        "usuario": "1",
+        "respuesta": "Error en el tipo de dato ingresado",
+        "parametros": ""
     }
 ]

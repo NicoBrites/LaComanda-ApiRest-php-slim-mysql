@@ -90,7 +90,7 @@ class ValidadorPostMiddleware {
             $listaSector = ['Mesas','Cocina','Barra','Choperas'];
 
             if (is_string($params["nombre"]) && $this->validarEntero($params["precio"]) && 
-            $this->validarHorario($params["tiempoPreparacion"]) && in_array($params["nombreSector"],$listaSector)) {
+            $this->validarHorario($params["tiempoPreparacion"]) && in_array($params["sector"],$listaSector)) {
                 
                 $response = $handler->handle($request); 
             } else {

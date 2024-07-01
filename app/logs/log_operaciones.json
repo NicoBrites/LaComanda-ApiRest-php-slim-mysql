@@ -78,5 +78,45 @@
         "usuario": "1",
         "respuesta": "ERROR: No sos el Mozo que abrio maneja esa mesa",
         "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 16:48:53",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "bartendera",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 16:50:02",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "bartendera",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 16:50:50",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "bartendera",
+        "respuesta": "ERROR: Este producto pendiente no pertenece a tu sector",
+        "parametros": "\"\""
+    },
+    {
+        "fecha": "2024-07-01 16:51:08",
+        "ip": "::1",
+        "metodo": "POST",
+        "ruta": "\/pendientes\/",
+        "codigo": 200,
+        "usuario": "cervecera",
+        "respuesta": "Exito! Pendiente cambiado de estado",
+        "parametros": "\"\""
     }
 ]
