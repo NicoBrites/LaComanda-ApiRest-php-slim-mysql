@@ -78,7 +78,7 @@ class Pedido
             if ($pedido->tiempoDemora <= $prod->tiempoPreparacion){
                 Pedido::AgregarTiempoDemora($pedido, $prod->tiempoPreparacion);
             }
-
+            
             return $objAccesoDatos->obtenerUltimoId();
         }else {
             return null;
