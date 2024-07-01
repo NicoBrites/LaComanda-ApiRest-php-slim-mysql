@@ -44,7 +44,7 @@ class CsvManager{
                 'clave' => $usuario->clave,
                 'tipoUsuario' => $usuario->tipoUsuario,
                 'fechaIngreso' => $usuario->fechaIngreso,
-                'nombreSector' => $usuario->nombreSector,
+                'sector' => $usuario->sector,
                 'estaSuspendido' => $usuario->estaSuspendido,
                 'fechaBaja' => $usuario->fechaBaja,
             ];
